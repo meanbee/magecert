@@ -72,13 +72,13 @@ The environment variables are checked in `index.php`:
 The request object is initialised in `Mage_Core_Model_App` and the `_initRequest()` method.  `getRequest()` and `getResponse` are relevant.
 
 
-# Front Controller
+## Front Controller
 
-## Role
+### Role
 
 The front controller performs the routing of the request to the appropriate controller.  It loops over all of the registered routers, pasing the request to each one of them to be matches against a controller capable of handling it.  After the request has been dispatched, the front controller sends the response to the client.
 
-## Events
+### Events
 
 - `controller_front_init_before`
 	- Fired before adding the routers.  It is useful for adding a router that takes precedence over any others.
@@ -112,29 +112,29 @@ There are two ways to add routes.
 
 - By observer the `controller_front_init_before` or `controller_front_init_routers` events and injecting the router into the front controller.
 
-# URL Rewrites
+## URL Rewrites
 
-## URL Structure
+### URL Structure
 
 The URL structure in Magento generally uses the format `{base_url}/{front_name}/{controller}/{action}`.
 
 `Mage_Core_Controller_Varien_Router_Standard` parses the URLs in this format and maps them to a module used and the controller action to be executed. 
 
-## URL Rewrite Process
+### URL Rewrite Process
 
 URL rewrites happen in the Front controllerm before the routing.  The database reqrites are checked and applied first, followed by the configuration (`glboal->rewrite`) rewrites. Rewrites can either redirect the request using HTTP methods, updte the request path (keeping the old on efor reference) or completely replace the request path.
 
-## Database URL Rewrites
+### Database URL Rewrites
 
 The most important fields in the `core_url_rewrite` table are `request_path` and `target_path` which map the request to a rewrite.
 
 Magento creates catalog requres using the `catalog_url` indexer.
 
-## Matching requests
+### Matching requests
 
 The requres are applied by the `Mage_Core_Model_Url_Rewrite_Request` model. The request path is parsed to include any variation (with or without the trailing slash) and then looks up the `request_path` column of the `core_url_rewrite` table using the `Mage_Core_Model_Url_Rewrite::loadByRequestPath()` method.
 
-# Request Routing
+## Request Routing
 
 
 
