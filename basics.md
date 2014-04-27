@@ -219,9 +219,7 @@ Per-store configuration values are located in the `stores->{store name}` part of
 Prefixes are used for blocks, models and helpers.  Using prefixes and not referring to classes directly by naem allows rewriting the classes in the configuration and without the need to modify the code that uses them.
 
 
-
-
-
-
-
-
+<ul class="navigation">
+    <li class="prev"><a href="/">&larr; Home</a>
+    <li class="next"><a href="/request-flow.html">Request Flow &rarr;</a>
+</ul>

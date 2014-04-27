@@ -59,4 +59,7 @@ It is possible to add a block to the current layout but it needs to be done befo
 A child block will only be rendered automatically if it is of class `Mage_Core_Block_Textlist` otherwise the `getChildHtml` method needs to be called.
 
 
-
+<ul class="navigation">
+    <li class="prev"><a href="/request-flow.html">&larr; Request Flow</a>
+    <li class="next"><a href="/databases.html">Databases &rarr;</a>
+</ul>

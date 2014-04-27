@@ -185,3 +185,8 @@ Methods that are generally available in setup scripts are
 ### Database Rollback
 
 Magento defines a module rollback procedure when the `config.xml` module version is lower than the database version.  However, the rollback script execution is not actually implemented.
+
+<ul class="navigation">
+    <li class="prev"><a href="/rendering.html">&larr; Rendering</a>
+    <li class="next"><a href="/eav.html">EAV &rarr;</a></li>
+</ul>

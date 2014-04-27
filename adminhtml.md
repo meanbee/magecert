@@ -207,6 +207,11 @@ When retrieving configuration values `Mage::getStoreConfig()` prepends `default/
 
 `Mage_Adminhtml_Model_Config` parses the configuration and then `Mage_Adminhtml_Block_System_Config_Form` renders the config form.
 
+<ul class="navigation">
+    <li class="prev"><a href="/eav.html">&larr; EAV</a>
+    <li class="next"><a href="/catalog.html">Catalog &rarr;</a>
+</ul>
+
 
 
 

@@ -179,8 +179,13 @@ Payment methods implement the logic of a particular method of payment, e.g. proc
 To make use of billing agreements within a payment method, the billing agreement data needs to be set on a payment model,
 
 {% highlight php %}
-	$payment->setBillingAgreementData($data);
+<?php $payment->setBillingAgreementData($data); ?>
 {% endhighlight %}
+
+<ul class="navigation">
+    <li class="prev"><a href="/catalog.html">&larr; Catalog</a>
+    <li class="next"><a href="/sales.html">Sales &rarr;</a>
+</ul>
 
 
 

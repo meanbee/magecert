@@ -92,6 +92,11 @@ Within the database, the `catalogrule` table describes rules, their conditions a
 
 The `Mage_Index` module provides a framework with which custom indexes can be created to help optimise the performance of the site.  The class that needs to be extended is `Mage_Index_Model_Resource_Abstract`.
 
+<ul class="navigation">
+    <li class="prev"><a href="/eav.html">&larr; EAV</a>
+    <li class="next"><a href="/checkout.html">Checkout &rarr;</a>
+</ul>
+
 
 
 

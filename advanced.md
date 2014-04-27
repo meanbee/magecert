@@ -75,6 +75,11 @@ Internally, the version 2 API handler uses the same API method configuration as 
 
 section of the config, e.g. `catalogProduct` to find the method resource and then calls the `{resource}.{method_suffix} API version 1 method.
 
+<ul class="navigation">
+    <li class="prev"><a href="/sales.html">&larr; Sales</a>
+    <li class="next"><a href="/">Home &rarr;</a>
+</ul>
+
 
 
 

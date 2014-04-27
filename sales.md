@@ -163,3 +163,8 @@ Taxes on refunds are processsed as configured in admin, i.e on origin, billing o
 ## Cancel
 
 An order can be cancelled when it is in the pending or processing state but not after it has been invoiced.
+
+<ul class="navigation">
+    <li class="prev"><a href="/checkout.html">&larr; Checkout</a>
+    <li class="next"><a href="/advanced.html">Advanced Features &rarr;</a>
+</ul>

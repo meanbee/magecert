@@ -137,4 +137,9 @@ The requres are applied by the `Mage_Core_Model_Url_Rewrite_Request` model. The 
 ## Request Routing
 
 
+<ul class="navigation">
+    <li class="prev"><a href="/basics.html">&larr; Basics</a>
+    <li class="next"><a href="/rendering.html">Rendering &rarr;</a>
+</ul>
+
 

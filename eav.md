@@ -167,3 +167,8 @@ There is a different flat table for each store, each one contains a different st
 
 Multi-lingual values are managed by having different stores for each language.
 
+<ul class="navigation">
+    <li class="prev"><a href="/databases.html">&larr; Databases</a>
+    <li class="next"><a href="/adminhtml.html">Adminhtml &rarr;</a>
+</ul>
+

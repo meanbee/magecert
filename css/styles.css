@@ -588,6 +588,24 @@ main[role="main"] table.toc .tocnumber {
     display: none;
 }
 
+.navigation {
+    list-style: none;
+    height: 2em;
+    margin: 1em 0;
+}
+
+.navigation li {
+    margin: 0;
+}
+
+.navigation .prev {
+    float: left;
+}
+
+.navigation .next {
+    float: right;
+}
+
 
 
 pre, code {
