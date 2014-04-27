@@ -103,8 +103,10 @@ To determine if an update or an insert needs to be performed, a check is perform
 A source model requires:
 
 {% highlight php %}
+<?php
 	public function getAllOptions();
 	public function getOptionText($value);
+?>
 {% endhighlight %}
 
 A frontend model does not require any methods in particular.
@@ -112,6 +114,7 @@ A frontend model does not require any methods in particular.
 A backend model requires:
 
 {% highlight php %}
+<?php
 	public function getTable();
 	public function isStatic();
 	public function getType();
@@ -125,6 +128,7 @@ A backend model requires:
 	public function afterDelete($object);
 	public function getEntityValueId($entity);
 	public function setEnttiyValidId($entity, $valudId);
+?>
 {% endhighlight %}
 
 ### System Configuration Source Models
@@ -134,8 +138,10 @@ Cannot be used for EAV attributes.  EAV source models implement the `getAllOptio
 ### Default Models
 
 {% highlight php %}
+<?php 
 	const DEFAULT_BACKEND_MODEL  = 'eav/entity_attribute_backend_default';
 	const DEFAULT_FRONTEND_MODEL = 'eav/entity_attribute_frontend_default';
+?>
 {% endhighlight %}
 
 
@@ -146,10 +152,12 @@ If a source model is not specified for an attribute in the database it gets a de
 To get a list of all options for an attribute, perform the following:
 
 {% highlight php %}
+<?php 
 	$options = $attribute->getSource()->getAllOptions(false);
 
 	// or for admin
 	$options = $_attribute->getSource()->getAllOptions(true, true);
+?>
 {% endhighlight %}
 
 

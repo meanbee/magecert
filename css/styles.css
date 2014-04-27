@@ -588,7 +588,7 @@ main[role="main"] table.toc .tocnumber {
 
 
 pre, code {
-  font-family: 'Anonymous Pro', monospace;
+    font-family: 'Anonymous Pro', monospace;
 }
 /*
  * Code Highlighting
@@ -597,10 +597,14 @@ pre, code {
     background: rgba(230,230,230,0.2); 
 }
 
+.highlight pre {
+    display: table;
+    padding: 0.5em;
+}
+
 .highlight code { 
     display: block;
     line-height: 1.1;
-    margin: 0 1em;
 }
 
 .highlight .c { color: #999988; font-style: italic } /* Comment */

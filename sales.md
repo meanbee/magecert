@@ -64,16 +64,19 @@ This is the admin equivalent of the `Mage_Sales_Model_Order` model.
 The widget is used to add products to the order.  This is then posted to the backend which is added to the order model in `Mage_Adminhtml_controllers_Sales_Order_CreatController`
 
 {% highlight php %}
+<?php
 if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
     $items = $this->getRequest()->getPost('item');
     $items = $this->_processFiles($items);
     $this->_getOrderCreateModel()->addProducts($items);
 }
+?>
 {% endhighlight %}
 
 The `addProducts()` function here will then add each of these products to the `Mage_Sales_Model_Quote` object and set a flag to indicate that the totals need to be recollected. Then, when saving the quote this flag is checked and the totals are collected.
 
 {% highlight php %}
+<?php
 public function saveQuote()
 {
     if (!$this->getQuote()->getId()) {
@@ -88,6 +91,7 @@ public function saveQuote()
     $this->getQuote()->save();
     return $this;
 }
+?>
 {% endhighlight %}
 
 ## Editing Orders

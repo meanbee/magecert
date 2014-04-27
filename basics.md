@@ -77,12 +77,14 @@ Contains theme independent JavaScript files and other assets (e.g. css, images),
 Magento include path is set to look for files in all of the codepools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). To find the files containing the class requested, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
 
 {% highlight php %}
+<?php
 public function autoload($class) 
 {
     $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));       
     $classFile.= '.php';
     @include $classFile;
 }
+?>
 {% endhighlight %}
 
 
@@ -204,9 +206,9 @@ Magento loads all `*.xml` files from `app/etc/modules` to find a list of install
 
 ### Common config load methods 
 
-`Mage::app()->getConfig()->getNode();`
-`Mage::getStoreConfig();`
-`Mage::getStoreConfigFlag();`
+- `Mage::app()->getConfig()->getNode();`
+- `Mage::getStoreConfig();`
+- `Mage::getStoreConfigFlag();`
 
 ### Per-Store Configuration in XML DOM
 

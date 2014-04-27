@@ -84,6 +84,7 @@ A form container's role (`app/design/adminhtml/default/default/template/widget/f
 As part of defining a form, elements need to be added to it.  Each of these are represented by a class in the backend.
 
 {% highlight php %}
+<?php
 	$fieldset->addField('module[enabled]', 'select', array(
 	    'label' => $this->_helper->__('Enable?'),
 	    'title' => $this->_helper->__('Enable?'),
@@ -91,12 +92,13 @@ As part of defining a form, elements need to be added to it.  Each of these are 
 	    'value' => ($this->_input_data) ? $this->_input_data->getData("enabled") : $this->_config_model->getEnabled(),
 	    'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray()
 	));
+?>
 {% endhighlight %}
 
 The second argument of `addField` maps to an element type, e.g. select and `Varien_Data_Form_Element`, by way of:
 
 {% highlight php %}
-	$className = 'Varien_Data_Form_Element_' . ucfirst(strtolower($type));
+<?php $className = 'Varien_Data_Form_Element_' . ucfirst(strtolower($type)); ?>
 {% endhighlight %}
 
 Available elements are:
@@ -140,7 +142,7 @@ Fields are added to a fieldset which are in turn added to the form.
 To add a custom element to a template a new type to the fieldset:
 
 {% highlight php %}
-	$fieldset->addType('colour_picker', '{namespace}_{module_name}_Varien_data_Form_Element_ColourPicker');
+<?php $fieldset->addType('colour_picker', '{namespace}_{module_name}_Varien_data_Form_Element_ColourPicker'); ?>
 {% endhighlight %}
 
 Within this custom form element class the `getElementHtml()` method can then define the custom HTML that is required.
