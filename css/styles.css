@@ -577,12 +577,12 @@ main[role="main"] table.toc {
 }
 
 main[role="main"] table.toc li {
-    list-style: none;
-    margin-left: 0;
+    list-style: decimal;
+    margin-left: 1.4em;
 }
 
-main[role="main"] table.toc li li {
-    margin-left: 1em;
+main[role="main"] table.toc .tocnumber {
+    display: none;
 }
 
 

@@ -36,37 +36,24 @@ module Jekyll
         doc = Nokogiri::HTML(html)
 
         # Find H1 tag and all its H2 siblings until next H1
-        doc.css('h1').each do |h1|
+        doc.css('h2').each do |h2|
             # TODO This XPATH expression can greatly improved
-            ct  = h1.xpath('count(following-sibling::h1)')
-            h2s = h1.xpath("following-sibling::h2[count(following-sibling::h1)=#{ct}]")
+            ct  = h2.xpath('count(following-sibling::h2)')
 
             level_html = '';
             inner_section = 0;
 
-            h2s.map.each do |h2|
-                inner_section += 1;
-                anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s + '-' + inner_section.to_s
-                h2['id'] = "#{anchor_id}"
-
-                level_html += create_level_html(anchor_id,
-                    toc_level + 1,
-                    toc_section + inner_section,
-                    item_number.to_s + '.' + inner_section.to_s,
-                    h2.text,
-                    '')
-            end
             if level_html.length > 0
                 level_html = '<ul>' + level_html + '</ul>';
             end
             anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
-            h1['id'] = "#{anchor_id}"
+            h2['id'] = "#{anchor_id}"
 
             toc_html += create_level_html(anchor_id,
                 toc_level,
                 toc_section,
                 item_number,
-                h1.text,
+                h2.text,
                 level_html);
 
             toc_section += 1 + inner_section;
@@ -90,7 +77,7 @@ module Jekyll
                 toc_table = TOC_CONTAINER_HTML
                     .gsub('%1', replaced_toggle_html)
                     .gsub('%2', toc_html);
-                doc.css('body').children.before(toc_table)
+                doc.css('h1').after(toc_table)
             end
             doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
         else
