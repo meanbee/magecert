@@ -475,6 +475,10 @@ a {
     text-decoration: underline;
 }
 
+a:hover, a:active {
+    text-decoration: none;
+}
+
 p {
     margin: 1em 0;
 }
