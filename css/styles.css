@@ -450,7 +450,7 @@ body {
 
 h1,h2,h3,h4 {
     font-family: 'Lora', 'serif';
-    margin: 0 0 1em 0;
+    margin: 0 0 0.5em 0;
 }
 
 h1 {
@@ -462,17 +462,17 @@ h2 {
 }
 
 ul {
-    list-style: disc;
+    list-style: circle;
     padding: 0;
 }
 
 ul li {
-    margin-left: 1em;
+    margin-left: 1.1em;
 }
 
 a {
     color: #333;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 p {
@@ -500,9 +500,22 @@ img {
     margin: 1em auto;
 }
 
-header[role="banner"] .title {
-    margin: 0;
-    padding: 0.5em 0;
+header[role="banner"] {
+    background: #ef672f;
+}
+
+header[role="banner"] h1 {
+    margin: 0 0.455em;
+}
+
+header[role="banner"] a {
+    background: url('../img/magento.png') center left no-repeat;
+    color: #ffffff;
+    display: inline-block;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+    padding: 0.5em 0 0.5em 1.5em;
+    text-decoration: none;
 }
 
 .header-content,
@@ -512,25 +525,11 @@ main[role="main"],
     max-width: 42em;
 }
 
-
 main[role="main"] {
-    margin: 3em 1em 1em;
-}
-
-main[role="main"] h1,
-main[role="main"] h2 { 
-    display: inline;
-    margin-right: 0.3em;
+    margin: 1em;
 }
 
 main[role="main"] a {
-    background-image: -moz-linear-gradient(top,#fff 50%,#333 50%);
-    background-image: -webkit-linear-gradient(top,#fff 50%,#333 50%);
-    background-image: -o-linear-gradient(top,#fff 50%,#333 50%);
-    background-image: linear-gradient(to bottom,#fff 50%,#333 50%);
-    background-repeat: repeat-x;
-    background-size: 0.6em;
-    background-position: 0 1.05em;
     text-shadow: 0 0 0.1em white;
 }
 
@@ -538,34 +537,55 @@ main[role="main"] h2 a {
     background-size: 1em;
 }
 
+footer[role="contentinfo"] {
+    background: #31302b;
+    color: white;
+}
+
+footer[role="contentinfo"] .footer-content { 
+    margin: 0 1em;
+    padding: 0.5em 0;
+}
+
+footer[role="contentinfo"] p {
+    font-size: 0.8em;
+}
+
+footer[role="contentinfo"] a {
+    color: #fff;
+    text-shadow: 0 0 0.1em #31302b;
+}
+
 /*
  * Home
  */
 
-.posts {
-  list-style: none;
-}
-
-.posts li {
-    margin: 1.5em 0;
+main[role="main"] #home p {
+    text-align: left;
 }
 
 /* 
- * Posts
+ * Pages
  */
 
- main[role="main"] p {
-    text-align: justify;
- }
-
-
-.post pre {
-    padding: 1em 0;
+main[role="main"] p {
+   text-align: justify;
 }
 
-.post img {
-    border: 1px solid #DDD;
+main[role="main"] table.toc {
+    margin: 0;
 }
+
+main[role="main"] table.toc li {
+    list-style: none;
+    margin-left: 0;
+}
+
+main[role="main"] table.toc li li {
+    margin-left: 1em;
+}
+
+
 
 pre, code {
   font-family: 'Anonymous Pro', monospace;
@@ -573,7 +593,16 @@ pre, code {
 /*
  * Code Highlighting
  */
-.highlight  { background: #ffffff; }
+.highlight { 
+    background: rgba(230,230,230,0.2); 
+}
+
+.highlight code { 
+    display: block;
+    line-height: 1.1;
+    margin: 0 1em;
+}
+
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
 .highlight .k { font-weight: bold } /* Keyword */
@@ -644,18 +673,6 @@ pre, code {
         font-size: 2.2em;
     }
 
-    main[role="main"] {
-        margin-top: 4em;
-    }
-
-    main[role="main"] p.meta {
-        margin-top: 1.25em;
-    }
-
-    footer[role="contentinfo"] .contact {
-        background-size: 1.8em;
-    }
-
 }
 
 /*
@@ -663,6 +680,6 @@ pre, code {
  */
 @media only screen and (min-width: 57em) {
     main[role="main"] {
-        margin: 4em auto;
+        margin: 2em auto;
     }
 }
