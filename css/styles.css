@@ -509,7 +509,7 @@ header[role="banner"] {
 }
 
 header[role="banner"] h1 {
-    margin: 0 0.455em;
+    margin: 0 0 0.455em 0
 }
 
 header[role="banner"] a {
@@ -547,7 +547,6 @@ footer[role="contentinfo"] {
 }
 
 footer[role="contentinfo"] .footer-content { 
-    margin: 0 1em;
     padding: 0.5em 0;
 }
 
