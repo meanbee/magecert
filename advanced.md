@@ -55,21 +55,22 @@ The API methods are defined by API models, which are instantiated using Magento'
 The difference between the two SOAP API version is that in version 1 all operations are executed by passing them to the `call()` and `multicall()` methods, e.g.
 
 {% highlight php %}
-	$client->call($session, "sales_order.list");
+<?php $client->call($session, "sales_order.list"); ?>
 {% endhighlight %}
 
 Meanwhile in version 2, every operation has its own method defined, e.g.
 
 {% highlight php %}
-	$client->salesOrderList();
+<?php $client->salesOrderList(); ?>
 {% endhighlight %}
 
 Internally, the version 2 API handler uses the same API method configuration as version 1.  When a version 2 API method is called e.g. `catalogProductCreate()` the handler searches for a prefix that matches the method in
 
 {% highlight xml %}
-	<v2>
-		<resources_function_prefix></resources_function_prefix>
-	</v2>
+<v2>
+	<resources_function_prefix>
+    </resources_function_prefix>
+</v2>
 {% endhighlight %}
 
 section of the config, e.g. `catalogProduct` to find the method resource and then calls the `{resource}.{method_suffix} API version 1 method.
