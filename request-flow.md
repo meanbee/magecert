@@ -4,6 +4,8 @@ layout: default
 
 # Request Flow
 
+Exam proportion: 6%.
+
 ## Application Initilization
 
 1. Check compilier configuration

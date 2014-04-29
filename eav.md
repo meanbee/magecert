@@ -4,6 +4,8 @@ layout: default
 
 # EAV
 
+Exam proportion: 8%.
+
 ## Basic Concepts
 
 - Entity

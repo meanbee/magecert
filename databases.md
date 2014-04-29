@@ -4,17 +4,19 @@ layout: default
 
 # Databases
 
+Exam proportion: 11%.
+
 ## Models, Resource Models and Collections
 
 ### Basic Concepts
 
-A **Model** is used to store and manipulate data about a particular object.
+A **Model** is used to store and manipulate data about a particular object. Typically contain the business logic of the application.
 
 A **Resource Model** is used to interact with the database on behalf of the *Model*.  The Resouce Model actually performs the CRUD operations.
 
 A **Collection Model** handles working with groups of models and performing (CRUD) operations on groups of models.  
 
-There's a basic ActiceRecord-like/one-object-one-table model, as well as an Entity Attribute Value (EAV) model.
+There are two types of Magento Model: simple and EAV.  Simple Models correspond to a single table, whereas EAV correspond to multiple tables using the EAV schema design pattern.
 
 ### Database Connection
 
@@ -47,21 +49,31 @@ The core Magento connections (`default_setup`, `default_read`, `default_write`, 
 
 Magento used the *Resource Models* to interact with the database tables.  When a *Model* is loaded or saved, it cals its resource model to perform thee operation (executing the database queries).  Database table names are configured in `config.xml` and resource models retrieve them using look-up mehtods, which allows for the table names to be customised, e.g. adding a prefix to all table names.
 
-### Group Save Operations
+Tables are called *entities* and are configured like so:
 
-When several save operations have to be performed for an entity, Magento uses database transactions to ensure that the data stays in a consistent state in the database.
+{% highlight xml %}
+<config>
+    <global>
+        <models>
+            <meanbee>
+                <class>Meanbee_Module_Model</class>
+                <resourceModel>meanbee_resource</resourceModel>
+            </meanbee>
+            <meanbee_resource>
+                <class>Meanbee_Module_Model_Resource</class>
+                <entities>
+                    <table_one>
+                        <table>meanbee_module_tableOne</table>
+                    </table_one>
+                </entities>
+            </meanbee_resource>
+        </models>
+    </global>
+</config>
+{% endhighlight %}
 
-### Zend\_Db\_Select
+This allows us to load the table via `getTable('meanbee/table_one')`.
 
-Magento uses the Zend database abstraction classes like `Zend_Db_Select` to perform database operations.  These classes allow building and executing database queries without having to use the syntax of the specific database engine being used. 
-
-### Collection Interface
-
-*Collection Models* provide a consistent interface for performing and filtering and sorting of models, e.g. `addFieldToFlter()`, `addOrder()` and `setOrder()`.
-
-### Accessing Resource Model Tables
-
-This can be done using the class `Mage_Core_Model_Resource_Db_Abstract` and the methods `getMainTable()` and `getTable($entityName)`.
 
 ### Performing Joins
 
@@ -76,30 +88,46 @@ The following methods exist to create joins between tables on collections and on
 - `Zend_Db_Select::joinNatural()`
 - `Mage_Core_Model_Resource_Db_Collection_Abstract::join()`
 
-### Supporting multiple RDBMSs
 
-Magento abstracts datbase engine logic by using the `Varien_Db_Adapter_Interface`.  Database engine classes implement this interface, which makes it easy to replace one engine class with another without having to rewrite all models that use the database. The actual RDBMS used is defined in the connection configurtion using the `<type>` field, e.g. `<type>pdo_mysql</type>`.
 
 ### Table Name Lookups
 
-Use `Mage::getModel('core/resource')->getTabelName($modelEntity)` to retreive the defined table for any model.  Table names in Magento are configurable to allow customising and overriding the database schema e.g. using a custom table. 
+Use `Mage::getModel('core/resource')->getTableName($modelEntity)` to retreive the defined table for any model.  Table names in Magento are configurable to allow customising and overriding the database schema e.g. using a custom table. 
 
-### Events fired by CRUD operations
+Accessing resource models can be done using the class `Mage_Core_Model_Resource_Db_Abstract` and the methods `getMainTable()` and `getTable($entityName)`.
 
-- `model_load_before`
-- `model_load_after`
-- `model_save_commit_after`
-- `model_save_before`
-- `model_save_after`
-- `model_delete_before`
-- `model_delete_after`
-- `model_delete_commit_after`
-- `{collection_event_prefix}_load_before`
-- `{collection_event_prefix}_liad_after`
 
-### Magento Insert or Update Query
+### Loading Data
 
-If an object does not have an ID set or the had *new* property set an `INSERT` query is chosen.  Otherwise it is updated.  There is contingency where if it not new but Magento is unable to find the row to update it will be inserted inserted.
+The loading of a model form the database is done using the `load($id, $field = null)` method.  The field argument allows the developer to load the records from a different key.  If no field is specified then the resource model identifies the primary key based on the parameters provided to the `_init($table, $key)` method call when the resource model was constructed.
+
+Magento uses the Zend database abstraction classes like `Zend_Db_Select` to perform database operations.  These classes allow building and executing database queries without having to use the syntax of the specific database engine being used. 
+
+When a record is fetched with `Zend_Db_Select` it is added to the `Varien_Object` using `setData($data)`.  Some fields may be serialised in the database, so they are unserialised before adding to the `Varien_Object`.
+
+### Saving Data
+
+Saving is not as trivial as loading.  The first step is to check to see if the model has any changes. Both `setData($data)` or `unsetData($key, $value)` set the `_hasDataChanges` flag on the model.  This flag can then be used to determine whether it needs to be written out to the database.
+
+A transaction is then begun so that any changes can be rolled back in the event that something goes wrong during the saving we process.
+
+Firstly a check for uniquess is performed.  This queries the database to check whether each of the fields marked as nique are actually unique.  If a duplicate key is found, then it is bubbled up using an exception.
+
+The data then needs to be prepared for insertion or update. This is performed in the `prepareDataForSave()` method.  This calls `DESCRIBE` on the table to identify the column types and sanitise the input accordingly.  This description is, of course, cached.  This is the reason that cache needs to be cleared if schema changes are made.
+
+The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is usefull performed by checking for the existance of the primary key by called `$model->getId() == null`, and here is no exception.  f there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After perforing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
+
+If there was an ID specified on yhe model when save was called, it's either because an update to a model is being saved or because the ID of the model is not controlled by the database with an auto-increment. If the flag `_isPkAutoIncrement` is set then an `UPDATE` can be used.  Otherwise the database needs to be checked for an existing record with this key.  An `UPDATE` occurs if there is, otherwise an `INSERT` is used.
+
+The `_isPkAutoIncrement` flag is set to `true` as a default and can be overwritten by a subclass.
+
+### Collection Interface
+
+*Collection Models* provide a consistent interface for performing and filtering and sorting of models, e.g. `addFieldToFlter()`, `addOrder()` and `setOrder()`.
+
+### Group Save Operations
+
+When several save operations have to be performed for an entity, Magento uses database transactions to ensure that the data stays in a consistent state in the database.
 
 ### Filtering Flat Table Collections
 
@@ -116,6 +144,19 @@ Through the use of:
 - `$collection->getSelect()->order()`
 
 The first method goes through the collection interface, which could perform additional logic, while the second method operates directly on the underlying database select statement.
+
+### Events fired by CRUD operations
+
+- `model_load_before`
+- `model_load_after`
+- `model_save_commit_after`
+- `model_save_before`
+- `model_save_after`
+- `model_delete_before`
+- `model_delete_after`
+- `model_delete_commit_after`
+- `{collection_event_prefix}_load_before`
+- `{collection_event_prefix}_liad_after`
 
 ### Setup, Read and Write Database Resouces
 
@@ -185,6 +226,10 @@ Methods that are generally available in setup scripts are
 ### Database Rollback
 
 Magento defines a module rollback procedure when the `config.xml` module version is lower than the database version.  However, the rollback script execution is not actually implemented.
+
+### Supporting multiple RDBMSs
+
+Magento abstracts datbase engine logic by using the `Varien_Db_Adapter_Interface`.  Database engine classes implement this interface, which makes it easy to replace one engine class with another without having to rewrite all models that use the database. The actual RDBMS used is defined in the connection configurtion using the `<type>` field, e.g. `<type>pdo_mysql</type>`.
 
 <ul class="navigation">
     <li class="prev"><a href="/rendering.html">&larr; Rendering</a>

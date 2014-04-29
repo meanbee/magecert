@@ -4,6 +4,8 @@ layout: default
 
 # Advanced Features
 
+Exam proportion: 11%.
+
 ## Widgets
 
 Widgets are customisable frontend blocks that can be included and configured in CMS blocks or pages.  The widget architecture is primarily driven by the `Mage_Widget_Model_Widget` model while the frotnend blocks used by widgets implement the `Mage_Widget_Block_Interface` interface.

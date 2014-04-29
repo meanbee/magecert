@@ -4,6 +4,8 @@ layout: default
 
 # Checkout
 
+Exam proportion: 13%.
+
 ## Quotes
 
 Magento uses the quote model to store information about an order before it is places.  It contains:

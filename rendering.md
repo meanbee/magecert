@@ -4,6 +4,8 @@ layout: default
 
 # Rendering
 
+Exam proportion: 6%.
+
 ## Customising Core Functionality with Themes
 
 Themes have layout files which, amongst other things, can be used to change which blocks appear on the page.  The block template can also be changed and different methods called. 

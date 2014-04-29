@@ -4,6 +4,8 @@ layout: default
 
 # Catalog
 
+Exam proportion: 8%.
+
 ## Products
 
 There are six different product types built-in to Magento.

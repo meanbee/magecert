@@ -4,6 +4,8 @@ layout: default
 
 # Sales
 
+Exam proportion: 9%.
+
 ## Admin Order Creation
 
 To create an order within the admin interface, the following steps should be followed.

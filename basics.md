@@ -4,6 +4,104 @@ layout: default
 
 # The Basics
 
+Exam proportion: 5%.
+
+## Fundamentals
+
+Magento uses Object Oriented Programming (OOP) as its programming paradigm which consists of *classes*, *objects* and *methods*.  It also uses the Model-View-Controller (MVC) design pattern.
+
+Magento makes use of an Event Driven Architecture (EDA).  This is were components of the system or either producers or consumers of events.  An EDA allows for loosely coupled, distributed software modules and is, by its nature, a reactionary system that performs actions based on stimuli.
+
+
+### Design Patterns
+
+There are numerous development designs patterns used in Magento ([Source](http://stackoverflow.com/questions/5041473/magento-design-patterns)). 
+
+- Factory 
+
+```php
+<?php $product = Mage::getModel('catalog/product'); ?>
+```
+
+- Singleton
+
+```php
+<?php $category = Mage::getSingleton('catalog/session'); ?>
+```
+
+- Registry
+
+```php
+<?php `$currentCategory = Mage::registry('current_category');` ?>
+```
+
+- Event/Observer
+
+```php
+<?php Mage::dispatchEvent('event_name', array('key'=>$value)); ?>
+```
+
+```xml
+<config>
+    <global>
+        <events>
+            <event_name>
+                <observers>
+                    <unique_name>
+                        <class>Class_Name</class>
+                        <method>methodName</method>
+                    </unique_name>
+                </observers>
+            </event_name>
+        </events>
+    </global>
+</config>
+```
+
+- Prototype
+
+```php
+<?php Mage:getModel('catalog/product')->getTypeInstance(); ?>
+```
+
+- Object Pool
+
+```php
+<?php 
+$id = Mage::objects()->save($object);
+$object = Mage::objects($id);
+?>
+```
+
+- Iterator
+
+```php 
+<?php Mage::getModel('catalog/product')->getCollection(); ?>
+```
+
+- View Helper
+
+```php
+<?php Mage::helper('core'); ?>
+```
+
+### Constructors
+
+Magento uses public `__construct` methohods and, typically, protected `_construct` methods for class initialisation. More information on the difference between the two can be found on [stackoverflow](http://stackoverflow.com/questions/8706352/why-does-magento-have-construct-and-construct-methods). 
+
+Arguments can be passed to modesl created through factories by using a second argument, e.g.
+
+```php
+<?php
+    $instance = Mage::getModel('prefix/model', array(
+        `argument_one` => $value_one,
+        `argument_one` => $value_two
+    ));
+?>
+```
+
+The argument parameter to `getModel` will be passed as is.  There is no way to specify more than one argument for the constructor.  To get around this restriction, we use an array.
+
 ## High-Level Architecture
 
 ### Code Pools
@@ -74,9 +172,9 @@ Contains theme independent JavaScript files and other assets (e.g. css, images),
 
 ### Class Naming Conventions and Autoloader
 
-Magento include path is set to look for files in all of the codepools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). To find the files containing the class requested, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
+Magento include path is set to look for files in all of the codepools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
 
-{% highlight php %}
+```php
 <?php
 public function autoload($class) 
 {
@@ -85,7 +183,7 @@ public function autoload($class)
     @include $classFile;
 }
 ?>
-{% endhighlight %}
+```
 
 
 Therefore the class naming convention for most Magento classes is:
@@ -116,7 +214,7 @@ Configuration in Magento is stored as an XML tree.  Magento reads in the config.
 
 In Magento models, blocks and helpers are registered in configuration using the following format:
 
-{% highlight xml %}
+```xml
 <config>
 	<global>
 		<{object type}>
@@ -126,7 +224,7 @@ In Magento models, blocks and helpers are registered in configuration using the 
         </{object type}>
     </global>
 </config>
-{% endhighlight %}
+```
 
 These objects are then instantiated in the code using the factory methods (`Mage::getModel()` or `Mage::helper()`) and are referred to using their grouped class name - `{module identifier}/{object identifier}`.  Internally, Magento uses the module identifier (the part before the slash) to find the class name prefix to prepent to the object name (the part after the slash) to find the class that needs to be instantiated.  This allows modules to redefine existing objects and functionality by changing the configuration.
 
@@ -134,7 +232,7 @@ These objects are then instantiated in the code using the factory methods (`Mage
 
 Object classes can be overriden iun configuration using the following syntax:
 
-{% highlight xml %}
+```xml
 <config>
     <global>
         <{object type}>
@@ -146,7 +244,7 @@ Object classes can be overriden iun configuration using the following syntax:
         </{object type}>
     </global>
 </config>
-{% endhighlight %}
+```
 
 This indicates to the factory methods that the specified class should be used instead of the usual class the object should resolve to.
 
@@ -154,7 +252,7 @@ This indicates to the factory methods that the specified class should be used in
 
 Observers are registerd in Magento using the following syntax:
 
-{% highlight xml %}
+```xml
 <config>
     <{area}>
         <events>
@@ -170,7 +268,7 @@ Observers are registerd in Magento using the following syntax:
         </events>
     </{area}>
 </config>
-{% endhighlight %}
+```
 
 This requires specifying the area of the event listented to (`frontend`, `adminhtml` or `global`), the event being listened to, the observer identifier (unique name), the observer object type (e.g. singleton model), the class used and the method to call.
 
@@ -183,7 +281,7 @@ e.g. `*_load_after`.
 
 Crons jobs are defined in Magento using the following syntax:
 
-{% highlight xml %}
+```xml
 <config>
     <crontab>
         <jobs>
@@ -196,13 +294,29 @@ Crons jobs are defined in Magento using the following syntax:
         </jobs>
     </crontab>
 </config>
-{% endhighlight %}
+```
 
 The cron job schedule can eitehr be a cron schedule expression (inside a `<cron_expr>` tag) or a configuration path (inside a `config_path` tag) where the crons schedule expression is stored.  The `<model>` tag defines the function to execute in the format `{grouped class name}::{method name}`.
 
 ### Loading active modules
 
 Magento loads all `*.xml` files from `app/etc/modules` to find a list of installed modules.  It identifies whether they are active and where their full configuration is located (`<codepool>`).
+
+```xml
+<?xml version="1.0" ?>
+<!-- File: app/etc/modules/Meanbee_Royalmail.xml -->
+<config>
+    <modules>
+        <Meanbee_Royalmail>
+            <active>1</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Shipping />
+            </depends>
+        </Meanbee_Royalmail>
+    </modules>
+</config>
+```
 
 ### Common config load methods 
 
