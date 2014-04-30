@@ -4,7 +4,7 @@ layout: default
 
 # Advanced Features
 
-Exam proportion: 11%.
+Exam proportion: 13%.
 
 ## Widgets
 

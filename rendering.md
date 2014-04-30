@@ -4,7 +4,7 @@ layout: default
 
 # Rendering
 
-Exam proportion: 6%.
+Exam proportion: 7%.
 
 ## Customising Core Functionality with Themes
 

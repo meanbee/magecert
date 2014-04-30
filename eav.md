@@ -4,7 +4,7 @@ layout: default
 
 # EAV
 
-Exam proportion: 8%.
+Exam proportion: 10%.
 
 ## Basic Concepts
 

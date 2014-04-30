@@ -4,7 +4,7 @@ layout: default
 
 # Databases
 
-Exam proportion: 11%.
+Exam proportion: 13%.
 
 ## Models, Resource Models and Collections
 

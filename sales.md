@@ -4,7 +4,7 @@ layout: default
 
 # Sales
 
-Exam proportion: 9%.
+Exam proportion: 11%.
 
 ## Admin Order Creation
 

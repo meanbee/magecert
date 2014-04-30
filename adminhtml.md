@@ -4,7 +4,7 @@ layout: default
 
 # Adminhtml
 
-Exam proportion: 6%.
+Exam proportion: 7%.
 
 ## Architecture
 

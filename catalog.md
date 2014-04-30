@@ -4,7 +4,7 @@ layout: default
 
 # Catalog
 
-Exam proportion: 8%.
+Exam proportion: 10%.
 
 ## Products
 

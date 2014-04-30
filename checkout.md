@@ -4,7 +4,7 @@ layout: default
 
 # Checkout
 
-Exam proportion: 13%.
+Exam proportion: 16%.
 
 ## Quotes
 

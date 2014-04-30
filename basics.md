@@ -4,7 +4,7 @@ layout: default
 
 # The Basics
 
-Exam proportion: 5%.
+Exam proportion: 6%.
 
 ## Fundamentals
 
@@ -331,6 +331,29 @@ Per-store configuration values are located in the `stores->{store name}` part of
 ### Configured Class prefixes
 
 Prefixes are used for blocks, models and helpers.  Using prefixes and not referring to classes directly by naem allows rewriting the classes in the configuration and without the need to modify the code that uses them.
+
+## Internationalisation
+
+`$this->__('Translate Me')` method is used to manage translatable text.  Before outputing this string it is checked against a number of locations for transactions.  The priority for translations are in this order:
+
+1. Inline
+    - The `core_translate` database table
+2. Theme
+    - `app/design/$area/$package/$theme/locale/`
+3. Module
+    - `app/locale/`
+
+
+If developer mode is enabled, Magento doesn't use translations unrelated to module. 
+
+Module scope translation:
+
+```
+"Namespace_Module::string","translation"
+```
+
+
+
 
 
 <ul class="navigation">
