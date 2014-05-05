@@ -60,6 +60,11 @@ It is possible to add a block to the current layout but it needs to be done befo
 
 A child block will only be rendered automatically if it is of class `Mage_Core_Block_Textlist` otherwise the `getChildHtml` method needs to be called.
 
+## Head Block Assets
+
+JavaScript and CSS assets are handled in the `Mage_Page_Block_Html_head` block.  This block handles the merging of assets into a single file to minimise HTTP requests.  The merged file is based on the edit time of hte source files.
+
+When merging CSS, a callback function on `Mage_Core_Model_Design_Package` is called update any `@import` or `url()` directives with the correct URLs.
 
 <ul class="navigation">
     <li class="prev"><a href="/request-flow.html">&larr; Request Flow</a>
