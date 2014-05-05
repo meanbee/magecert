@@ -474,6 +474,14 @@ ul ul {
     list-style: circle;
 }
 
+ol ol {
+    list-style: lower-latin;
+}
+
+ol ol ol {
+    list-style: lower-roman;
+}
+
 a {
     color: #333;
     text-decoration: underline;
