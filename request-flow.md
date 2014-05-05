@@ -214,6 +214,15 @@ The `controller_front_send_response_before` event can be used to modify the resp
 
 If the output is not sent in a response object but printed out, it can prevent headers from being sent as it is unbuffered.
 
+### Redirects
+
+There are two types of redirects that can be used in a controller action.
+
+- `_redirect()`
+	- This performs a HTTP redirect
+- `_forward()`
+	- This redirects internally within the application to another controller and/or action.
+
 <ul class="navigation">
     <li class="prev"><a href="/basics.html">&larr; Basics</a>
     <li class="next"><a href="/rendering.html">Rendering &rarr;</a>
