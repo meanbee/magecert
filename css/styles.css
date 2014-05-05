@@ -462,12 +462,16 @@ h2 {
 }
 
 ul {
-    list-style: circle;
+    list-style: disc;
     padding: 0;
 }
 
 ul li {
     margin-left: 1.1em;
+}
+
+ul ul {
+    list-style: circle;
 }
 
 a {
