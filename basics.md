@@ -33,7 +33,7 @@ There are numerous development designs patterns used in Magento ([Source](http:/
 - Registry
 
 ```php
-<?php `$currentCategory = Mage::registry('current_category');` ?>
+<?php $currentCategory = Mage::registry('current_category'); ?>
 ```
 
 - Event/Observer
