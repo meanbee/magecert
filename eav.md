@@ -17,17 +17,26 @@ Exam proportion: 10%.
 
 ### Database Schema
 
-Important to note that `_varchar` table has the type `varchar` for values even if date or integer would suit the value better.
+- `eav_entity`
+	- The entity table
+- `eav_entity_attribute`
+	- The attribute table
+- `eav_entity_{type}`
+	- The values tables.  Types are datetime, decimals, int, text and varchar.
+
+Important to note that `eav_entity_varchar` table has the type `varchar` for values even if date or integer would suit the value better.
 
 ### Models Versus Resource Models
 
-All the models inside `Mage/Eav/Model/Resource are Mysql4 and are resource models.
+All the models inside `Mage/Eav/Model/Resource` are Mysql4 and are resource models.
 
 In addition `Enttity/Abstract.php` and `Entity/Setup.php`.
 
 ### Flat Versus EAV
 
 The EAV models are more complex, providing logic to save and load from multiple tables, whereas the flat models are relatively straightforward (traditional).
+
+Standard models mainly manage their properties with data setters and getters working with a single table.  EAV models mainly manage their attribute models.  Standard models only save their data to a table and load from it.  EAV models load all (or a specific set) or attributes afeter loading base data and save attributes after daving data (including inserting, updating and deleting attributes).
 
 ### EAV Resource Model Examples
 
@@ -137,14 +146,11 @@ A backend model requires:
 
 Cannot be used for EAV attributes.  EAV source models implement the `getAllOptions` method while adminhtml source models implement the `toOptionArray()` method.
 
-### Default Models
+The default models used are:
 
-{% highlight php %}
-<?php 
-	const DEFAULT_BACKEND_MODEL  = 'eav/entity_attribute_backend_default';
-	const DEFAULT_FRONTEND_MODEL = 'eav/entity_attribute_frontend_default';
-?>
-{% endhighlight %}
+- `Mage_Eav_Model_Entity_Attribute_Frontend_Default`
+- `Mage_Eav_Model_Entity_Attribute_Backend_Default`
+- `Mage_Eav_Model_Entity_Source_Config`
 
 
 ### Attribute Source Models
@@ -163,11 +169,36 @@ To get a list of all options for an attribute, perform the following:
 {% endhighlight %}
 
 
-### Stores and Flat Tables
+### Add Attribute
 
-There is a different flat table for each store, each one contains a different store-scoped entity attribute value. 
+To add EAV attributes, use `Mage_Eav_Model_Entity_Setup` by extending in the setup class.
 
-Multi-lingual values are managed by having different stores for each language.
+- `addAttribute()`
+	- Creates the attributes, add it to groups and sets (including default) , or updates if it already exists
+- `updateAttribute()`
+	- Updates the attribute data only.
+
+Custom setup classes can be used to extend these methods, adding additional data or simplifying the arguments needed.
+
+### Flat Tables
+
+Flat catalog attributes are managed by indexers:
+
+- `Mage_Catalog_Model_Resource_Product_Flat_Indexer::updateAttribute()`
+- `Mage_Catalog_Model_Resource_Category_Flat::synchronise()`
+
+Product attributes get added to the flat table if they are (see `Mage_Catalog_Model_Resource_Flat_Indexer::getAttributeCodes()`):
+
+- Static (backend type)
+- Filterable
+- Used in product listing
+- Used for promo rules
+- Used for sort by
+- System Attributes.
+
+There is a different flat table for each store, each one contains a different store-scoped entity attribute value. Multi-lingual values are managed by having different stores for each language.
+
+
 
 <ul class="navigation">
     <li class="prev"><a href="/databases.html">&larr; Databases</a>
