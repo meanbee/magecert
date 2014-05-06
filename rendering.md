@@ -16,49 +16,112 @@ Magento's hierarchical structured themes means that a base theme can be extended
 
 ## Registering Custom Themes
 
-Custom themes can be configured under `System > Design` and `System > Configuration > Design`.
+Themes can be configured in two ways:
+
+1. Per store under `System > Design`
+2. Design change with time limits `System > Configuration > Design`.
+3. Theme exceptions can also be set on a category and product level.
 
 ## Package versus Theme
 
-A package has multiple themes. Each of the themes in a package inherits from the default theme within a package.
+A package has multiple themes. Each of the themes in a package inherits from the `default` theme within a package.
 
-## Missing files in Theme/Package
+## Design Fallback
 
-If a file is missing from a theme, it falls back and checks the default theme in a package.  If the file is also missing from this location then the `base/default` theme is checked. 
+The theme fallback procedure for locating templates files is:
 
-## Template Paths
-
-Magento uses relative paths when ti comes to template and layout files.
-
-## Defining physical files corresponding to templates and layouts.
-
-## Additional Theme Fallbacks
+1. `{package}/{theme}`
+2. `{package}/default`
+3. `base/default`
 
 To add further directories to the theme fallback mechanism `Mage_Core_Model_Design_Package::getFilename` method need to be rewritten
 
-## Block Instance Creation
+For the admin area the fallback is `default/default`.
+
+## Template and Layout Paths
+
+Theme file paths are rendered by `Mage_Core_Model_Design_Package`.  `Mage_Core_Model_Layout_Update` requests absolute paths for layout files.  `Mage_Core_Block_Template` requests templates with relative paths.  
+
+Magento uses relative paths when it comes to template and layout files.
+
+## Blocks
+
+
+Blocks are used for output.  The `root` block is the parent of all blocks and is of type `Mage_Page_Block_Html`.
+
+`Mage_Core_Block_Template` blocls use template files to render content.  The template file name are set within `setTemplate()` or `addData('template')` with relative paths. 
+
+Templates are just pieces of PHP included in `Mage_Core_Block_Template`.  Therefore `$this` in a template refers to the block. 
+
+`Mage_Core_Block_Template` uses a buffer before including a template to prevent premature output. 
 
 The `Mage_Core_Model_Layout::createBlock` method creates instances of blocks
 
-## Page Blocks
-
 The `Mage_Core_Model_Layout_Update` class considers which blocks need to be created for each page by looking at the layout handles.
 
-## Rending the Block Tree
+All output blocks are rendered, e.g. by calling `toHtml()`, which in turn can hoose to render their children.
 
-The tree of blocks is rendered by calling `toHtml()` on the root and cascading down.
+`Text` and `Text_List` blocks automatically render their content. 
 
-## Create Blocks without Layout
+There are two events that are fired around block rendering that can be used to modify the block before and after rendering the HTML:
 
-In addition to the layout files, blocks can be created in the template files.
+1. `core_block_abstract_to_html_before`
+2. `core_block_abstract_to_html_after`
 
-## Adding Block to Current Layout
+
+A child block will only be rendered automatically if it is of class `Mage_Core_Block_Textlist` otherwise the `getChildHtml` method needs to be called.
+
+
+Nlocking instances can be accessed through the layou, e.g. `Magge::app()->getLayout()` and `$controller->getLayout()`.  Block output is controlled by the `_toHtml()` function.  
+
+Templates are rendered by the `renderView()`/`fetchView()` methods inside a template block.  Output buffering can be disabled with `$layout->setDirectOutput`.
 
 It is possible to add a block to the current layout but it needs to be done before the `renderLayout()` method is called.
 
-## Children Block Rendering
+## Layout XML
 
-A child block will only be rendered automatically if it is of class `Mage_Core_Block_Textlist` otherwise the `getChildHtml` method needs to be called.
+- `<reference>`
+	- edit a block
+- `<block>`
+	- define a block
+- `<action>`
+	- call method on a block
+- `<update>`
+	- include nodes from another handle.
+
+Layout files can be registered in `config.xml`:
+
+```xml
+<config>
+	<{area}>
+		<layout>
+			<updates>
+				<{name}>
+					<file>{filepath}</file>
+				</{name}>
+			</updates>
+		</layout>
+	</{area}>
+</config>
+```
+
+Page output can be customised in the following ways
+
+- Template changes
+- Layout changes
+- Overriding blocks
+- Observers
+
+Variables on blocks can be set in the following ways
+
+- Layout
+	- Through actions or attributes
+- Controller
+	- `$this-getLayout()->getBlock()`
+- Child blocks
+	- `$this->getChild()`
+- Other
+	- `Mage::app()->getLayout()`
 
 ## Head Block Assets
 
