@@ -1,5 +1,6 @@
 ---
 layout: default
+title: Basics |
 ---
 
 # The Basics
