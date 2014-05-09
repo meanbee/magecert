@@ -537,7 +537,7 @@ header[role="banner"] a {
 .header-content,
 main[role="main"],
 .footer-content {
-    margin: 0 auto;
+    margin: 0 1em;
     max-width: 42em;
 }
 
@@ -622,21 +622,22 @@ main[role="main"] table.toc .tocnumber {
 
 pre, code {
     font-family: 'Anonymous Pro', monospace;
+    overflow-wrap: break-word;
 }
 /*
  * Code Highlighting
  */
 .highlight { 
     background: rgba(230,230,230,0.2); 
+
 }
 
 .highlight pre {
-    display: table;
     padding: 0.5em;
 }
 
-.highlight code { 
-    display: block;
+.highlight code {
+    float: left;
     line-height: 1.1;
 }
 
@@ -709,7 +710,6 @@ pre, code {
     h1 {
         font-size: 2.2em;
     }
-
 }
 
 /*
@@ -718,5 +718,10 @@ pre, code {
 @media only screen and (min-width: 57em) {
     main[role="main"] {
         margin: 2em auto;
+    }
+
+    .header-content,
+    .footer-content {
+        margin: 0 auto;
     }
 }
