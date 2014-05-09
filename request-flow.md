@@ -62,7 +62,7 @@ Module loading and SQL database upgrades are run when `Mage_Core_Model_App::app(
 In the `Mage_Core_Model_App::run()` method, Magento sets up which store to use by:
 
 {% highlight php %}
-	$this->_initCurrentStore($scopeCode, $scopeType);
+<?php $this->_initCurrentStore($scopeCode, $scopeType); ?>
 {% endhighlight %}
 
 There are multiple ways to specify the current store.
@@ -73,13 +73,15 @@ There are multiple ways to specify the current store.
 
 The environment variables are checked in `index.php`:
 
-{% highlight php %}
+```php
+<?php 
 	/* Store or website code */
 	$mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
 
 	/* Run store or run website */
 	$mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store';
-{% endhighlight %}
+?>
+```
 
 ### Request and Response Objects
 
