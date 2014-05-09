@@ -543,6 +543,7 @@ main[role="main"],
 
 main[role="main"] {
     margin: 1em;
+    position: relative;
 }
 
 main[role="main"] a {
@@ -551,6 +552,22 @@ main[role="main"] a {
 
 main[role="main"] h2 a {
     background-size: 1em;
+}
+
+main[role="main"] a.back-to-top {
+    position: fixed;
+    padding: 0.2em 0.5em;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    text-shadow: none;
+    text-decoration: none;
+    bottom: 0;
+    right: 0;
+    margin: 1em;
+}
+
+main[role="main"] a.back-to-top:hover {
+    background: rgba(0,0,0,0.7);
 }
 
 footer[role="contentinfo"] {
@@ -622,6 +639,7 @@ main[role="main"] table.toc .tocnumber {
 
 pre, code {
     font-family: 'Anonymous Pro', monospace;
+    word-wrap: break-word;
     overflow-wrap: break-word;
 }
 /*
