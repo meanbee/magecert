@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Advanced |
+title: Advanced
+meta-description: Extra notes about API and Widgets
 ---
 
 # Advanced Features

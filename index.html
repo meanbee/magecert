@@ -10,45 +10,13 @@ noToc: true
   <h2>Chapters</h2>
 
   <ol>
+    {% for page in site.pages %}
+    {% if page.noToc != true %}
   	<li>
-  		<h3><a href="/basics.html">Basics</a></h3>
-  		<p>Introduction to Magento code heirachies, modules and configuration.</p>
+      <h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
+      <p>{{ page.meta-description %}}
   	</li>
-  	<li>
-  		<h3><a href="/request-flow.html">Request Flow</a></h3>
-  		<p>Learn how Magento bootstraps itself and handles requests.</p>
-  	</li>
-  	<li>
-  		<h3><a href="/rendering.html">Rendering</a></h3>
-  		<p>Understand how pages are rendered through the use of themes, layouts, blocks and templates.</p>
-  	</li>
-  	<li>
-  		<h3><a href="/databases.html">Databases</a></h3>
-  		<p>Discover models, resources models and collections.</p>
-  	</li>
-  	<li>
-  		<h3><a href="/eav.html">EAV</a></h3>
-  		<p>Entity Attribute Value tables, explained.</p>
-  	</li>
-  	<li>
-  		<h3><a href="/adminhtml.html">Adminhtml</a></h3>
-  		<p>Manage admin area forms and grids.</p>
-  	</li>
-  	<li>
-  		<h3><a href="/catalog.html">Catalog</a></h3>
-  		<p>Find out about categories, products, layered navigation and taxes.</p>
-  	</li>
-   	<li>
-  		<h3><a href="/checkout.html">Checkout</a></h3>
-  		<p>Covering quotes, orders and shipping and payment methods.</p>
-  	</li>
-   	<li>
-  		<h3><a href="/sales.html">Sales</a></h3>
-  		<p>Order creation and management.</p>
-  	</li>
-   	<li>
-  		<h3><a href="/advanced.html">Advanced Features</a></h3>
-  		<p>Extra notes about API and Widgets.</p>
-  	</li>
+    {% endif %}
+    {% endfor %}
   </ol>
 </div>

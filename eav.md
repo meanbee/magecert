@@ -1,6 +1,7 @@
 ---
 layout: default
-title: EAV |
+title: EAV
+meta-description: Entity Attribute Value tables, explained.
 ---
 
 # EAV

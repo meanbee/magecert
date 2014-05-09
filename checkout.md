@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Checkout |
+title: Checkout
+meta-description: Covering quotes, orders and shipping and payment methods
 ---
 
 # Checkout

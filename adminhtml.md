@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Adminhtml 
+title: Adminhtml
+meta-description: Manage admin area forms and grids.
 ---
 
 # Adminhtml

@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Basics |
+title: Basics
+meta-description: Introduction to Magento code heirachies, modules and configuration.
 ---
 
 # The Basics

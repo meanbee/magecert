@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Sales |
+title: Sales
+meta-description: Order creation and management
 ---
 
 # Sales

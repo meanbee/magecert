@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Rendering |
+title: Rendering
+meta-description: Understand how pages are rendered through the use of themes, layouts, blocks and templates
 ---
 
 # Rendering

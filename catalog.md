@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Catalog |
+title: Catalog
+meta-description: Find out about categories, products, layered navigation and taxes.
 ---
 
 # Catalog

@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Databases |
+title: Databases
+meta-description: Discover models, resources models and collections.
 ---
 
 # Databases
