@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Checkout
+chapter: 8
 meta-description: Covering quotes, orders and shipping and payment methods
 ---
 

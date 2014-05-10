@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Adminhtml
+chapter: 6
 meta-description: Manage admin area forms and grids.
 ---
 

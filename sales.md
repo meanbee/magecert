@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Sales
+chapter: 9
 meta-description: Order creation and management
 ---
 
@@ -172,5 +173,5 @@ An order can be cancelled when it is in the pending or processing state but not 
 
 <ul class="navigation">
     <li class="prev"><a href="/checkout.html">&larr; Checkout</a>
-    <li class="next"><a href="/advanced.html">Advanced Features &rarr;</a>
+    <li class="next"><a href="/advanced-features.html">Advanced Features &rarr;</a>
 </ul>

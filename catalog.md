@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Catalog
+chapter: 7
 meta-description: Find out about categories, products, layered navigation and taxes.
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Request Flow
+chapter: 2
 meta-description: Learn how Magento bootstraps itself and handles requests. 
 ---
 

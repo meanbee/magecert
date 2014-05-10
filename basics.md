@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Basics
+chapter: 1
 meta-description: Introduction to Magento code hierarchies, modules and configuration.
 ---
 

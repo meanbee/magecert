@@ -10,13 +10,15 @@ noToc: true
   <h2>Chapters</h2>
 
   <ol>
-    {% for page in site.pages %}
-    {% if page.noToc != true %}
-  	<li>
-      <h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
-      <p>{{ page.meta-description %}}
-  	</li>
-    {% endif %}
+    {% for chapter in (1..10) %}
+      {% for page in site.pages %}
+        {% if page.chapter == chapter %}
+          <li>
+            <h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
+            <p>{{ page.meta-description %}}
+          </li>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   </ol>
 </div>
