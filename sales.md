@@ -31,7 +31,7 @@ Magento's order model.  It handles everything which associates to the order itse
 
 ### `Mage_Sales_Model_Quote`
 
-This is what an order is before it is converted into an order.  It is built up over the course of a session by a customer and when it is saved it is converted to an order using the `Mage_Sales_Model_Service_Quote::submitAll()` method.  That mehtod using the `Mage_Sales_Model_Convert_Quote` model to facilitte this.
+This is what an order is before it is converted into an order.  It is built up over the course of a session by a customer and when it is saved it is converted to an order using the `Mage_Sales_Model_Service_Quote::submitAll()` method.  That method using the `Mage_Sales_Model_Convert_Quote` model to facilitate this.
 
 ### `Mage_Sales_Model_Service_Order`
 
@@ -45,17 +45,19 @@ Defined in `Mage/Sales/etc/config.xml`, fieldsets define what data is copied acr
 
 This model represents an address. Its main role is to store all of the data that can be present in an address, e.g. name, street, region etc.  It also validates this data, e.g.
 
-{% highlight php %}
+```php
+<?php
 if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
     $errors[] = Mage::helper('customer')->__('Please enter the first name.');
 }
-{% endhighlight %}
+?>
+```
 
 This code validates that an address has a first name associated to it.
 
 ### `Mage_Adminhtml_controllers_Sales_Order_CreateController`
 
-This is the place where the admin form will fire its request to.  Its job is to build up the `Mage_Adminhtml_Model_Sales_orderCreate object from the data which is inputted into the admin form.
+This is the place where the admin form will fire its request to.  Its job is to build up the `Mage_Adminhtml_Model_Sales_orderCreate object from the data which is input into the admin form.
 
 The main action within this controller is `loadBlockAction`.  It is hit via AJAX every time a field is blurred on the admin area. 
 
@@ -67,7 +69,7 @@ This is the admin equivalent of the `Mage_Sales_Model_Order` model.
 
 The widget is used to add products to the order.  This is then posted to the backend which is added to the order model in `Mage_Adminhtml_controllers_Sales_Order_CreatController`
 
-{% highlight php %}
+```php
 <?php
 if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
     $items = $this->getRequest()->getPost('item');
@@ -75,11 +77,11 @@ if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_it
     $this->_getOrderCreateModel()->addProducts($items);
 }
 ?>
-{% endhighlight %}
+```
 
 The `addProducts()` function here will then add each of these products to the `Mage_Sales_Model_Quote` object and set a flag to indicate that the totals need to be recollected. Then, when saving the quote this flag is checked and the totals are collected.
 
-{% highlight php %}
+```php
 <?php
 public function saveQuote()
 {
@@ -96,14 +98,14 @@ public function saveQuote()
     return $this;
 }
 ?>
-{% endhighlight %}
+```
 
 ## Editing Orders
 
-An order cannnot be edited, rather a new order is created with the required changes made. Therefore, editing orders are treated in much the same as creating orders.  The edit controller actually extends the create controller.  The form fileds are populated with the stored data from the saved order and it works exactly the same as the create action.
+An order cannot be edited, rather a new order is created with the required changes made. Therefore, editing orders are treated in much the same as creating orders.  The edit controller actually extends the create controller.  The form fields are populated with the stored data from the saved order and it works exactly the same as the create action.
 
 
-## Order States and Statusses
+## Order States and Statuses
 
 An order state can have one or more order statuses.  A status can only have one state. For example, the `pending_review` state has both the `fraud` and `payment_review` statuses.
 
@@ -158,9 +160,9 @@ The models which are used to control this are `Mage_Sales_Model_Order_Shipment` 
 
 ## Refunds
 
-`Mage_Sales_Model_Order_Creditmemo` handles refunds on an order.  Each payment method needs to specify if it can perform refunds and provide a method to do so.  If the method allows for online refunds, the refund wil be automated and processed by the method.  Whereas offline refunds will need to be actioned outside of Magento after an order has been cancelled.
+`Mage_Sales_Model_Order_Creditmemo` handles refunds on an order.  Each payment method needs to specify if it can perform refunds and provide a method to do so.  If the method allows for online refunds, the refund will be automated and processed by the method.  Whereas offline refunds will need to be actioned outside of Magento after an order has been cancelled.
 
-Taxes on refunds are processsed as configured in admin, i.e on origin, billing or shipping address.
+Taxes on refunds are processed as configured in admin, i.e on origin, billing or shipping address.
 
 ## Partial Order Operations
 

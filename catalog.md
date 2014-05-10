@@ -21,11 +21,11 @@ There are six different product types built-in to Magento.
 - Bundle
 	- The third composite product type , a bundle relates simple products together to purchase as a single item.
 - Virtual
-	- No physical item required for delivery.
+	- No physical item required for delivery, e.g. services
 - Downloadable
 	- A digital rather than physical product.
 
-Most product types are implemmented as part of the `Mage_Catalog` module, apart from `Mage_Bundle` and `Mage_Downloadable`.
+Most product types are implemented as part of the `Mage_Catalog` module, apart from `Mage_Bundle` and `Mage_Downloadable`.
 
 ### Custom Product Type
 
@@ -33,19 +33,30 @@ To create an product type that extends a pre-available product type, this should
 
 An entry in the module's `config.xml` is also required:
 
-{% highlight xml %}
+```xml
+<global>
 	<catalog>
 		<product>
-			<type></type>
+			<type>
+				<{name}>
+					<label></label>
+					<model></model>
+					<composite></composite>
+					<index_priority></index_priority>
+				</{name}>
+			</type>
 		</product>
 	</catalog>
-{% endhighlight %}
+</global>
+```
 
 More complicated products may require other customised areas such as price model and index data retriever.
 
 ### Price Calculation
 
-Price calculation is handled in `Mage_Catalog_Model_Product_Type_Price` by default.  Some types deal with it differently.  In which case they just extend this class and implement their own logic.  For example, the configurable product overwrites `getFinalPrice()` and adds additional logic.
+Price calculation is handled in `Mage_Catalog_Model_Product_Type_Price` by default.  Some types deal with it differently.  In which case they just extend this class and implement their own logic.  For example, the configurable product overwrites `getFinalPrice()` and adds additional logic.  This custom model can then be specified in `config.xml` with a `<price_model>` tag.
+
+Product type affects price index and stock index where products can defined their own custom indexers (in `config.xml`) to handle their data for these indexes.
 
 The `Mage_Tax` module uses a product's tax class and whether or not the product price is inclusive or exclusive of tax in order to identify the correct rate to apply.
 
@@ -53,7 +64,7 @@ The `Mage_Tax` module uses a product's tax class and whether or not the product 
 
 Most product types share database tables apart from the product types that were shipping as separately modules, i.e. Bundle and Downloadable.
 
-Magento can index the product EAV tables and creat flat versions of them for speed.  The indexers are run each time a product is saved and the relevant rows in the flat tables are updated.
+Magento can index the product EAV tables and create flat versions of them for speed.  The indexers are run each time a product is saved and the relevant rows in the flat tables are updated.
 
 ### Layered Navigation
 
@@ -70,7 +81,7 @@ To implement layered navigation on attributes with custom source models the `Mag
 
 ## Categories in the Database
 
-Category hierarchy is managed by storing a category's parent id. The full hierarchy is shown in the `path` column.  There is a special category with parent_id of `0`. This is the true root category and each of the other *root* categoryies as defined in Magento use this as a shared parent.
+Category hierarchy is managed by storing a category's parent id. The full hierarchy is shown in the `path` column.  There is a special category with parent_id of `0`. This is the true root category and each of the other *root* categories as defined in Magento use this as a shared parent.
 
 To read and manage a category tree from the database two different classes are used depending if flat catalog is enabled, `Mage_Catalog_Model_Resource_Category_Tree` and `Mage_Catalog_Model_Resource_Category_Flat`.
 

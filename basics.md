@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Basics
-meta-description: Introduction to Magento code heirachies, modules and configuration.
+meta-description: Introduction to Magento code hierarchies, modules and configuration.
 ---
 
 # The Basics
@@ -89,9 +89,9 @@ $object = Mage::objects($id);
 
 ### Constructors
 
-Magento uses public `__construct` methohods and, typically, protected `_construct` methods for class initialisation. More information on the difference between the two can be found on [stackoverflow](http://stackoverflow.com/questions/8706352/why-does-magento-have-construct-and-construct-methods). 
+Magento uses public `__construct` methods and, typically, protected `_construct` methods for class initialisation. More information on the difference between the two can be found on [stackoverflow](http://stackoverflow.com/questions/8706352/why-does-magento-have-construct-and-construct-methods). 
 
-Arguments can be passed to modesl created through factories by using a second argument, e.g.
+Arguments can be passed to models created through factories by using a second argument, e.g.
 
 ```php
 <?php
@@ -124,7 +124,7 @@ Magento is split up into three code pools.
 
 `app/etc/modules/{namespace}_{module name}.xml`
 
-Defines the module, the codepool it is in, any dependencies and whether it is enabled.
+Defines the module, the code pool it is in, any dependencies and whether it is enabled.
 
 - Module Code
 
@@ -174,7 +174,7 @@ Contains theme independent JavaScript files and other assets (e.g. css, images),
 
 ### Class Naming Conventions and Autoloader
 
-Magento include path is set to look for files in all of the codepools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
+Magento include path is set to look for files in all of the code pools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
 
 ```php
 <?php
@@ -228,11 +228,11 @@ In Magento models, blocks and helpers are registered in configuration using the 
 </config>
 ```
 
-These objects are then instantiated in the code using the factory methods (`Mage::getModel()` or `Mage::helper()`) and are referred to using their grouped class name - `{module identifier}/{object identifier}`.  Internally, Magento uses the module identifier (the part before the slash) to find the class name prefix to prepent to the object name (the part after the slash) to find the class that needs to be instantiated.  This allows modules to redefine existing objects and functionality by changing the configuration.
+These objects are then instantiated in the code using the factory methods (`Mage::getModel()` or `Mage::helper()`) and are referred to using their grouped class name - `{module identifier}/{object identifier}`.  Internally, Magento uses the module identifier (the part before the slash) to find the class name prefix to prepend to the object name (the part after the slash) to find the class that needs to be instantiated.  This allows modules to redefine existing objects and functionality by changing the configuration.
 
 ### Class Overrides
 
-Object classes can be overriden iun configuration using the following syntax:
+Object classes can be overridden in configuration using the following syntax:
 
 ```xml
 <config>
@@ -252,7 +252,7 @@ This indicates to the factory methods that the specified class should be used in
 
 ### Register an Observer
 
-Observers are registerd in Magento using the following syntax:
+Observers are registered in Magento using the following syntax:
 
 ```xml
 <config>
@@ -272,7 +272,7 @@ Observers are registerd in Magento using the following syntax:
 </config>
 ```
 
-This requires specifying the area of the event listented to (`frontend`, `adminhtml` or `global`), the event being listened to, the observer identifier (unique name), the observer object type (e.g. singleton model), the class used and the method to call.
+This requires specifying the area of the event listened to (`frontend`, `adminhtml` or `global`), the event being listened to, the observer identifier (unique name), the observer object type (e.g. singleton model), the class used and the method to call.
 
 ### Function and use of automatically available events
 
@@ -298,7 +298,7 @@ Crons jobs are defined in Magento using the following syntax:
 </config>
 ```
 
-The cron job schedule can eitehr be a cron schedule expression (inside a `<cron_expr>` tag) or a configuration path (inside a `config_path` tag) where the crons schedule expression is stored.  The `<model>` tag defines the function to execute in the format `{grouped class name}::{method name}`.
+The cron job schedule can either be a cron schedule expression (inside a `<cron_expr>` tag) or a configuration path (inside a `config_path` tag) where the crons schedule expression is stored.  The `<model>` tag defines the function to execute in the format `{grouped class name}::{method name}`.
 
 ### Loading active modules
 
@@ -332,11 +332,11 @@ Per-store configuration values are located in the `stores->{store name}` part of
 
 ### Configured Class prefixes
 
-Prefixes are used for blocks, models and helpers.  Using prefixes and not referring to classes directly by naem allows rewriting the classes in the configuration and without the need to modify the code that uses them.
+Prefixes are used for blocks, models and helpers.  Using prefixes and not referring to classes directly by name allows rewriting the classes in the configuration and without the need to modify the code that uses them.
 
 ## Internationalisation
 
-`$this->__('Translate Me')` method is used to manage translatable text.  Before outputing this string it is checked against a number of locations for transactions.  The priority for translations are in this order:
+`$this->__('Translate Me')` method is used to manage translatable text.  Before outputting this string it is checked against a number of locations for transactions.  The priority for translations are in this order:
 
 1. Inline
     - The `core_translate` database table
@@ -353,8 +353,6 @@ Module scope translation:
 ```
 "Namespace_Module::string","translation"
 ```
-
-
 
 
 

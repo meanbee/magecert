@@ -8,7 +8,7 @@ meta-description: Learn how Magento bootstraps itself and handles requests.
 
 Exam proportion: 7%.
 
-## Application Initilization
+## Application Initialization
 
 1. Check compilier configuration
 2. Include `Mage.php`
@@ -29,7 +29,7 @@ Exam proportion: 7%.
 
 ### Include Path & Autoloader Registration
 
-The include path is set up and the autoloader is registered when the `Mage.php` file is included in `index.php`.  Shortly after this occus the autoloader is regsitered with `spel_autoloader_register`.
+The include path is set up and the autoloader is registered when the `Mage.php` file is included in `index.php`.  Shortly after this occurs the autoloader is registered with `spel_autoloader_register`.
 
 ### Loading Magento Module and Database Configuration
 
@@ -54,17 +54,17 @@ Modules are loaded after the base configuration but before store initialisation.
 
 Module loading and SQL database upgrades are run when `Mage_Core_Model_App::app()` is called but data upgrades are not.  Whereas `Mage_Core_Model_App::run()` completes all of the above.  It does so in two phases.
 
-1. `Mage_Core_Model_Resource_Setup::applyAllUpdates()` - executed immediately after the module configuration is loadewd and runs all the SQL install and update scripts.
+1. `Mage_Core_Model_Resource_Setup::applyAllUpdates()` - executed immediately after the module configuration is loaded and runs all the SQL install and update scripts.
 
-2. `Mage_Core_Model_Resource_Setup::applyAllDataUpdates()` - executed after the store, locale and request models have been initilized and runs the data install and upgrade scripts.
+2. `Mage_Core_Model_Resource_Setup::applyAllDataUpdates()` - executed after the store, locale and request models have been initialized and runs the data install and upgrade scripts.
 
 ### Magento Stores and Locale Loading
 
 In the `Mage_Core_Model_App::run()` method, Magento sets up which store to use by:
 
-{% highlight php %}
+```php
 <?php $this->_initCurrentStore($scopeCode, $scopeType); ?>
-{% endhighlight %}
+```
 
 There are multiple ways to specify the current store.
 
@@ -93,7 +93,7 @@ The request object is initialised in `Mage_Core_Model_App` and the `_initRequest
 
 ### Role
 
-The front controller performs the routing of the request to the appropriate controller.  It loops over all of the registered routers, pasing the request to each one of them to be matches against a controller capable of handling it.  After the request has been dispatched, the front controller sends the response to the client.
+The front controller performs the routing of the request to the appropriate controller.  It loops over all of the registered routers, passing the request to each one of them to be matches against a controller capable of handling it.  After the request has been dispatched, the front controller sends the response to the client.
 
 ### Events
 
@@ -112,7 +112,7 @@ There are two ways to add routes.
 
 - Using configuration
 
-{% highlight xml %}
+```xml
 <config>
     <default>
         <web>
@@ -125,7 +125,7 @@ There are two ways to add routes.
         </web>
     </default>
 </config>
-{% endhighlight %}
+```
 
 - By observer the `controller_front_init_before` or `controller_front_init_routers` events and injecting the router into the front controller.
 
@@ -139,17 +139,17 @@ The URL structure in Magento generally uses the format `{base_url}/{front_name}/
 
 ### URL Rewrite Process
 
-URL rewrites happen in the Front controllerm before the routing.  The database reqrites are checked and applied first, followed by the configuration (`glboal->rewrite`) rewrites. Rewrites can either redirect the request using HTTP methods, updte the request path (keeping the old on efor reference) or completely replace the request path.
+URL rewrites happen in the Front controller before the routing.  The database rewrites are checked and applied first, followed by the configuration (`glboal->rewrite`) rewrites. Rewrites can either redirect the request using HTTP methods, update the request path (keeping the old one for reference) or completely replace the request path.
 
 ### Database URL Rewrites
 
 The most important fields in the `core_url_rewrite` table are `request_path` and `target_path` which map the request to a rewrite.
 
-Magento creates catalog requres using the `catalog_url` indexer.
+Magento creates catalog requires using the `catalog_url` indexer.
 
 ### Matching requests
 
-The requres are applied by the `Mage_Core_Model_Url_Rewrite_Request` model. The request path is parsed to include any variation (with or without the trailing slash) and then looks up the `request_path` column of the `core_url_rewrite` table using the `Mage_Core_Model_Url_Rewrite::loadByRequestPath()` method.
+The requests are applied by the `Mage_Core_Model_Url_Rewrite_Request` model. The request path is parsed to include any variation (with or without the trailing slash) and then looks up the `request_path` column of the `core_url_rewrite` table using the `Mage_Core_Model_Url_Rewrite::loadByRequestPath()` method.
 
 ## Request Routing
 
@@ -169,7 +169,7 @@ Built-in Magento routers (in the order that they are matched):
 
 The standard router maps a path to an action by splitting it into `base_url/frontname/controller/action`. The `frontname` is then mapped to a module by way of the configuration files. The controller file is then located at `/path/to/module/base/controllers/{Name}Controller.php
 
-Unmapped requests read the Default router where they are rewritten to a 404 page and get mappy by the Standard router on the next iteration.
+Unmapped requests read the Default router where they are rewritten to a 404 page and get mapped by the Standard router on the next iteration.
 
 Before dispatch, request module, controller, action and parameters are set.  Then it is passed to the controller (all within the Standard router).
 

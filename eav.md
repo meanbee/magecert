@@ -38,7 +38,7 @@ In addition `Enttity/Abstract.php` and `Entity/Setup.php`.
 
 The EAV models are more complex, providing logic to save and load from multiple tables, whereas the flat models are relatively straightforward (traditional).
 
-Standard models mainly manage their properties with data setters and getters working with a single table.  EAV models mainly manage their attribute models.  Standard models only save their data to a table and load from it.  EAV models load all (or a specific set) or attributes afeter loading base data and save attributes after daving data (including inserting, updating and deleting attributes).
+Standard models mainly manage their properties with data setters and getters working with a single table.  EAV models mainly manage their attribute models.  Standard models only save their data to a table and load from it.  EAV models load all (or a specific set) or attributes after loading base data and save attributes after saving data (including inserting, updating and deleting attributes).
 
 ### EAV Resource Model Examples
 
@@ -73,7 +73,7 @@ There are a sizeable number of resource models that use EAV
 - Credit Memo Item
 - Credit Memo Comment
 
-The reason that EAV is used is so that they can have an underdetermined number of properties and therefore remain flexible.
+The reason that EAV is used is so that they can have an undetermined number of properties and therefore remain flexible.
 
 ### Advantages
 
@@ -92,7 +92,7 @@ The reason that EAV is used is so that they can have an underdetermined number o
 
 ### Website and Store Scopes
 
-To handle website and store scope attribute values within EAV a `store_id` value exists on the entity and this is used to show scope which linke back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store the system will first check for an entity value on the current store and then fall back to the global entity. 
+To handle website and store scope attribute values within EAV a `store_id` value exists on the entity and this is used to show scope which link back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store the system will first check for an entity value on the current store and then fall back to the global entity. 
 
 ### Insert Versus Update
 
@@ -115,18 +115,18 @@ To determine if an update or an insert needs to be performed, a check is perform
 
 A source model requires:
 
-{% highlight php %}
+```php
 <?php
 	public function getAllOptions();
 	public function getOptionText($value);
 ?>
-{% endhighlight %}
+```
 
 A frontend model does not require any methods in particular.
 
 A backend model requires:
 
-{% highlight php %}
+```php
 <?php
 	public function getTable();
 	public function isStatic();
@@ -142,7 +142,7 @@ A backend model requires:
 	public function getEntityValueId($entity);
 	public function setEnttiyValidId($entity, $valudId);
 ?>
-{% endhighlight %}
+```
 
 ### System Configuration Source Models
 
@@ -161,15 +161,14 @@ If a source model is not specified for an attribute in the database it gets a de
 
 To get a list of all options for an attribute, perform the following:
 
-{% highlight php %}
+```php
 <?php 
 	$options = $attribute->getSource()->getAllOptions(false);
 
 	// or for admin
 	$options = $_attribute->getSource()->getAllOptions(true, true);
 ?>
-{% endhighlight %}
-
+```
 
 ### Add Attribute
 

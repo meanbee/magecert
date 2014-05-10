@@ -14,7 +14,7 @@ Exam proportion: 13%.
 
 A **Model** is used to store and manipulate data about a particular object. Typically contain the business logic of the application.
 
-A **Resource Model** is used to interact with the database on behalf of the *Model*.  The Resouce Model actually performs the CRUD operations.
+A **Resource Model** is used to interact with the database on behalf of the *Model*.  The Resource Model actually performs the CRUD operations.
 
 A **Collection Model** handles working with groups of models and performing (CRUD) operations on groups of models.  
 
@@ -22,9 +22,9 @@ There are two types of Magento Model: simple and EAV.  Simple Models correspond 
 
 ### Database Connection
 
-Databse connections are configured in `config.xml`:
+Database connections are configured in `config.xml`:
 
-{% highlight xml %}
+```xml
 <config>
     <global>
         <resources>
@@ -43,17 +43,17 @@ Databse connections are configured in `config.xml`:
         </resources>
     </global>
 </config>
-{% endhighlight %}
+```
 
 The core Magento connections (`default_setup`, `default_read`, `default_write`, `core_setup`, `core_read`, `core_write`) are configured in `app/etc/config.xml` with the database credentials stored in `app/etc/local.xml`.
 
 ### Working with Database Tables
 
-Magento used the *Resource Models* to interact with the database tables.  When a *Model* is loaded or saved, it cals its resource model to perform thee operation (executing the database queries).  Database table names are configured in `config.xml` and resource models retrieve them using look-up mehtods, which allows for the table names to be customised, e.g. adding a prefix to all table names.
+Magento used the *Resource Models* to interact with the database tables.  When a *Model* is loaded or saved, it calls its resource model to perform thee operation (executing the database queries).  Database table names are configured in `config.xml` and resource models retrieve them using look-up methods, which allows for the table names to be customised, e.g. adding a prefix to all table names.
 
 Tables are called *entities* and are configured like so:
 
-{% highlight xml %}
+```xml
 <config>
     <global>
         <models>
@@ -72,7 +72,7 @@ Tables are called *entities* and are configured like so:
         </models>
     </global>
 </config>
-{% endhighlight %}
+```
 
 This allows us to load the table via `getTable('meanbee/table_one')`.
 
@@ -94,7 +94,7 @@ The following methods exist to create joins between tables on collections and on
 
 ### Table Name Lookups
 
-Use `Mage::getModel('core/resource')->getTableName($modelEntity)` to retreive the defined table for any model.  Table names in Magento are configurable to allow customising and overriding the database schema e.g. using a custom table. 
+Use `Mage::getModel('core/resource')->getTableName($modelEntity)` to retrieve the defined table for any model.  Table names in Magento are configurable to allow customising and overriding the database schema e.g. using a custom table. 
 
 Accessing resource models can be done using the class `Mage_Core_Model_Resource_Db_Abstract` and the methods `getMainTable()` and `getTable($entityName)`.
 
@@ -105,7 +105,7 @@ The loading of a model form the database is done using the `load($id, $field = n
 
 Magento uses the Zend database abstraction classes like `Zend_Db_Select` to perform database operations.  These classes allow building and executing database queries without having to use the syntax of the specific database engine being used. 
 
-When a record is fetched with `Zend_Db_Select` it is added to the `Varien_Object` using `setData($data)`.  Some fields may be serialised in the database, so they are unserialised before adding to the `Varien_Object`.
+When a record is fetched with `Zend_Db_Select` it is added to the `Varien_Object` using `setData($data)`.  Some fields may be serialised in the database, so they are un-serialised before adding to the `Varien_Object`.
 
 ### Saving Data
 
@@ -113,13 +113,13 @@ Saving is not as trivial as loading.  The first step is to check to see if the m
 
 A transaction is then begun so that any changes can be rolled back in the event that something goes wrong during the saving we process.
 
-Firstly a check for uniquess is performed.  This queries the database to check whether each of the fields marked as nique are actually unique.  If a duplicate key is found, then it is bubbled up using an exception.
+Firstly a check for uniqueness is performed.  This queries the database to check whether each of the fields marked as unique are actually unique.  If a duplicate key is found, then it is bubbled up using an exception.
 
 The data then needs to be prepared for insertion or update. This is performed in the `prepareDataForSave()` method.  This calls `DESCRIBE` on the table to identify the column types and sanitise the input accordingly.  This description is, of course, cached.  This is the reason that cache needs to be cleared if schema changes are made.
 
-The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is usefull performed by checking for the existance of the primary key by called `$model->getId() == null`, and here is no exception.  f there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After perforing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
+The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is useful performed by checking for the existence of the primary key by called `$model->getId() == null`, and here is no exception.  f there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After performing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
 
-If there was an ID specified on yhe model when save was called, it's either because an update to a model is being saved or because the ID of the model is not controlled by the database with an auto-increment. If the flag `_isPkAutoIncrement` is set then an `UPDATE` can be used.  Otherwise the database needs to be checked for an existing record with this key.  An `UPDATE` occurs if there is, otherwise an `INSERT` is used.
+If there was an ID specified on the model when save was called, it's either because an update to a model is being saved or because the ID of the model is not controlled by the database with an auto-increment. If the flag `_isPkAutoIncrement` is set then an `UPDATE` can be used.  Otherwise the database needs to be checked for an existing record with this key.  An `UPDATE` occurs if there is, otherwise an `INSERT` is used.
 
 The `_isPkAutoIncrement` flag is set to `true` as a default and can be overwritten by a subclass.
 
@@ -136,7 +136,7 @@ When several save operations have to be performed for an entity, Magento uses da
 Through the use of:
 
 - `$collection->addFilter()`
-- `$colletion->getSelect()->where()`
+- `$collection->getSelect()->where()`
 
 ### Ordering Flat Table Collections
 
@@ -160,17 +160,17 @@ The first method goes through the collection interface, which could perform addi
 - `{collection_event_prefix}_load_before`
 - `{collection_event_prefix}_liad_after`
 
-### Setup, Read and Write Database Resouces
+### Setup, Read and Write Database Resources
 
 Resource models request a specific type of database connection they require.  The different types are defined to allow for different permissions over the database. For example read for read-only connection, write for changing data and setup for resource intensive setup processes.  However, in practice, all of Magento's connection resources inherit from the `default_setup` resource, so they all use the same connection.
 
 ## Install and Upgrade Scripts
 
-Magento uses Setup Resource Models to perofrm install and upgrade operations for modules.  These are executed during the application initialisation where each Setup Resource is allowed to apply any updates it requires.  This is usually done by inspecting the installed version of the module from the `core_resource` table and executing any setup scripts defined.
+Magento uses Setup Resource Models to perform install and upgrade operations for modules.  These are executed during the application initialisation where each Setup Resource is allowed to apply any updates it requires.  This is usually done by inspecting the installed version of the module from the `core_resource` table and executing any setup scripts defined.
 
 Setup resources are defined in `config.xml`:
 
-{% highlight xml %}
+```xml
 <config>
     <global>
         <resources>
@@ -183,7 +183,7 @@ Setup resources are defined in `config.xml`:
         </resources>        
     </global>
 </config>
-{% endhighlight %}
+```
 
 Then the install and upgrade scripts, which are simply PHP scripts executed by including them within the setup resource, are placed in `{module_root}/sql/{resource_name}/` for system install/upgrade scripts or `{module_root}/data/{resource_name}/` for data install/upgrade scripts.
 
@@ -208,7 +208,7 @@ Different Setup classes have additional methods to aid the install or upgrade pr
 The base setup classes for flat tables and EAV entities are `Mage_Core_Model_Resource_Setup` and `Mage_Eav_Model_Entity_Setup`, respectively.
 
 
-### Availble Setup Methods
+### Available Setup Methods
 
 Methods that are generally available in setup scripts are
 
@@ -231,7 +231,7 @@ Magento defines a module rollback procedure when the `config.xml` module version
 
 ### Supporting multiple RDBMSs
 
-Magento abstracts datbase engine logic by using the `Varien_Db_Adapter_Interface`.  Database engine classes implement this interface, which makes it easy to replace one engine class with another without having to rewrite all models that use the database. The actual RDBMS used is defined in the connection configurtion using the `<type>` field, e.g. `<type>pdo_mysql</type>`.
+Magento abstracts database engine logic by using the `Varien_Db_Adapter_Interface`.  Database engine classes implement this interface, which makes it easy to replace one engine class with another without having to rewrite all models that use the database. The actual RDBMS used is defined in the connection configuration using the `<type>` field, e.g. `<type>pdo_mysql</type>`.
 
 <ul class="navigation">
     <li class="prev"><a href="/rendering.html">&larr; Rendering</a>

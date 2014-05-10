@@ -27,7 +27,7 @@ This action checks if the user is allowed to access the requested page and valid
 
 ### Routing
 
-In `Mage_Core_Controller_Varien_Front::dispatch()`, Magento loops over each of its routers and checks against the path specified by the request to see if any modules have registered against this frontname.  From there, the module spcified in its controller (defined by `config.xml`) which controller class it extends (the admin or the front one) and in each of these the area is defined.
+In `Mage_Core_Controller_Varien_Front::dispatch()`, Magento loops over each of its routers and checks against the path specified by the request to see if any modules have registered against this frontname.  From there, the module specified in its controller (defined by `config.xml`) which controller class it extends (the admin or the front one) and in each of these the area is defined.
 
 To use the `/admin` route, either `Mage_Adminhtml will need to be overwritten or define your frontname:
 
@@ -77,7 +77,7 @@ The role of the adminhtml configuration is to provide a mechanism within the adm
 
 ### Cache Management
 
-Different cache types related to different portions of the cache.  Caches can associate with a particular type, which allows clearing only certain portions of the cahce.
+Different cache types related to different portions of the cache.  Caches can associate with a particular type, which allows clearing only certain portions of the cache.
 
 - Flush Magento Cache
 	- This removes only the cache entries that are managed by Magento itself, e.g. (`MAGE` and `CONFIG` tags)
@@ -95,7 +95,7 @@ A form container's role (`app/design/adminhtml/default/default/template/widget/f
 
 Form element objects represent the different types of form fields you can have and contain their specific logic. The full list is in `Varien_Data_Form_Element`.
 
-Form fileds are added to fieldsets, which just represet a related collection of fields.  Fieldsets are, in turn, added to forms. 
+Form fields are added to fieldsets, which just represent a related collection of fields.  Fieldsets are, in turn, added to forms. 
 
 Here's an example of adding a field to a fieldset.
 
@@ -118,13 +118,13 @@ The second argument of `addField` maps to an element type, e.g. select and `Vari
 
 ### Custom Elements
 
-To customse the way an element is rendered you could call `$element->setRenderer()` on it and specify a custom class to render it.
+To customise the way an element is rendered you could call `$element->setRenderer()` on it and specify a custom class to render it.
 
 Alternatively, you could add a custom field type, which extends the element and then overwrites the `getHtml()`, `getDefaultHtml()` or `getElementHtml()`.
 
-{% highlight php %}
+```php
 <?php $fieldset->addType('colour_picker', '{namespace}_{module_name}_Varien_data_Form_Element_ColourPicker'); ?>
-{% endhighlight %}
+```
 
 ## Grids
 
@@ -142,9 +142,9 @@ Grid columns usually extend `Mage_Adminhtml_Block_widget_Grid_Column` which cont
 
 Column renderers control the logic for drawing the column on the page.  For instance, the select column renderer has logic for drawing the heading of the column in a select box. 
 
-### Grid Javascript
+### Grid JavaScript
 
-The JavaScript used by the grid can be customised by setting values on the grid, e.g. `setJsObjectName()` or rewritten by chaning the grid template.
+The JavaScript used by the grid can be customised by setting values on the grid, e.g. `setJsObjectName()` or rewritten by changing the grid template.
 
 ```php
 <script type="text/javascript">
@@ -200,7 +200,7 @@ Fields have:
 
 The configuration is parsed by `Mage_Adminhtml_Model_Config` and rendered in the admin area by the `Mage_Adminhtml_Block_System_Config_Form` block.
 
-When the configuration is saved, it is stored in the `core_config_data` table.  The config ca have multiple values (rows), one fo each scope (e.g. default, website, store view)
+When the configuration is saved, it is stored in the `core_config_data` table.  The config can have multiple values (rows), one for each scope (e.g. default, website, store view)
  
 To retrieve configuration values `Mage::getStoreConfig()` can be used.  It prepends `default/stores/default` to `$config->getNode()` and so therefore is a wrapper around `Mage::getConfig()->getNode()`.
 

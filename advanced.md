@@ -10,11 +10,11 @@ Exam proportion: 13%.
 
 ## Widgets
 
-Widgets are customisable frontend blocks that can be included and configured in CMS blocks or pages.  The widget architecture is primarily driven by the `Mage_Widget_Model_Widget` model while the frotnend blocks used by widgets implement the `Mage_Widget_Block_Interface` interface.
+Widgets are customisable frontend blocks that can be included and configured in CMS blocks or pages.  The widget architecture is primarily driven by the `Mage_Widget_Model_Widget` model while the frontend blocks used by widgets implement the `Mage_Widget_Block_Interface` interface.
 
 Widgets are defined in a modules `widget.xml` configuration file using the following syntax:
 
-{% highlight xml %}
+```xml
 <widgets>
     <{widget_identifier} type="{grouped_class_name}" translate="{fields}" module="{module_name}">
         <name>{widget_name}</name>
@@ -34,13 +34,13 @@ Widgets are defined in a modules `widget.xml` configuration file using the follo
         </parameters>
     </{widget_identifier}>
 </widgets>
-{% endhighlight %}
+```
 
 Depending on the type, widget parameters can have a single value, a selection from multiple values or can include complex procedures e.g selecting a gallery image, to determine their value, driven by a helper block.
 
 ## API
 
-Magento includes built0in SOAP, XML-RPC and REST APIs for managing the store remotely.
+Magento includes built-in SOAP, XML-RPC and REST APIs for managing the store remotely.
 
 The SOAP API is default and the most widely used.  The WSDL for it is located in:
 
@@ -58,24 +58,24 @@ The API methods are defined by API models, which are instantiated using Magento'
 
 The difference between the two SOAP API version is that in version 1 all operations are executed by passing them to the `call()` and `multicall()` methods, e.g.
 
-{% highlight php %}
+```php
 <?php $client->call($session, "sales_order.list"); ?>
-{% endhighlight %}
+```
 
 Meanwhile in version 2, every operation has its own method defined, e.g.
 
-{% highlight php %}
+```php
 <?php $client->salesOrderList(); ?>
-{% endhighlight %}
+```
 
 Internally, the version 2 API handler uses the same API method configuration as version 1.  When a version 2 API method is called e.g. `catalogProductCreate()` the handler searches for a prefix that matches the method in
 
-{% highlight xml %}
+```xml
 <v2>
 	<resources_function_prefix>
     </resources_function_prefix>
 </v2>
-{% endhighlight %}
+```
 
 section of the config, e.g. `catalogProduct` to find the method resource and then calls the `{resource}.{method_suffix} API version 1 method.
 
