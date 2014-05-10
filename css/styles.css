@@ -557,7 +557,7 @@ main[role="main"] h2 a {
 main[role="main"] a.back-to-top {
     position: fixed;
     padding: 0.2em 0.5em;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.1);
     color: white;
     text-shadow: none;
     text-decoration: none;
@@ -567,7 +567,7 @@ main[role="main"] a.back-to-top {
 }
 
 main[role="main"] a.back-to-top:hover {
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.5);
 }
 
 footer[role="contentinfo"] {
