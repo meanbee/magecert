@@ -178,43 +178,132 @@ Mass actions allow performing an action to selected grid rows.  They work by cal
 
 ## System Configuration
 
-The system configuration is populated through the use of `system.xml` files.  The structure of rendered elements is defined by the groups, labels, types, orders.  When the configuration is saved, it is stored in the `core_config_data` table.
+The system configuration is populated through the use of `system.xml` files.  The configuration is structured into: 
 
-To use configuration elements such as selects and multiselects, a `<source_model>` needs to be defined with an implemented `toOptionArray()` method.
+- Sections
+    - Appear as left menu items, further categories into "tabs" separately
+- Groups
+    - Fieldsets of configuration options with all groups of a section appearing on the same page.
+- Fields
+    - Individual options
 
-Rending a custom template in system configuration can be done by specifying a `frontend_model` in the `system.xml` file.  The custom frontend model class should extend `Varien_Data_Form_Element_Rendere_Interface` and implement the `render()` method.
+Fields have:
 
-The CSS class of an element can be changed using `<frontend_class>`.
+- `frontend_type` and `frontend_model`
+    - Defines how a field is rendered and what type of data it stores.  To render a custom template `Varien_Data_Form_Element_Renderer_Interface` class should be extended and implement the `render()` method.
+- `backend_model`
+    - Defines how a field is represented in the backend
+- `source_model`
+    Defines field options, e.g. for a select.  Options are provided by way of `topOptionArray()` method.
+- `frontend_class`
+    - Can be used to customise the CSS class of the field.
 
-When retrieving configuration values `Mage::getStoreConfig()` prepends `default/stores/default` to `$config->getNode()` and so therefore is a wrapper around `Mage::getConfig()->getNode()`.
+The configuration is parsed by `Mage_Adminhtml_Model_Config` and rendered in the admin area by the `Mage_Adminhtml_Block_System_Config_Form` block.
 
-### Under-the-hood
+When the configuration is saved, it is stored in the `core_config_data` table.  The config ca have multiple values (rows), one fo each scope (e.g. default, website, store view)
+ 
+To retrieve configuration values `Mage::getStoreConfig()` can be used.  It prepends `default/stores/default` to `$config->getNode()` and so therefore is a wrapper around `Mage::getConfig()->getNode()`.
 
-`Mage_Adminhtml_Model_Config` parses the configuration and then `Mage_Adminhtml_Block_System_Config_Form` renders the config form.
+
+## Access Control Lists (ACL)
+
+The ACL manages user access to different areas of the administration area and is configured through `adminhtml.xml` files. The keywords here are:
+
+- Resources
+    - Individual sections of the system
+- Roles
+    - Collections of Resources accessible to a particular group of users
+- Users
+    - Individual users of the system, who get assigned Roles.  In turn, these roles allowing access to Resources.
+
+To add a menu item:
+
+```xml
+<menu>
+    <{top_menu}>
+        <{sub_menu}>
+            <{sub_sub_menu}>
+                <title></title>
+                <action></action>
+            </{sub_sub_menu}>
+        <{sub_menu}>
+    <{top_menu}>
+</menu>
+```
+
+A menu item has to have a corresponding resource and a user has to have access to that resource for the item to render.
+
+To add a resource:
+
+```xml
+<acl>
+    <{resource}>
+        <children>
+            <{child}>
+                <title></title>
+                <sort_order></sort_order>
+                <children></children>
+            </{child}>
+        </children>
+    </{resource>
+</acl>
+```
+
+Administrator roles have access to special `<all>` resource which grants all permissions.  Resources can also be created for sections, e.g. system configuration checks that the users is able to access each configuration section individually.  
+
+Configuration resources are added in:
+
+```xml
+<acl>
+    <{admin}>
+        <children>
+            <system>
+                <children>
+                    <config>
+                        <children>
+                            <{section_name}>
+                            </{section_name}>
+                        </children>
+                    </config>
+                </children>
+            </system>
+        </children>
+    </{admin}>
+```
+
+Permissions are checked by controllers, using the `_isAllowed()` method which gets called on admin `preDispatch()`.
+
+`adminhtml.xml` gets parsed by `Mage_Admin_Model_Config`.  The ACL configuration is managed by `Mage_Admin_Model_Acl` and is checked in most controllers using the following:
+
+```php 
+<?php Mage::getSingleton('admin/session')->isAllowed(); ?>
+```
+
+ACL data is stored in the database in the `admin_user` (users), `admin_role` (role names), `admin_rule` (permissions) tables.
+
+Magento ACL is an extension of Zend_ACL. 
+
+## Extensions
+
+Extensions are installed as Magento modules.  The standard module considerations apply:
+
+- Definition in `app/etc/modules`
+- `app/code/{pool}/{namespace}/{module}/etc/config.xml
+
+Module dependencies are specified in the definition XML with a `<depends>` tag.
+
+Downloader can be used to download extension packages from Magento Connect and install (extract) them.
+
+As covered in [the basics](/basics.html), there are three code pools
+
+1. Core
+    - Main Magento modules (First Party)
+2. Community
+    - Release extensions (Third Party)
+3. Local
+    - Local customisations.
 
 <ul class="navigation">
     <li class="prev"><a href="/eav.html">&larr; EAV</a>
     <li class="next"><a href="/catalog.html">Catalog &rarr;</a>
 </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
