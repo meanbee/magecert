@@ -76,9 +76,22 @@ Custom product options get processed when calculating final price.  Each option 
 
 Group, tier and special prices all get considered at the same time (`$priceModel->getBasePrice()`) and the smallest one of the three (or four if you include the regular price) is chosen as the base product price.
 
+
+### Tax
+
 The `Mage_Tax` module uses a product's tax class and whether or not the product price is inclusive or exclusive of tax in order to identify the correct rate to apply.
 
+The following factors are used to calculate tax on products:
+
+- Product tax class
+- The amount of tax already included
+- Billing and Shipping addresses
+- Customer tax class
+- Store settings
+
+
 ### Layered Navigation
+
 
 The classes responsible for rendering the layered navigation are:
 
@@ -88,6 +101,10 @@ The classes responsible for rendering the layered navigation are:
 	- Controls what is currently being filtered by
 
 To implement layered navigation on attributes with custom source models the `Mage_Catalog_Model_Layer_Filter_Abstract::apply()` method would need to be overwritten to dictate how the product collection should be filtered.
+
+Layered navigation is rendered by the `Mage_Catalog_Block_Layer_View` and `Mage_Catalog_Block_Layer_State` blocks, which use filter blocks for individual filters.
+
+Layered Navigation uses index table for most filters, e.g. price, product attribute index, decimal product index.
 
 ## Categories
 
@@ -108,29 +125,32 @@ The advantage of flat categories is that it is quicker to query. However, it nee
 
 N.B. If flat catalog is enabled, the only child categories returned will be ones with `include_in_menu = 1`.  In both cases, only active categories are returned.
 
-### Children Categories
-
-There are two methods to find the children of a category
-
-- `getChildren()`
-	- Returns a list of IDs
-- `getChildrenCategories()`
-	- Returns `Mage_Catalog_Model_Resource_Category_Collection`
 
 ### Catalog Price Rules
+
+Catalog price rules apply discounts to products based on the date, product, website and customer group. 
 
 When `getFinalPrice()` is called on a product an event is fired.  This event, `catalog_product_get_final_price` is observed the `Mage_CatalogRule_Model_Observer` which will then look for any catalog price rule that applies to the product.  If it needs, it then looks at the database price table and writes the price back to the product model as a Varien data field `final_price`.
 
 Within the database, the `catalogrule` table describes rules, their conditions and their actions.  `catalogrule_product` contains the matched products and some rule information.  Meanwhile `catalogrule_product_price` contains the price after the rule has been applied.
 
+## Indexing and Flat Tables
 
-## Indexing
-
-Magento can index the product EAV tables and create flat versions of them for speed.  The indexers are run each time a product is saved and the relevant rows in the flat tables are updated.
-
-The `Mage_Index` module provides the framework with which custom indexes can be created to help optimise the performance of the site.  The class that needs to be extended is `Mage_Index_Model_Resource_Abstract`.
+Flat catalog tables are managed by catalog indexers. If automatic rebuilding of the indexes in enabled, the catalog indexers get rebuilt every time a product, category or any related entities are updated.  The `_afterSave()` method calls the indexer process.  Otherwise they have to be manually re-indexed through admin.
 
 Product type affects price index and stock index where products can defined their own custom indexers (in `config.xml`) to handle their data for these indexes.
+
+The `Mage_Index` module provides the framework with which custom indexes can be created to help optimise the performance of the site.  The `Mage_index_Model_Indexer_Abstract` class should be extended to create a new index, implementing the `_registerEvent()` and `_processEvent()` methods. Not forgetting to register it in `config.xml`:
+
+```xml
+<global>
+	<index>
+		<indexer>
+			<{name}>{model}</{name}>
+		</indexer>
+	</index>
+</global>
+```
 
 
 <ul class="navigation">
