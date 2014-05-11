@@ -107,9 +107,9 @@ The argument parameter to `getModel` will be passed as is.  There is no way to s
 
 ## High-Level Architecture
 
-### Code Pools
+<h3 id="code-pools">Code Pools</h3>
 
-Magento is split up into three code pools. 
+Magento is split up into three code pools.
 
 - Core
 	- Contains core modules developed by Magento.
@@ -119,7 +119,7 @@ Magento is split up into three code pools.
 	- Installation specific modules, customisations and overrides.
 
 
-### Typical Module Structure
+<h3 id="module-structure">Typical Module Structure</h3>
 
 - Module Declaration
 
@@ -149,14 +149,14 @@ Contains the module configuration and code.  This includes:
 	- `data/`
 
 
-### Magento Templates and Layout Files
+<h3 id="template-layout">Magento Templates and Layout Files</h3>
 
 `app/design/{area}/{package}/{theme}/`
 
 Layout and template files are organised into folders by store area, package (theme namespace) and theme. Inside the layout files and template files are separated into `layout/` and `template/` directories respectively.
 
 
-### Magento Skin and JavaScript files location
+<h3 id="skin-javascript">Magento Skin and JavaScript files location</h3>
 
 `skin/{area}/{package}/{theme}`
 
@@ -166,14 +166,14 @@ Same as with template files, most Magento assets (js, css and images) are organi
 
 Contains theme independent JavaScript files and other assets (e.g. css, images), organised by library.
 
-### Magento Design Areas
+<h3 id="design-areas">Magento Design Areas</h3>
 
 - Adminhtml
 	- Contains the files dealing with the presentation of the Magento backend.
 - Frontend
 	- Contains the layouts, templates and assets for the customer facing areas of Magento.
 
-### Class Naming Conventions and Autoloader
+<h3 id="naming-conventions">Class Naming Conventions and Autoloader</h3>
 
 Magento include path is set to look for files in all of the code pools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
 
@@ -193,7 +193,7 @@ Therefore the class naming convention for most Magento classes is:
 
 `{Namespace}_{Module name}_{Object type}_{Object name}`
 
-### Module Conflict Resolution
+<h3 id="conflict-resolution">Module Conflict Resolution</h3>
 
 Magento modules can conflict in three different ways:
 
