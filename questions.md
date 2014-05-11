@@ -19,18 +19,18 @@ noToc: true
 
 ### Magento Configuration
 
-- Explain how Magento loads and manipulates configuration information 
-- Describe class group configuration and use in factory methods
-- Describe the process and configuration of class overrides in Magento 
-- Register an Observer 
-- Identify the function and proper use of automatically available events, including *_load_after, etc.
-- Set up a cron job 
+- [Explain how Magento loads and manipulates configuration information](/basics.html#config-load)
+- [Describe class group configuration and use in factory methods](/basics.html#factory-methods)
+- [Describe the process and configuration of class overrides in Magento](/basics.html#overrides)
+- [Register an Observer](/basics.html#observer)
+- [Identify the function and proper use of automatically available events, including *_load_after, etc.](/basics.html#automatic-events)
+- [Set up a cron job](/basics.html#cron-jobs)
 
 ### Internationalization
 
-- Describe how to plan for internationalization of a Magento site
-- Describe the use of Magento translate classes and translate files
-- Describe the advantages and disadvantages of using subdomains and subdirectories in internationalization 
+- [Describe how to plan for internationalization of a Magento site](/basics.html#internationalization)
+- [Describe the use of Magento translate classes and translate files](/basics.html#internationalization)
+- [Describe the advantages and disadvantages of using subdomains and subdirectories in internationalization](/basics.html#subdomains-directories)
 
 ## Request Flow
 

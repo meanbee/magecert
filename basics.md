@@ -209,11 +209,11 @@ Magento modules can conflict in three different ways:
 
 ## Magento Configuration
 
-### Config Load
+<h3 id="config-load">Config Load</h3>
 
 Configuration in Magento is stored as an XML tree.  Magento reads in the config.xml files for each module and merges the configuration into a single tree.  This allows modules to modify existing configuration elements and add new ones.
 
-### Class Group Config and Factory Methods
+<h3 id="factory-methods">Class Group Config and Factory Methods</h3>
 
 In Magento models, blocks and helpers are registered in configuration using the following format:
 
@@ -231,7 +231,7 @@ In Magento models, blocks and helpers are registered in configuration using the 
 
 These objects are then instantiated in the code using the factory methods (`Mage::getModel()` or `Mage::helper()`) and are referred to using their grouped class name - `{module identifier}/{object identifier}`.  Internally, Magento uses the module identifier (the part before the slash) to find the class name prefix to prepend to the object name (the part after the slash) to find the class that needs to be instantiated.  This allows modules to redefine existing objects and functionality by changing the configuration.
 
-### Class Overrides
+<h3 id="overrides">Class Overrides</h3>
 
 Object classes can be overridden in configuration using the following syntax:
 
@@ -251,7 +251,7 @@ Object classes can be overridden in configuration using the following syntax:
 
 This indicates to the factory methods that the specified class should be used instead of the usual class the object should resolve to.
 
-### Register an Observer
+<h3 id="observer">Register an Observer</h3>
 
 Observers are registered in Magento using the following syntax:
 
@@ -275,12 +275,13 @@ Observers are registered in Magento using the following syntax:
 
 This requires specifying the area of the event listened to (`frontend`, `adminhtml` or `global`), the event being listened to, the observer identifier (unique name), the observer object type (e.g. singleton model), the class used and the method to call.
 
-### Function and use of automatically available events
+<h3 id="automatic-events">Function and use of automatically available events</h3>
 
-e.g. `*_load_after`.
+Magento dispatches a number of events automatically that can be observed, e.g. `*_save_before` and `*_load_after`.  
 
+This provides us with the ability to modify models before saved to the database and also modifying a model after it's reloaded data from the database.
 
-### Cron Jobs
+<h3 id="cron-jobs">Cron Jobs</h3>
 
 Crons jobs are defined in Magento using the following syntax:
 
@@ -335,9 +336,13 @@ Per-store configuration values are located in the `stores->{store name}` part of
 
 Prefixes are used for blocks, models and helpers.  Using prefixes and not referring to classes directly by name allows rewriting the classes in the configuration and without the need to modify the code that uses them.
 
-## Internationalisation
+<h2 id="internationalization">Internationalisation</h2>
 
-`$this->__('Translate Me')` method is used to manage translatable text.  Before outputting this string it is checked against a number of locations for transactions.  The priority for translations are in this order:
+Store views are typically used for internationalisation in Magento, with each one being configured for a particular language.
+
+In template files `$this->__('Translate Me')` method is used to manage translatable text.  This is then handled by `Mage_Core_Helper_Data` and `Mage_Core_Model_Translate`. 
+
+Before outputting this string it is checked against a number of locations for transactions.  The priority for translations are in this order:
 
 1. Inline
     - The `core_translate` database table
@@ -345,7 +350,6 @@ Prefixes are used for blocks, models and helpers.  Using prefixes and not referr
     - `app/design/$area/$package/$theme/locale/`
 3. Module
     - `app/locale/`
-
 
 If developer mode is enabled, Magento doesn't use translations unrelated to module. 
 
@@ -355,7 +359,17 @@ Module scope translation:
 "Namespace_Module::string","translation"
 ```
 
+<h3 id="subdomains-directories">Sub-domains and Sub-directory Setup</h3>
 
+To make use of the internationalisation, a store view with appropriate configurations should be initialised.  Two ways that this can be handled is by sub-domain e.g. `fr.example.com` and sub-directory, e.g. `example.com/fr`.
+
+There are advantages and disadvantages of each. Subdomains are slightly easier for linking content, 
+
+One advantage of sub-domains is that they can be hosted on separate servers which can particular be useful for geo-located boxes matching the store view language.
+
+An advantage of sub-directories is that all pages will contribute to SEO efforts for the single domain but the URLs aren't so clean. Other than that, both sub-domains and sub-directories have similar effect.
+
+See even more info in [Belvg's post](http://blog.belvg.com/magento-certified-developer-exam-internationalization.html) on the subject.
 
 <ul class="navigation">
     <li class="prev"><a href="/">&larr; Home</a>
