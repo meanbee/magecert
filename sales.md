@@ -192,6 +192,27 @@ In most cases when operations are cancelled, tax amounts are returned to the way
 
 Invoices and credit memos cannot be cancelled from the interface, even through the functionality was implemented.
 
+## Customers
+
+The `Mage_Customer` module controls handling info about store customers and the customer area., where information can be updated and customer can view their orders.
+
+Customers can also enter addresses to their account so they can quickly check out without having to enter their details each time.
+
+Customers are stored as EAV models, with an EAV table structure.  This means that it is easy to add new attributes, albeit theirs no backend interface for it (in Community Edition).
+
+Customer entities use the `Mage_Customer_Model_Resource_Customer` resource model. Customer data is validated using the `validate()` method on the entity before saving it. The attributes use the standard EAV validation rules for their data.
+
+Most emails sent to customers are managed by Magento's Transactional Emails.  There's a backend interface for creating new email templates (from existing ones, if needed) and they can be assigned to emails in system configuration.
+
+From a customer's perspective, there's no difference between the billing and shipping addresses.  Defaults can be set for both cases to avoid having to select.  The saved addresses are displayed in a select box.
+
+Catalog and shopping cart prices rules and tax can be set specifically for a customer group (e.g. customers in a loyalty group get a discount).   
+
+Customer addresses are also EAV entities, providing an easy way to add custom attributes. Fieldsets are used to copy customer data from Quote to Order, so they have to be taken into account when adding a custom attribute.
+
+Customers can only be in a single group at a time.
+
+
 <ul class="navigation">
     <li class="prev"><a href="/checkout.html">&larr; Checkout</a>
     <li class="next"><a href="/advanced-features.html">Advanced Features &rarr;</a>
