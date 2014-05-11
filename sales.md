@@ -9,22 +9,7 @@ meta-description: Order creation and management
 
 Exam proportion: 11%.
 
-## Admin Order Creation
-
-To create an order within the admin interface, the following steps should be followed.
-
-1. Sales > Orders > Create New Order
-2. Select Customer
-3. Select Store and enter details
-	1. Products
-	2. Billing Address
-	3. Shipping Address
-	4. Shipping Method
-	5. Payment Method
-4. Place Order
-
 ## Important Classes
-
 
 ### `Mage_Sales_Model_Order`
 
@@ -56,17 +41,34 @@ if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
 
 This code validates that an address has a first name associated to it.
 
+## Admin Orders
+
+To create an order within the admin interface, the following steps should be followed.
+
+1. Sales > Orders > Create New Order
+2. Select Customer
+3. Select Store and enter details
+    1. Products
+    2. Billing Address
+    3. Shipping Address
+    4. Shipping Method
+    5. Payment Method
+4. Place Order
+
+
 ### `Mage_Adminhtml_controllers_Sales_Order_CreateController`
 
-This is the place where the admin form will fire its request to.  Its job is to build up the `Mage_Adminhtml_Model_Sales_orderCreate object from the data which is input into the admin form.
+This is the place where the admin form will fire its request to.  Its job is to build up the `Mage_Adminhtml_Model_Sales_Order_Create` object from the data which is input into the admin form.
+
+This controller allows any items to be added to the order (not just saleable items).
 
 The main action within this controller is `loadBlockAction`.  It is hit via AJAX every time a field is blurred on the admin area. 
 
 ### `Mage_Adminhtml_Model_Sales_Order_Create`
 
-This is the admin equivalent of the `Mage_Sales_Model_Order` model.
+This is the admin equivalent of the `Mage_Sales_Model_Order` model.  It handles items, addresses, shipping, payment info and creating new quotes from existing orders.
 
-## Calculating Price on Admin Orders
+### Calculating Price on Admin Orders
 
 The widget is used to add products to the order.  This is then posted to the backend which is added to the order model in `Mage_Adminhtml_controllers_Sales_Order_CreatController`
 
@@ -101,19 +103,25 @@ public function saveQuote()
 ?>
 ```
 
-## Editing Orders
+### Editing Orders
 
 An order cannot be edited, rather a new order is created with the required changes made. Therefore, editing orders are treated in much the same as creating orders.  The edit controller actually extends the create controller.  The form fields are populated with the stored data from the saved order and it works exactly the same as the create action.
 
-
-## Order States and Statuses
-
-An order state can have one or more order statuses.  A status can only have one state. For example, the `pending_review` state has both the `fraud` and `payment_review` statuses.
+Order can also be re-ordered, which copies the information from an existing order into a new quote.
 
 
-## Card Operations
+### Order States and Statuses
 
-These are the classes and methods that are responsible for credit card operations, e.g. authorization and capturing.
+Magento uses order state to determine what state the order is in.  Store admins can use order statuses to give more information on the states (e.g. whether a "New" state order is prepaid or cash on delivery).  
+
+A status can only have one state. For example, the `pending_review` state has both the `fraud` and `payment_review` statuses.  New statuses can be added in the admin interface and assigned to a state.
+
+## Payment Operations
+
+These are the classes and methods that are responsible for payment operations, e.g. authorization and capturing credit cards.
+
+*Capture* acquires the funds for an invoice, based on the specific payment method. While *Pay* is the method where the totals are updated on the invoice.
+
 
 ### `Mage_Sales_Model_Order_Invoice`
 
@@ -144,11 +152,6 @@ The payment information model.  It is inherited by `Mage_Sale_Model_Order_Paymen
 
 The payment methods all inherit this. By default, they include Cc, Checkmo, Free and several others. Validation is performed here, which can be specific to the payment method, e.g. Cc, or handled in the abstract method, e.g. Checkmo.
 
-
-## Pay versus Capture
-
-*Capture* acquires the funds for an invoice, based on the specific payment method. While *Pay* is the method where the totals are updated on the invoice.
-
 ## Saving to database
 
 ### Invoices
@@ -157,19 +160,37 @@ Invoice information is stored in several tables in the database.  `additional_in
 
 ### Shipping and Tracking
 
-The models which are used to control this are `Mage_Sales_Model_Order_Shipment` and `Mage_Sales_Model_Order_Shipment_Track`.
+Shipments can be created from Admin.  It is controlled by the `Mage_Adminhtml_Sales_Order_ShipmentController`.  The models which are used to control this are `Mage_Sales_Model_Order_Shipment` and `Mage_Sales_Model_Order_Shipment_Track`.
+
+The data is stored in the `sales_flat_shipment` and other related tables.
+
+Multiple shipments can be created for an order and can be directed to multiple addresses but only for multi-shipping orders.
 
 ## Refunds
 
-`Mage_Sales_Model_Order_Creditmemo` handles refunds on an order.  Each payment method needs to specify if it can perform refunds and provide a method to do so.  If the method allows for online refunds, the refund will be automated and processed by the method.  Whereas offline refunds will need to be actioned outside of Magento after an order has been cancelled.
+Order refunds are handled in the `Mage_Adminhtml_Sales_Order_CreditmemoController`, which uses `Mage_Sales_Model_Order_Creditmemo` to process refunds.  Refunds are stored in the `sales_flat_creditmemo` and related tables.
+
+Each payment method needs to specify if it can perform refunds and provide a method to do so.  If the method allows for online refunds, the refund will be automated and processed by the method.  Whereas offline refunds will need to be actioned outside of Magento after an order has been cancelled.
+
+Credit memo totals keep track of the amount being refunded for each part of the order (items, tax, shipping, total, etc.) The order totals get set from them.
 
 Taxes on refunds are processed as configured in admin, i.e on origin, billing or shipping address.
 
 ## Partial Order Operations
 
+There are three types of partial operations in Magento orders: invoice, shipping and refund.  Partial means they can affect only part of an order (e.g. two out of five items shipped).  All of these operations set the order to be in processing with the `setIsInProcess()` method.   
+
+Before saving, an order checks its state.  If all operations have been completed fully, it marks itself complete. Otherwise, if `is_in_process` flag is set , it moves to processing state.
+
+Each of the partial operations has its own models and tables to store the data, associating with the order through `order_id` and manipulating the order totals block.
+
 ## Cancel
 
-An order can be cancelled when it is in the pending or processing state but not after it has been invoiced.
+Magento orders an be cancelled until all items have been invoices, e.g. during the pending or processing state.  This automatically cancels payment and order items (which just set cancelled tax amounts on the item).  Invoices can be cancelled, returning order totals to pre-invoice state.  Same goes for credit memos. Only shipments cannot be cancelled.
+
+In most cases when operations are cancelled, tax amounts are returned to the way they were before the operation (just like other price data).  In case of an order, all the cancelled amounts are set to total invoices (whatever has not been invoiced yet is cancelled). 
+
+Invoices and credit memos cannot be cancelled from the interface, even through the functionality was implemented.
 
 <ul class="navigation">
     <li class="prev"><a href="/checkout.html">&larr; Checkout</a>
