@@ -28,6 +28,11 @@ There are six different product types built-in to Magento.
 
 Most product types are implemented as part of the `Mage_Catalog` module, apart from `Mage_Bundle` and `Mage_Downloadable`.
 
+
+Grouped, Bundle and Configurable products implement a parent-child relationship where a number of other (by default, simple, virtual or downloadable) products get assigned to a main product.  This then handles the product data for the whole collection (e.g. group, bundle, or configurable product name, price and status).
+
+Downloadable and Bundle products have extra tables in the database, meanwhile the rest are shared amongst all other product types.  Configurable products have an extra table to link to child products, `catalog_product_super_link`.
+
 ### Custom Product Type
 
 To create an product type that extends a pre-available product type, this should be done by extending the relevant model. Otherwise the abstract product model should be inherited `Mage_Catalog_Model_Product_Type_Abstract`. 
@@ -55,17 +60,23 @@ More complicated products may require other customised areas such as price model
 
 ### Price Calculation
 
-Price calculation is handled in `Mage_Catalog_Model_Product_Type_Price` by default.  Some types deal with it differently.  In which case they just extend this class and implement their own logic.  For example, the configurable product overwrites `getFinalPrice()` and adds additional logic.  This custom model can then be specified in `config.xml` with a `<price_model>` tag.
+When dealing with a single product, the price is always calculated on the fly.  The price EAV attribute is loaded with the product and final price is calculated by the price model, `Mage_Catalog_Model_Product_Type_Price`.
 
-Product type affects price index and stock index where products can defined their own custom indexers (in `config.xml`) to handle their data for these indexes.
+Some product types deal with it differently.  In which case they extend this class and implement their own logic.  For example, the configurable product overwrites `getFinalPrice()` and adds additional logic.  This custom model can then be specified in `config.xml` with a `<price_model>` tag.
+
+Product collections, however, use the price index to retrieve pre-calculated prices, eliminating the need to calculate it for each product. 
+
+Final price can be adjusted by the observers of the `catalog_product_get_final_price` event.  By default, only the `Maget_CatalogRule` module observes this event.
+
+Another method to override produce price is to simply set it on the product.  If the price is set, the product will not recalculate it.
+
+Product tier price is separate for normal price (although taken into account when calculating price).  It's implemented as a list with a customer group and minimum quantity qualifiers for each tier.   Tier prices are displayed in a table, using the `catalog/product/view/tierprices.phtml` template.
+
+Custom product options get processed when calculating final price.  Each option has its own price defined, which gets added to the final price.
+
+Group, tier and special prices all get considered at the same time (`$priceModel->getBasePrice()`) and the smallest one of the three (or four if you include the regular price) is chosen as the base product price.
 
 The `Mage_Tax` module uses a product's tax class and whether or not the product price is inclusive or exclusive of tax in order to identify the correct rate to apply.
-
-### Database Tables
-
-Most product types share database tables apart from the product types that were shipping as separately modules, i.e. Bundle and Downloadable.
-
-Magento can index the product EAV tables and create flat versions of them for speed.  The indexers are run each time a product is saved and the relevant rows in the flat tables are updated.
 
 ### Layered Navigation
 
@@ -80,15 +91,24 @@ To implement layered navigation on attributes with custom source models the `Mag
 
 ## Categories
 
-## Categories in the Database
+### Categories in the Database
 
-Category hierarchy is managed by storing a category's parent id. The full hierarchy is shown in the `path` column.  There is a special category with parent_id of `0`. This is the true root category and each of the other *root* categories as defined in Magento use this as a shared parent.
+Category hierarchy is managed by storing a category's parent id. The full hierarchy is shown in the `path` column (slash separated IDs).  There is a special category with `parent_id` of `0`. This is the true root category and each of the other *root* categories as defined in Magento use this as a shared parent.
 
 To read and manage a category tree from the database two different classes are used depending if flat catalog is enabled, `Mage_Catalog_Model_Resource_Category_Tree` and `Mage_Catalog_Model_Resource_Category_Flat`.
 
 The advantage of flat categories is that it is quicker to query. However, it needs to be rebuilt from the EAV tables each time there is a change.
 
-## Children Categories
+- `getChildren()`
+	- return comma separated string of immediate children IDs
+- `getAllChildren()`
+	- return a string or array of all children IDs
+- `getChildrenCategories()`
+	- return a collection of immediate chidren categories
+
+N.B. If flat catalog is enabled, the only child categories returned will be ones with `include_in_menu = 1`.  In both cases, only active categories are returned.
+
+### Children Categories
 
 There are two methods to find the children of a category
 
@@ -97,7 +117,7 @@ There are two methods to find the children of a category
 - `getChildrenCategories()`
 	- Returns `Mage_Catalog_Model_Resource_Category_Collection`
 
-## Catalog Price Rules
+### Catalog Price Rules
 
 When `getFinalPrice()` is called on a product an event is fired.  This event, `catalog_product_get_final_price` is observed the `Mage_CatalogRule_Model_Observer` which will then look for any catalog price rule that applies to the product.  If it needs, it then looks at the database price table and writes the price back to the product model as a Varien data field `final_price`.
 
@@ -106,7 +126,12 @@ Within the database, the `catalogrule` table describes rules, their conditions a
 
 ## Indexing
 
-The `Mage_Index` module provides a framework with which custom indexes can be created to help optimise the performance of the site.  The class that needs to be extended is `Mage_Index_Model_Resource_Abstract`.
+Magento can index the product EAV tables and create flat versions of them for speed.  The indexers are run each time a product is saved and the relevant rows in the flat tables are updated.
+
+The `Mage_Index` module provides the framework with which custom indexes can be created to help optimise the performance of the site.  The class that needs to be extended is `Mage_Index_Model_Resource_Abstract`.
+
+Product type affects price index and stock index where products can defined their own custom indexers (in `config.xml`) to handle their data for these indexes.
+
 
 <ul class="navigation">
     <li class="prev"><a href="/eav.html">&larr; EAV</a>
