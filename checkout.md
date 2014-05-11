@@ -11,7 +11,7 @@ Exam proportion: 16%.
 
 ## Quotes
 
-Magento uses the quote model to store information about an order before it is places.  It contains:
+Magento uses the quote model to store information about an order before it is completed by a customer.  It contains:
 
 - Customer information
 - Items to be ordered
@@ -177,14 +177,16 @@ Most of the payment method parameters can usually be customised in System Config
 
 Payment information gets added to methods using the `Mage_Sales_Model_Quote_Payment::importData($data)` method and is called by the `savePayment()` method in the onepage checkout.  This fires the `sales_quote_payment_import_data_before` event before called `assignData($data)` method on the payment method model.  By observing this event, the data can be modified before it gets stored in the method.
 
-Payment methods implement the logic of a particular method of payment, e.g. processing credit carts.  Meanwhile, payment models manage payment methods within a quote or order and handle payment related operations such as capturing payment or refunds.  
+Payment methods implement the logic of a particular method of payment, e.g. processing credit carts.  Meanwhile, payment models manage payment methods within a quote or order and handle payment related operations such as capturing payment or refunds.
 
-### Billing Agreements
+Payment methods modules typically include a few blocks to display payment forms on the checkout, e.g. credit card forms, and controllers to handle redirecting to any payment gateways.  
 
-To make use of billing agreements within a payment method, the billing agreement data needs to be set on a payment model,
+Billing agreements are built in to Magento.  Payment methods have to the the billing agreement ID on the payment object with:
 
 ```php
-<?php $payment->setBillingAgreementData($data); ?>
+<?php 
+    $order->getPayment()->setBillingAgreementData($data); 
+?>
 ```
 
 <ul class="navigation">
