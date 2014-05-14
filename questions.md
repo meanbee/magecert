@@ -23,7 +23,7 @@ noToc: true
 - [Describe class group configuration and use in factory methods](/basics.html#factory-methods)
 - [Describe the process and configuration of class overrides in Magento](/basics.html#overrides)
 - [Register an Observer](/basics.html#observer)
-- [Identify the function and proper use of automatically available events, including *_load_after, etc.](/basics.html#automatic-events)
+- [Identify the function and proper use of automatically available events.](/basics.html#automatic-events)
 - [Set up a cron job](/basics.html#cron-jobs)
 
 ### Internationalization
