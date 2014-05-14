@@ -153,7 +153,8 @@ The default attribute frontend model is `Mage_Eav_Model_Entity_Attribute_Fronten
 
 The default attribute backend model depends on the attribute code and is determined in the method `Mage_Eav_Model_Entity_Attribute::_getDefaultBackendModel()`.
 
-```
+```php
+<?php
     protected function _getDefaultBackendModel()
     {
         switch ($this->getAttributeCode()) {
@@ -172,6 +173,7 @@ The default attribute backend model depends on the attribute code and is determi
 
         return parent::_getDefaultBackendModel();
     }
+?>
 ```
 If the method falls through to the last line `Mage_Eav_Model_Entity_Attribute_Backend_Default` is used.  
 
