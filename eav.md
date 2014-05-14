@@ -132,9 +132,8 @@ Default system configuration source models can be found in ´Mage/Adminhtml/Mode
 
 ### Attribute Source Models
 
-If a source model is not specified for an attribute in the database it gets a default one, which depends on the attribute code.
-See 
-
+The purpose of Attribute Source Models is to supply the list of options and values for select and multiselect attribtues.  
+They also supply the column information to the catalog flat table indexer if required.  
 To get a list of all options for an attribute, perform the following:
 
 ```php
