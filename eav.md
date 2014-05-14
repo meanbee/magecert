@@ -43,36 +43,13 @@ Standard models mainly manage their properties with data setters and getters wor
 
 ### EAV Resource Model Examples
 
-There are a sizeable number of resource models that use EAV
+To find entities using the EAV storage schema searching for the string `extends Mage_Eav_Model_Entity_Abstract` can be used.  
+This should reveal all resource models based on the EAV structure.    
+However, the resulting list will include many obsolete classes from the `Mage_Sales` module that no longer are being used.  
 
-- Customer
-- Customer Address
-- Customer Payment
-- Order
-- Order Status
-- Order Address
-- Order Item
-- Order Payment
-- Catalog Category
-- Catalog Product
-- Quote
-- Quote Address
-- Quote Address Rate
-- Quote Address Item
-- Quote Item
-- Quote Payment
-- Order Status History
-- Invoice
-- Invoice Item
-- Invoice Shipment
-- Invoice Comment
-- Shipment
-- Shipment Item
-- Shipment Comment
-- Shipment Track
-- Credit Memo
-- Credit Memo Item
-- Credit Memo Comment
+The only modules containing entities using the EAV storage schema are `Mage_Catalog` (categories and products) and `Mage_Customer` (customers and addresses). 
+
+Customer Groups use the flat table storage schema. All the sales entities where converted to flat table entities with the release of Magento 1.4.
 
 The reason that EAV is used is so that they can have an undetermined number of properties and therefore remain flexible.
 
@@ -85,15 +62,15 @@ The reason that EAV is used is so that they can have an undetermined number of p
 ### Disadvantages
 
 - Inefficient
-	- A query returning 20 columns normally would consist of 20 self joins in EAV.
-- By default uses varchar for all values
-	- Meanwhile Magento provides a different table for different value types but will still have performance overheads.
+	- A query returning 20 columns normally would consist of 20 self joins in EAV. However, the Mage_Eav module generally does not use joins to load the attribute value data. Instead union selects are used. Joins are only used for filtering EAV collections.
 - No mechanism for relationships between subtypes
 - No grouping of entity subtypes
 
 ### Website and Store Scopes
 
-To handle website and store scope attribute values within EAV a `store_id` value exists on the entity and this is used to show scope which link back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store the system will first check for an entity value on the current store and then fall back to the global entity. 
+To handle website and store scope attribute values within EAV a `store_id` value exists on the catalog entity and this is used to show scope which link back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store the system will first check for an entity value on the current store and then fall back to the global entity.  
+Mage_Customer EAV entities do not have a `store_id` scope column.
+
 
 ### Insert Versus Update
 
@@ -122,8 +99,9 @@ A source model requires:
 	public function getOptionText($value);
 ?>
 ```
+Usually only `getAllOptions()` needs to be implemented though since an implementation for `getOptionText()` already exists in the abstract source model ´Mage_Eav_Model_Entity_Attribute_Source_Abstract`. 
 
-A frontend model does not require any methods in particular.
+A frontend model does not requires the method `getValue()`.
 
 A backend model requires:
 
@@ -141,24 +119,21 @@ A backend model requires:
 	public function beforeDelete($object);
 	public function afterDelete($object);
 	public function getEntityValueId($entity);
-	public function setEnttiyValidId($entity, $valudId);
+	public function setEntityValidId($entity, $valueId);
 ?>
 ```
+All these methods are implemented in the abstract backend model `Mage_Eav_Model_Entity_Attribute_Backend_Abstract`. For custom backend models only the methods requiring customization need to be overridden.
 
 ### System Configuration Source Models
 
 Cannot be used for EAV attributes.  EAV source models implement the `getAllOptions` method while adminhtml source models implement the `toOptionArray()` method.
 
-The default models used are:
-
-- `Mage_Eav_Model_Entity_Attribute_Frontend_Default`
-- `Mage_Eav_Model_Entity_Attribute_Backend_Default`
-- `Mage_Eav_Model_Entity_Source_Config`
-
+Default system configuration source models can be found in ´Mage/Adminhtml/Model/System/Config/Source/`.
 
 ### Attribute Source Models
 
-If a source model is not specified for an attribute in the database it gets a default one, which populates options from the `config.xml` or it is empty. 
+If a source model is not specified for an attribute in the database it gets a default one, which depends on the attribute code.
+See 
 
 To get a list of all options for an attribute, perform the following:
 
@@ -170,6 +145,40 @@ To get a list of all options for an attribute, perform the following:
 	$options = $_attribute->getSource()->getAllOptions(true, true);
 ?>
 ```
+
+### Default Attribute Models
+
+If no class is specified as a frontend, backend or - for select or multiselect attributes - source models, a default class is used.  
+
+The default attribute frontend model is `Mage_Eav_Model_Entity_Attribute_Frontend_Default`.  
+
+The default attribute backend model depends on the attribute code and is determined in the method `Mage_Eav_Model_Entity_Attribute::_getDefaultBackendModel()`.
+
+```
+    protected function _getDefaultBackendModel()
+    {
+        switch ($this->getAttributeCode()) {
+            case 'created_at':
+                return 'eav/entity_attribute_backend_time_created';
+
+            case 'updated_at':
+                return 'eav/entity_attribute_backend_time_updated';
+
+            case 'store_id':
+                return 'eav/entity_attribute_backend_store';
+
+            case 'increment_id':
+                return 'eav/entity_attribute_backend_increment';
+        }
+
+        return parent::_getDefaultBackendModel();
+    }
+```
+If the method falls through to the last line `Mage_Eav_Model_Entity_Attribute_Backend_Default` is used.  
+
+The default source model is set in `Mage_Eav_Model_Entity_Attribute_Source_Table`. This is set in the catalog modules attribute model. The default config source model specified in the eav module is never used. 
+
+
 
 ### Add Attribute
 
