@@ -11,3 +11,5 @@ Thanks for contributions from:
 - [Martin Shaw](http://twitter.com/shawtobot)
 - [Tomas Gerulaitis](http://twitter.com/tgerulaitis)
 - [Tom Robertshaw](http://twitter.com/bobbyshaw)
+- [Vinai Kopp](http://twitter.com/vinaikopp)
+
