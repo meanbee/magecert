@@ -30,7 +30,7 @@ Exam proportion: 7%.
 
 ### Include Path & Autoloader Registration
 
-The include path is set up and the autoloader is registered when the `Mage.php` file is included in `index.php`.  Shortly after this occurs the autoloader is registered with `spl_autoloader_register`.
+The include path is set up and the autoloader is registered when the `Mage.php` file is included in `index.php`.  Shortly after this occurs the autoloader is registered with `spl_autoload_register`.
 
 ### Loading Magento Module and Database Configuration
 
