@@ -102,7 +102,7 @@ The front controller performs the routing of the request to the appropriate cont
 	- Fired before adding the routers.  It is useful for adding a router that takes precedence over any others.
 - `controller_front_init_routers`
 	- Fired after adding the routers, but before the default router is added.  It is useful for adding general routers or modifying existing ones.
-- `controller_front_send_response`
+- `controller_front_send_response_before`
 	- Fired before the response is sent out.  It is useful for modifying the response data after the dispatch.
 - `controller_front_send_response_after`
 	- Fired after the response is sent out.  It is useful for performing any tear down operations after the request has been dealt with.
