@@ -21,8 +21,8 @@ Magento's hierarchical structured themes means that a base theme can be extended
 
 Themes can be configured in two ways:
 
-1. Per store under `System > Design`
-2. Design change with time limits `System > Configuration > Design`.
+1. Per store under `System > Configuration > Design`.
+2. Design change with time limits `System > Design`.
 3. Theme exceptions can also be set on a category and product level.
 
 ## Package versus Theme
