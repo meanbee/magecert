@@ -94,7 +94,7 @@ The request object is initialised in `Mage_Core_Model_App` and the `_initRequest
 
 ### Role
 
-The front controller performs the routing of the request to the appropriate controller.  It loops over all of the registered routers, passing the request to each one of them to be matches against a controller capable of handling it.  After the request has been dispatched, the front controller sends the response to the client.
+The front controller performs the routing of the request to the appropriate controller.  It loops over all of the registered routers, passing the request to each one of them to be matched against a controller capable of handling it.  After the request has been dispatched, the front controller sends the response to the client.
 
 ### Events
 
@@ -179,7 +179,7 @@ Before dispatch, request module, controller, action and parameters are set.  The
 
 The store design (`core/design_package`) is initialised in the controller `preDispatch()` method.  The package and theme configuration is then determined by the `Mage_Core_Model_Design`.
 
-Layout files get read (`$layout->gteUpdate()->load()`) when the controller calls `$this->loadLayout()`.  The same method also compiles the layout (`$layout->generateXml()`) which processes the layout directives.
+Layout files get read (`$layout->getUpdate()->load()`) when the controller calls `$this->loadLayout()`.  The same method also compiles the layout (`$layout->generateXml()`) which processes the layout directives.
 
 Output is rendered when the controller calls `$this->renderLayout()`, which calls each of the blocks defined to output data e.g. `output="toHtml"` in the definition, and merged their output into the response body.
 

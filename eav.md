@@ -33,13 +33,13 @@ Important to note that `eav_entity_varchar` table has the type `varchar` for val
 
 All the models inside `Mage/Eav/Model/Resource` are Mysql4 and are resource models.
 
-In addition `Enttity/Abstract.php` and `Entity/Setup.php`.
+In addition `Entity/Abstract.php` and `Entity/Setup.php`.
 
 ### Flat Versus EAV
 
-The EAV models are more complex, providing logic to save and load from multiple tables, whereas the flat models are relatively straightforward (traditional).
+The EAV models are more complex, providing logic to save and load from multiple tables, whereas the flat or standard models are relatively straightforward (traditional).
 
-Standard models mainly manage their properties with data setters and getters working with a single table.  EAV models mainly manage their attribute models.  Standard models only save their data to a table and load from it.  EAV models load all (or a specific set) or attributes after loading base data and save attributes after saving data (including inserting, updating and deleting attributes).
+Standard models mainly manage their properties with data setters and getters working with a single table.  EAV models mainly manage their attribute models.  Standard models only save their data to a table and load from it.  EAV models load all (or a specific set) attributes after loading base data and save attributes after saving data (including inserting, updating and deleting attributes).
 
 ### EAV Resource Model Examples
 
@@ -51,7 +51,7 @@ The only modules containing entities using the EAV storage schema are `Mage_Cata
 
 Customer Groups use the flat table storage schema. All the sales entities where converted to flat table entities with the release of Magento 1.4.
 
-The reason that EAV is used is so that they can have an undetermined number of properties and therefore remain flexible.
+The reason that EAV is used is so that entities can have an undetermined number of properties and therefore remain flexible. For example, when you add a new attribute to a Customer entity (which is an EAV entity), the database table does not need to be altered for this new attribute to be added.
 
 ### Advantages
 
@@ -99,7 +99,7 @@ A source model requires:
 	public function getOptionText($value);
 ?>
 ```
-Usually only `getAllOptions()` needs to be implemented though since an implementation for `getOptionText()` already exists in the abstract source model ´Mage_Eav_Model_Entity_Attribute_Source_Abstract`. 
+Usually only `getAllOptions()` needs to be implemented though since an implementation for `getOptionText()` already exists in the abstract source model `Mage_Eav_Model_Entity_Attribute_Source_Abstract`. 
 
 A frontend model does not requires the method `getValue()`.
 
@@ -128,12 +128,12 @@ All these methods are implemented in the abstract backend model `Mage_Eav_Model_
 
 Cannot be used for EAV attributes.  EAV source models implement the `getAllOptions` method while adminhtml source models implement the `toOptionArray()` method.
 
-Default system configuration source models can be found in ´Mage/Adminhtml/Model/System/Config/Source/`.
+Default system configuration source models can be found in `Mage/Adminhtml/Model/System/Config/Source/`.
 
 ### Attribute Source Models
 
-The purpose of Attribute Source Models is to supply the list of options and values for select and multiselect attribtues.  
-They also supply the column information to the catalog flat table indexer if required.  
+The purpose of Attribute Source Models is to supply the list of options and values for select and multiselect attributes.  They also supply the column information to the catalog flat table indexer if required.
+
 To get a list of all options for an attribute, perform the following:
 
 ```php

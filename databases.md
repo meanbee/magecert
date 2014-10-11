@@ -118,7 +118,7 @@ Firstly a check for uniqueness is performed.  This queries the database to check
 
 The data then needs to be prepared for insertion or update. This is performed in the `prepareDataForSave()` method.  This calls `DESCRIBE` on the table to identify the column types and sanitise the input accordingly.  This description is, of course, cached.  This is the reason that cache needs to be cleared if schema changes are made.
 
-The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is useful performed by checking for the existence of the primary key by called `$model->getId() == null`, and here is no exception.  f there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After performing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
+The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is useful performed by checking for the existence of the primary key by called `$model->getId() == null`, and here is no exception.  If there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After performing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
 
 If there was an ID specified on the model when save was called, it's either because an update to a model is being saved or because the ID of the model is not controlled by the database with an auto-increment. If the flag `_isPkAutoIncrement` is set then an `UPDATE` can be used.  Otherwise the database needs to be checked for an existing record with this key.  An `UPDATE` occurs if there is, otherwise an `INSERT` is used.
 
@@ -163,7 +163,7 @@ The first method goes through the collection interface, which could perform addi
 
 ### Setup, Read and Write Database Resources
 
-Resource models request a specific type of database connection they require.  The different types are defined to allow for different permissions over the database. For example read for read-only connection, write for changing data and setup for resource intensive setup processes.  However, in practice, all of Magento's connection resources inherit from the `default_setup` resource, so they all use the same connection.
+Resource models request a specific type of database connection they require.  The different types are defined to allow for different permissions over the database. For example, read for read-only connection, write for changing data, and setup for resource intensive setup processes.  However, in practice, all of Magento's connection resources inherit from the `default_setup` resource, so they all use the same connection.
 
 ## Install and Upgrade Scripts
 
@@ -195,7 +195,7 @@ The scripts use the following naming scheme:
 - `data-install-{version}.php`
 - `data-upgrade-{from_version}-{to_version}.php`
 
-In older version of Magento the install/upgrade script name would be prefixed by resource type, e.g. mysql4.
+In older versions of Magento, prior to Magento CE 1.6 and Magento EE 1.11, the install/upgrade script name would be prefixed by resource type, e.g. mysql4.
 
 
 If the module is not present in the database, the Setup Model will install the module by first running the latest install script and then the upgrade scripts since the install script version.
@@ -213,6 +213,8 @@ The base setup classes for flat tables and EAV entities are `Mage_Core_Model_Res
 
 Methods that are generally available in setup scripts are
 
+- `startSetup()`
+- `endSetup()`
 - `getTable()`
 - `setTable()`
 - `updateTable()`
