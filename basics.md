@@ -13,7 +13,7 @@ Exam proportion: 6%.
 
 Magento uses Object Oriented Programming (OOP) as its programming paradigm which consists of *classes*, *objects* and *methods*.  It also uses the Model-View-Controller (MVC) design pattern.
 
-Magento makes use of an Event Driven Architecture (EDA).  This is were components of the system or either producers or consumers of events.  An EDA allows for loosely coupled, distributed software modules and is, by its nature, a reactionary system that performs actions based on stimuli.
+Magento makes use of an Event Driven Architecture (EDA).  This is where components of the system are either producers or consumers of events.  An EDA allows for loosely coupled, distributed software modules and is, by its nature, a reactionary system that performs actions based on stimuli.
 
 
 ### Design Patterns
@@ -98,7 +98,7 @@ Arguments can be passed to models created through factories by using a second ar
 <?php
     $instance = Mage::getModel('prefix/model', array(
         `argument_one` => $value_one,
-        `argument_one` => $value_two
+        `argument_two` => $value_two
     ));
 ?>
 ```
@@ -114,7 +114,7 @@ Magento is split up into three code pools.
 - Core
 	- Contains core modules developed by Magento.
 - Community
-	- The location of third party modules (extension) that are packaged and released.
+	- The location of third party modules (extensions) that are packaged and released.
 - Local
 	- Installation specific modules, customisations and overrides.
 
@@ -153,14 +153,14 @@ Contains the module configuration and code.  This includes:
 
 `app/design/{area}/{package}/{theme}/`
 
-Layout and template files are organised into folders by store area, package (theme namespace) and theme. Inside the layout files and template files are separated into `layout/` and `template/` directories respectively.
+Layout and template files are organised into folders by store area, package (theme namespace) and theme. Inside, the layout files and template files are separated into `layout/` and `template/` directories respectively.
 
 
 <h3 id="skin-javascript">Magento Skin and JavaScript files location</h3>
 
 `skin/{area}/{package}/{theme}`
 
-Same as with template files, most Magento assets (js, css and images) are organised by store area, package and theme. Inside, the convention is to put different types of assets into their own folders, but it is not enforced.
+As with template files, most Magento assets (js, css and images) are organised by store area, package and theme. Inside, the convention is to put different types of assets into their own folders, but it is not enforced.
 
 `js/`
 
@@ -175,7 +175,7 @@ Contains theme independent JavaScript files and other assets (e.g. css, images),
 
 <h3 id="naming-conventions">Class Naming Conventions and Autoloader</h3>
 
-Magento include path is set to look for files in all of the code pools (`core`, `community` and `local` inside `app/code`) and libraries (`lib/` directory). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
+Magento's include path is set to look for files (`app/code`) and libraries (`lib/`) in each of the code pools (`core`, `community` and `local`). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
 
 ```php
 <?php
@@ -189,22 +189,22 @@ public function autoload($class)
 ```
 
 
-Therefore the class naming convention for most Magento classes is:
+The class naming convention for most Magento classes is:
 
 `{Namespace}_{Module name}_{Object type}_{Object name}`
 
 <h3 id="conflict-resolution">Module Conflict Resolution</h3>
 
-Magento modules can conflict in three different ways:
+Conflicts can arise in three ways:
 
 - Configuration conflicts
-	- Two modules could be extending the same class or making configuration changes in the same areas. You can force one to take precedence over the other with a `<depends>` dependency tag in the module declaration, forcing on module to always be loaded before the other.
+	- Two modules could be extending the same class or making configuration changes in the same areas. You can specify precedence explicity with a `<depends>` dependency tag in the module declaration; forcing one module to always be loaded before the other.
 
 - Rewrite conflicts
-	- Magento models and blocks can only be rewritten once in `config.xml`. If a module is rewriting a model that has already been rewritten, the first rewrite will be eliminated. This can be resolved by extending the first rewrite within the second one to make sure the changes are still being applied.
+	- Magento models and blocks can only be rewritten once in `config.xml`. But we can sequence rewrites (ensuring that both changes are applied) by extending the first rewrite within the second.
 
 - Theme conflicts
-	- Modules can make changes to the layout, moving, removing and replacing blocks or changing their templates.  Investigate the templates and module configuration to find the cause of the conflict.
+	- Changing the layout (moving, removing and replacing blocks, or changing their templates) can introduce conflicts if other modules are expecting a particular structure.  Investigate the templates and module configuration to locate the causes and resolve them.
 
 
 ## Magento Configuration
@@ -249,7 +249,7 @@ Object classes can be overridden in configuration using the following syntax:
 </config>
 ```
 
-This indicates to the factory methods that the specified class should be used instead of the usual class the object should resolve to.
+This indicates to the factory methods that the specified class should be used instead of the usual class the object would resolve to.
 
 <h3 id="observer">Register an Observer</h3>
 
@@ -262,9 +262,9 @@ Observers are registered in Magento using the following syntax:
             <{event name}>
                 <observers>
                     <{observer name}>
-                        <type></type>
-                        <class></class>
-                        <method></method>
+                        <type>{type}</type>
+                        <class>{class}</class>
+                        <method>{method}</method>
                     </{observer name}>
                 </observers>
             </{event name}>
@@ -273,13 +273,13 @@ Observers are registered in Magento using the following syntax:
 </config>
 ```
 
-This requires specifying the area of the event listened to (`frontend`, `adminhtml` or `global`), the event being listened to, the observer identifier (unique name), the observer object type (e.g. singleton model), the class used and the method to call.
+This requires specifying the `area` of the event listened to (`frontend`, `adminhtml` or `global`), the `event` being listened to, the `observer identifier` (unique name), the observer object `type` (e.g. singleton model), the `class` used and the `method` to call.
 
 <h3 id="automatic-events">Function and use of automatically available events</h3>
 
 Magento dispatches a number of events automatically that can be observed, e.g. `*_save_before` and `*_load_after`.  
 
-This provides us with the ability to modify models before saved to the database and also modifying a model after it's reloaded data from the database.
+This provides us with the ability to modify models at the point before they are saved to the database or to modify a model immediately after its data has been retrieved from the database.
 
 <h3 id="cron-jobs">Cron Jobs</h3>
 
@@ -290,9 +290,9 @@ Crons jobs are defined in Magento using the following syntax:
     <crontab>
         <jobs>
             <{cronjob identifier}>
-                <schedule></schedule>
+                <schedule>{schedule}</schedule>
                 <run>
-                    <model></model>
+                    <model>{grouped class name}::{method name}</model>
                 </run>
             </{cronjob identifier}>
         </jobs>
@@ -300,11 +300,11 @@ Crons jobs are defined in Magento using the following syntax:
 </config>
 ```
 
-The cron job schedule can either be a cron schedule expression (inside a `<cron_expr>` tag) or a configuration path (inside a `config_path` tag) where the crons schedule expression is stored.  The `<model>` tag defines the function to execute in the format `{grouped class name}::{method name}`.
+The cron job `schedule` can either be a cron schedule expression (inside a `<cron_expr>` tag) or a configuration path (inside a `config_path` tag) where the crons schedule expression is stored.  The `<model>` tag defines the function to execute in the format `{grouped class name}::{method name}`.
 
 ### Loading active modules
 
-Magento loads all `*.xml` files from `app/etc/modules` to find a list of installed modules.  It identifies whether they are active and where their full configuration is located (`<codepool>`).
+Magento creates a central list of installed modules by loading all all `*.xml` files within `app/etc/modules`.  It records whether they are active and the location of their full configuration (`<codepool>`).
 
 ```xml
 <?xml version="1.0" ?>
@@ -342,7 +342,7 @@ Store views are typically used for internationalisation in Magento, with each on
 
 In template files `$this->__('Translate Me')` method is used to manage translatable text.  This is then handled by `Mage_Core_Helper_Data` and `Mage_Core_Model_Translate`. 
 
-Before outputting this string it is checked against a number of locations for transactions.  The priority for translations are in this order:
+Before outputting this string it is checked against a number of locations.  The priority for translations are in this order:
 
 1. Inline
     - The `core_translate` database table
@@ -363,11 +363,11 @@ Module scope translation:
 
 To make use of the internationalisation, a store view with appropriate configurations should be initialised.  Two ways that this can be handled is by sub-domain e.g. `fr.example.com` and sub-directory, e.g. `example.com/fr`.
 
-There are advantages and disadvantages of each. Subdomains are slightly easier for linking content, 
+There are advantages and disadvantages of each. But in general, sub-domains and sub-directories achieve the same effect.
 
-One advantage of sub-domains is that they can be hosted on separate servers which can particular be useful for geo-located boxes matching the store view language.
+Sub-domains are slightly easier for linking content.Another advantage of sub-domains is that they can be hosted on separate servers. This can be ideal for geo-locating boxes by country or region according to the language served per store view.
 
-An advantage of sub-directories is that all pages will contribute to SEO efforts for the single domain but the URLs aren't so clean. Other than that, both sub-domains and sub-directories have similar effect.
+With sub-directories, we strengthen name-recognition for the primary domain. And enjoy the benefit that all store views are contributing to SEO efforts by raising total hits for the store brand. But we sacrifice the opportunity for cleaner URLs with localized domain branding. (e.g., http://amazon.com and http://amazon.de vs. http://amazon.com and http://amazon.com/germany)
 
 See even more info in [Belvg's post](http://blog.belvg.com/magento-certified-developer-exam-internationalization.html) on the subject.
 
