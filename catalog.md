@@ -35,7 +35,7 @@ Downloadable and Bundle products have extra tables in the database, meanwhile th
 
 ### Custom Product Type
 
-To create an product type that extends a pre-available product type, this should be done by extending the relevant model. Otherwise the abstract product model should be inherited `Mage_Catalog_Model_Product_Type_Abstract`. 
+To create a product type that extends one of the built-in product types, the corresponding product type model should be extended. Otherwise the new product type should extend the `Mage_Catalog_Model_Product_Type_Abstract` class. 
 
 An entry in the module's `config.xml` is also required:
 
@@ -66,11 +66,11 @@ Some product types deal with it differently.  In which case they extend this cla
 
 Product collections, however, use the price index to retrieve pre-calculated prices, eliminating the need to calculate it for each product. 
 
-Final price can be adjusted by the observers of the `catalog_product_get_final_price` event.  By default, only the `Maget_CatalogRule` module observes this event.
+Final price can be adjusted by the observers of the `catalog_product_get_final_price` event.  By default, only the `Mage_CatalogRule` module observes this event.
 
 Another method to override produce price is to simply set it on the product.  If the price is set, the product will not recalculate it.
 
-Product tier price is separate for normal price (although taken into account when calculating price).  It's implemented as a list with a customer group and minimum quantity qualifiers for each tier.   Tier prices are displayed in a table, using the `catalog/product/view/tierprices.phtml` template.
+Product tier price is separate from normal price (although taken into account when calculating price).  It's implemented as a list with a customer group and minimum quantity qualifiers for each tier.   Tier prices are displayed in a table, using the `catalog/product/view/tierprices.phtml` template.
 
 Custom product options get processed when calculating final price.  Each option has its own price defined, which gets added to the final price.
 

@@ -25,7 +25,7 @@ This model is used to convert `Mage_Sales_Model_Order` into things like shipment
 
 ### Fieldsets
 
-Defined in `Mage/Sales/etc/config.xml`, fieldsets define what data is copied across orders and quotes when they are converted. For example, when creating an order from a quote, the items, addresses, shipping and payment methods needs moving across.
+Defined in `Mage/Sales/etc/config.xml`, fieldsets define what data is copied across orders and quotes when they are converted. For example, when creating an order from a quote, the items, addresses, shipping and payment methods need to be moved from the quote to the order.
 
 ### `Mage_Sales_Model_Order_Address`
 
@@ -70,7 +70,7 @@ This is the admin equivalent of the `Mage_Sales_Model_Order` model.  It handles 
 
 ### Calculating Price on Admin Orders
 
-The widget is used to add products to the order.  This is then posted to the backend which is added to the order model in `Mage_Adminhtml_controllers_Sales_Order_CreatController`
+The widget is used to add products to the order.  This is then posted to the backend which is added to the order model via `Mage_Adminhtml_controllers_Sales_Order_CreateController`
 
 ```php
 <?php
@@ -186,27 +186,31 @@ Each of the partial operations has its own models and tables to store the data, 
 
 ## Cancel
 
-Magento orders an be cancelled until all items have been invoices, e.g. during the pending or processing state.  This automatically cancels payment and order items (which just set cancelled tax amounts on the item).  Invoices can be cancelled, returning order totals to pre-invoice state.  Same goes for credit memos. Only shipments cannot be cancelled.
+Magento orders can be cancelled right up until all items have been invoiced, e.g. they can be cancelled during the pending or processing state. Once all items have been invoiced and/or shipped, you cannot cancel an order. If only some items from an order are invoiced and/or shipped, then only the remaining items will be cancelled. This automatically cancels payment and order items (which just set cancelled tax amounts on the item).  Invoices can be cancelled, returning order totals to pre-invoice state.  Same goes for credit memos. Only shipments cannot be cancelled.
 
 In most cases when operations are cancelled, tax amounts are returned to the way they were before the operation (just like other price data).  In case of an order, all the cancelled amounts are set to total invoices (whatever has not been invoiced yet is cancelled). 
 
-Invoices and credit memos cannot be cancelled from the interface, even through the functionality was implemented.
+Invoices and credit memos cannot be cancelled from the interface, even though the functionality was implemented.
+
+## Editing
+
+When editing a Magento order, a new order is created with the most of the values pre-populated from the original order, with the exception of the credit card information and shipping method.  After the new order is created, the original order is cancelled. The orer number will be the same on the order created from the edit, but with a hyphen (or dash) and a version number. For example, if the original order number was #1000000001, then the edited order will be #100000001-1.
 
 ## Customers
 
-The `Mage_Customer` module controls handling info about store customers and the customer area., where information can be updated and customer can view their orders.
+The `Mage_Customer` module controls handling info about store customers and the customer area., where information can be updated and customers can view their orders.
 
-Customers can also enter addresses to their account so they can quickly check out without having to enter their details each time.
+Customers can also save their addresses to their account so they can quickly check out without having to enter their details each time.
 
-Customers are stored as EAV models, with an EAV table structure.  This means that it is easy to add new attributes, albeit theirs no backend interface for it (in Community Edition).
+Customers are stored as EAV models, with an EAV table structure.  This means that it is easy to add new attributes, albeit there is no backend interface for it (in Community Edition).
 
 Customer entities use the `Mage_Customer_Model_Resource_Customer` resource model. Customer data is validated using the `validate()` method on the entity before saving it. The attributes use the standard EAV validation rules for their data.
 
 Most emails sent to customers are managed by Magento's Transactional Emails.  There's a backend interface for creating new email templates (from existing ones, if needed) and they can be assigned to emails in system configuration.
 
-From a customer's perspective, there's no difference between the billing and shipping addresses.  Defaults can be set for both cases to avoid having to select.  The saved addresses are displayed in a select box.
+From a customer's perspective, there's no difference between the billing and shipping addresses.  Defaults can be set for both cases to avoid having to select.  The saved addresses are displayed in a select box during checkout.
 
-Catalog and shopping cart prices rules and tax can be set specifically for a customer group (e.g. customers in a loyalty group get a discount).   
+Catalog rules,  shopping cart prices rules, and taxes can be set specifically for a customer group (e.g. customers in a loyalty group get a discount).   
 
 Customer addresses are also EAV entities, providing an easy way to add custom attributes. Fieldsets are used to copy customer data from Quote to Order, so they have to be taken into account when adding a custom attribute.
 
