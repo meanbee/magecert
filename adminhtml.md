@@ -66,7 +66,7 @@ The observer `Mage_Admin_Model_Observer` listens for the `predispatch` event of 
 
 ### Adminhtml Blocks
 
-Mot adminhtml blocks extend `Mage_Adminhtml_Block_Template`.
+Most adminhtml blocks extend `Mage_Adminhtml_Block_Template`.
 
 ### Adminhtml Config
 

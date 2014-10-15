@@ -81,7 +81,7 @@ These models can be rewritten or new total models can be added by extending the 
 </config>
 ```
 
-The priority of a total model execution can be customise using the `<before>` and `<after>` elements in the total definition.  However the default order of execution is:
+The priority of a total model execution can be customised using the `<before>` and `<after>` elements in the total definition.  However the default order of execution is:
 
 1. Nominal
 2. Subtotal
@@ -93,7 +93,7 @@ This process is managed by the `Mage_Sales_Model_Quote_Address_Total_Collection`
 
 ### Payment Authorisation and Capturing
 
-Card authorisation and capture occurs when an order is placed (`$order->place()`) which occurs when the order is saved. Depending on the payment method authorisation can be reserved for this time and then the capturing occurs once an invoice is created.
+Card authorisation and capture occurs when an order is placed (`$order->place()`) which occurs when the order is saved. Depending on the payment method, authorisation can be reserved for this time and then the capturing occurs once an invoice is created.
 
 ### Inventory Decrements
 
@@ -151,7 +151,7 @@ Some shipping carriers make requests to third party service to get the rates off
 
 ## Payment Methods
 
-Payment methods in Magento, like shipping methods, extend the `Mage_Payment_Model_Method_Abstract` model and are registered using the store configuration, with the default values (and additional configuration) set in `config.xml`.
+Payment methods in Magento, extend the `Mage_Payment_Model_Method_Abstract` model and, like shipping methods, are registered using the store configuration, with the default values (and additional configuration) set in `config.xml`.
 
 ```xml
 <config>
@@ -175,13 +175,13 @@ Payment methods in Magento, like shipping methods, extend the `Mage_Payment_Mode
 
 Most of the payment method parameters can usually be customised in System Configuration or by manipulating the default values in `config.xml`.  For example, the place order payment action is usually defined in the `<payment_action>` configuration field. If deeper customisation is required, the payment method models can be rewritten.
 
-Payment information gets added to methods using the `Mage_Sales_Model_Quote_Payment::importData($data)` method and is called by the `savePayment()` method in the onepage checkout.  This fires the `sales_quote_payment_import_data_before` event before called `assignData($data)` method on the payment method model.  By observing this event, the data can be modified before it gets stored in the method.
+Payment information gets added to methods using the `Mage_Sales_Model_Quote_Payment::importData($data)` method and is called by the `savePayment()` method in the onepage checkout.  This dispatches the `sales_quote_payment_import_data_before` event before calling the `assignData($data)` method on the payment method model.  By observing this event, the data can be modified before it gets stored in the method.
 
 Payment methods implement the logic of a particular method of payment, e.g. processing credit carts.  Meanwhile, payment models manage payment methods within a quote or order and handle payment related operations such as capturing payment or refunds.
 
 Payment methods modules typically include a few blocks to display payment forms on the checkout, e.g. credit card forms, and controllers to handle redirecting to any payment gateways.  
 
-Billing agreements are built in to Magento.  Payment methods have to the the billing agreement ID on the payment object with:
+Billing agreements are built in to Magento.  Payment methods set the billing agreement ID on the payment object with:
 
 ```php
 <?php 
