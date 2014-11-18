@@ -64,7 +64,7 @@ There are numerous development designs patterns used in Magento ([Source](http:/
 - Prototype
 
 ```php
-<?php Mage:getModel('catalog/product')->getTypeInstance(); ?>
+<?php Mage::getModel('catalog/product')->getTypeInstance(); ?>
 ```
 
 - Object Pool
