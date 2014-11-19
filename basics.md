@@ -175,7 +175,7 @@ Contains theme independent JavaScript files and other assets (e.g. css, images),
 
 <h3 id="naming-conventions">Class Naming Conventions and Autoloader</h3>
 
-Magento's include path is set to look for files (`app/code`) and libraries (`lib/`) in each of the code pools (`core`, `community` and `local`). Classes are resoled using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
+Magento's include path is set to look for files (`app/code`) and libraries (`lib/`) in each of the code pools (`core`, `community` and `local`). Classes are resolved using the [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloading standard.  That is, the autoloader simply replaces the underscores in the class name with directory separators and adds the .php extension:
 
 ```php
 <?php
