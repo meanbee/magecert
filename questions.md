@@ -244,3 +244,15 @@ noToc: true
 - Describe the advantages and disadvantages of the available Web Service APIs in Magento
 - Identify the configuration files used for the v2 SOAP API
 - Describe the purpose of the configuration files related to the API
+
+### Other Skills
+
+- Integrate Google features (Google Wallet, Checkout, AdWords, Analytics) into Magento implementation
+
+## Enterprise Edition
+
+- Describe how to customize, extend, and troubleshoot Enterprise Edition catalog target rules.
+- Describe how to customize, extend, and troubleshoot the Enterprise Edition reward point system.
+- Describe how to implement, customize, and troubleshoot Enterprise Edition website restrictions.
+- Identify the elements and functioning of Enterprise Edition Full Page Cache.
+- Describe the Payment Bridge
