@@ -137,6 +137,8 @@ Contains the module configuration and code.  This includes:
 	- `Block/`
 - Controllers
 	- `controllers/`
+- Configuration files
+	- `etc/`
 - Models
 	- `Model`
 - Resource Models
