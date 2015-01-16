@@ -11,7 +11,7 @@ Exam proportion: 7%.
 
 ## Customising Core Functionality with Themes
 
-Themes have layout files which, amongst other things, can be used to change which blocks appear on the page.  The block template can also be changed and different methods called. 
+Themes have layout files which, amongst other things, can be used to change which blocks appear on the page.  The block template can also be changed and different methods called.
 
 ## Store-level designs
 
@@ -19,7 +19,7 @@ Magento's hierarchical structured themes means that a base theme can be extended
 
 ## Registering Custom Themes
 
-Themes can be configured in two ways:
+Themes can be configured in three ways:
 
 1. Per store under `System > Configuration > Design`.
 2. Design change with time limits `System > Design`.
@@ -52,19 +52,19 @@ Magento uses relative paths when it comes to template and layout files.
 
 Blocks are used for output.  The `root` block is the parent of all blocks and is of type `Mage_Page_Block_Html`.
 
-`Mage_Core_Block_Template` blocks use template files to render content.  The template file name are set within `setTemplate()` or `addData('template')` with relative paths. 
+`Mage_Core_Block_Template` blocks use template files to render content.  The template file name are set within `setTemplate()` or `addData('template')` with relative paths.
 
-Templates are just pieces of PHP included in `Mage_Core_Block_Template`.  Therefore `$this` in a template refers to the block. 
+Templates are just pieces of PHP included in `Mage_Core_Block_Template`.  Therefore `$this` in a template refers to the block.
 
-`Mage_Core_Block_Template` uses a buffer before including a template to prevent premature output. 
+`Mage_Core_Block_Template` uses a buffer before including a template to prevent premature output.
 
-The `Mage_Core_Model_Layout::createBlock` method creates instances of blocks
+The `Mage_Core_Model_Layout::createBlock` method creates instances of blocks.
 
 The `Mage_Core_Model_Layout_Update` class considers which blocks need to be created for each page by looking at the layout handles.
 
-All output blocks are rendered, e.g. by calling `toHtml()`, which in turn can hoose to render their children.
+All output blocks are rendered, e.g. by calling `toHtml()`, which in turn can choose to render their children.
 
-`Text` and `Text_List` blocks automatically render their content. 
+`Text` and `Text_List` blocks automatically render their content.
 
 There are two events that are fired around block rendering that can be used to modify the block before and after rendering the HTML:
 
@@ -75,7 +75,7 @@ There are two events that are fired around block rendering that can be used to m
 A child block will only be rendered automatically if it is of class `Mage_Core_Block_Textlist` otherwise the `getChildHtml` method needs to be called.
 
 
-Block instances can be accessed through the layout, e.g. `Magge::app()->getLayout()` and `$controller->getLayout()`.  Block output is controlled by the `_toHtml()` function.  
+Block instances can be accessed through the layout, e.g. `Mage::app()->getLayout()` and `$controller->getLayout()`.  Block output is controlled by the `_toHtml()` function.  
 
 Templates are rendered by the `renderView()`/`fetchView()` methods inside a template block.  Output buffering can be disabled with `$layout->setDirectOutput`.
 
@@ -108,14 +108,14 @@ Layout files can be registered in `config.xml`:
 </config>
 ```
 
-Page output can be customised in the following ways
+Page output can be customised in the following ways:
 
 - Template changes
 - Layout changes
 - Overriding blocks
 - Observers
 
-Variables on blocks can be set in the following ways
+Variables on blocks can be set in the following ways:
 
 - Layout
 	- Through actions or attributes
@@ -130,7 +130,7 @@ Variables on blocks can be set in the following ways
 
 JavaScript and CSS assets are handled in the `Mage_Page_Block_Html_head` block.  This block handles the merging of assets into a single file to minimise HTTP requests.  The merged file is based on the edit time of the source files.
 
-When merging CSS, a callback function on `Mage_Core_Model_Design_Package` is called update any `@import` or `url()` directives with the correct URLs.
+When merging CSS, a callback function on `Mage_Core_Model_Design_Package` is called to update any `@import` or `url()` directives with the correct URLs.
 
 <ul class="navigation">
     <li class="prev"><a href="/request-flow.html">&larr; Request Flow</a>
