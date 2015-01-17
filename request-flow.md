@@ -2,7 +2,7 @@
 layout: default
 title: Request Flow
 chapter: 2
-meta-description: Learn how Magento bootstraps itself and handles requests. 
+meta-description: Learn how Magento bootstraps itself and handles requests.
 ---
 
 # Request Flow
@@ -44,9 +44,9 @@ The order that modules are loaded in is:
 
 1. `Mage_All.xml`
 2. `Mage_*.xml`
-3. Everything else 
+3. Everything else
 
-If a module depends on another, Magento makes sure it exists and loads its configuration first. 
+If a module depends on another, Magento makes sure it exists and loads its configuration first.
 
 Modules are loaded after the base configuration but before store initialisation.
 
@@ -57,7 +57,7 @@ Module loading and SQL database upgrades are run when `Mage_Core_Model_App::app(
 
 1. `Mage_Core_Model_Resource_Setup::applyAllUpdates()` - executed immediately after the module configuration is loaded and runs all the SQL install and update scripts.
 
-2. `Mage_Core_Model_Resource_Setup::applyAllDataUpdates()` - executed after the store, locale and request models have been initialized and runs the data install and upgrade scripts.
+2. `Mage_Core_Model_Resource_Setup::applyAllDataUpdates()` - executed after the store, locale and request models have been initialised and runs the data install and upgrade scripts.
 
 ### Magento Stores and Locale Loading
 
@@ -76,7 +76,7 @@ There are multiple ways to specify the current store.
 The environment variables are checked in `index.php`:
 
 ```php
-<?php 
+<?php
 	/* Store or website code */
 	$mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
 
@@ -109,7 +109,7 @@ The front controller performs the routing of the request to the appropriate cont
 
 ### Adding Router Classes
 
-There are two ways to add routes. 
+There are two ways to add routes.
 
 - Using configuration
 
@@ -136,11 +136,11 @@ There are two ways to add routes.
 
 The URL structure in Magento generally uses the format `{base_url}/{front_name}/{controller}/{action}`.
 
-`Mage_Core_Controller_Varien_Router_Standard` parses the URLs in this format and maps them to a module used and the controller action to be executed. 
+`Mage_Core_Controller_Varien_Router_Standard` parses the URLs in this format and maps them to a module used and the controller action to be executed.
 
 ### URL Rewrite Process
 
-URL rewrites happen in the Front controller before the routing.  The database rewrites are checked and applied first, followed by the configuration (`glboal->rewrite`) rewrites. Rewrites can either redirect the request using HTTP methods, update the request path (keeping the old one for reference) or completely replace the request path.
+URL rewrites happen in the Front controller before the routing.  The database rewrites are checked and applied first, followed by the configuration (`global->rewrite`) rewrites. Rewrites can either redirect the request using HTTP methods, update the request path (keeping the old one for reference) or completely replace the request path.
 
 ### Database URL Rewrites
 
@@ -175,7 +175,7 @@ Unmapped requests read the Default router where they are rewritten to a 404 page
 Before dispatch, request module, controller, action and parameters are set.  Then it is passed to the controller (all within the Standard router).
 
 
-## Design and layout initialization
+## Design and layout initialisation
 
 The store design (`core/design_package`) is initialised in the controller `preDispatch()` method.  The package and theme configuration is then determined by the `Mage_Core_Model_Design`.
 
@@ -191,7 +191,7 @@ To add a layout handle to be processed call
 
 Behind the scenes `Mage_Core_Model_Layout_Update` loads the layout files and their XML while `Mage_Core_Model_Layout` processes it.
 
-Layout XML gets merged, first from modules, then `local.xml` and then the database.  The next step is to remove blocks or references as directed by the `<remove>` element. 
+Layout XML gets merged, first from modules, then `local.xml` and then the database.  The next step is to remove blocks or references as directed by the `<remove>` element.
 
 To add a layout file to be merged, add this to an extensions `config.xml` file:
 
@@ -215,7 +215,7 @@ This file will then be searched for in `app/design/{area}/{package}/{theme}/layo
 
 Response content gets set by the `$layout->renderLayout()` method.  After the controller dispatch method returns, the Front Controller send the response.
 
-The `controller_front_send_response_before` event can be used to modify the response before sending.  Subsequently, observing for the `controller_front_send_response_after` event allows for cleaning up after if necessary. 
+The `controller_front_send_response_before` event can be used to modify the response before sending.  Subsequently, observing for the `controller_front_send_response_after` event allows for cleaning up after if necessary.
 
 If the output is not sent in a response object but printed out, it can prevent headers from being sent as it is unbuffered.
 

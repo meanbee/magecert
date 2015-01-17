@@ -21,9 +21,9 @@ Exam proportion: 10%.
 ### Database Schema
 
 - `eav_entity`
-	- The entity table
+	- The entity table.
 - `eav_entity_attribute`
-	- The attribute table
+	- The attribute table.
 - `eav_entity_{type}`
 	- The values tables.  Types are datetime, decimals, int, text and varchar.
 
@@ -44,10 +44,9 @@ Standard models mainly manage their properties with data setters and getters wor
 ### EAV Resource Model Examples
 
 To find entities using the EAV storage schema searching for the string `extends Mage_Eav_Model_Entity_Abstract` can be used.  
-This should reveal all resource models based on the EAV structure.    
-However, the resulting list will include many obsolete classes from the `Mage_Sales` module that no longer are being used.  
+This should reveal all resource models based on the EAV structure. However, the resulting list will include many obsolete classes from the `Mage_Sales` module that no longer are being used.  
 
-The only modules containing entities using the EAV storage schema are `Mage_Catalog` (categories and products) and `Mage_Customer` (customers and addresses). 
+The only modules containing entities using the EAV storage schema are `Mage_Catalog` (categories and products) and `Mage_Customer` (customers and addresses).
 
 Customer Groups use the flat table storage schema. All the sales entities where converted to flat table entities with the release of Magento 1.4.
 
@@ -68,13 +67,15 @@ The reason that EAV is used is so that entities can have an undetermined number 
 
 ### Website and Store Scopes
 
-To handle website and store scope attribute values within EAV a `store_id` value exists on the catalog entity and this is used to show scope which link back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store the system will first check for an entity value on the current store and then fall back to the global entity.  
-Mage_Customer EAV entities do not have a `store_id` scope column.
+To handle website and store scope attribute values within EAV, a `store_id` value exists on the catalog entity to show scope which links back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store, the system will first check for an entity value on the current store and then fall back to the global entity. Mage_Customer EAV entities do not have a `store_id` scope column.
 
 
-### Insert Versus Update
+### Insert, Update and Delete
 
-To determine if an update or an insert needs to be performed, a check is performed to see if the attribute exists on the original object. The original object is basically a duplicate of the data object when the entity was retrieved from the database.  If it does and it's not empty then it updates.  If it does and it is empty then it deletes. If it doesn't and it's not empty then it inserts.
+To determine if an insert, update or delete needs to be performed on an attribute, a comparison is made against the original object. The original object is basically a duplicate of the data object when the entity was retrieved from the database.  
+- If the attribute exist originally and its new value is not empty; it updates.  
+- If the attribute exist originally but its new value is set to empty; it deletes.
+- If the attribute doesn't exist originally and its new value is not empty; it inserts.
 
 ## Attribute Management
 
@@ -99,9 +100,9 @@ A source model requires:
 	public function getOptionText($value);
 ?>
 ```
-Usually only `getAllOptions()` needs to be implemented though since an implementation for `getOptionText()` already exists in the abstract source model `Mage_Eav_Model_Entity_Attribute_Source_Abstract`. 
+Usually only `getAllOptions()` needs to be implemented though since an implementation for `getOptionText()` already exists in the abstract source model `Mage_Eav_Model_Entity_Attribute_Source_Abstract`.
 
-A frontend model does not requires the method `getValue()`.
+A frontend model does not require the method `getValue()`.
 
 A backend model requires:
 
@@ -122,7 +123,7 @@ A backend model requires:
 	public function setEntityValidId($entity, $valueId);
 ?>
 ```
-All these methods are implemented in the abstract backend model `Mage_Eav_Model_Entity_Attribute_Backend_Abstract`. For custom backend models only the methods requiring customization need to be overridden.
+All these methods are implemented in the abstract backend model `Mage_Eav_Model_Entity_Attribute_Backend_Abstract`. For custom backend models only the methods requiring customisation need to be overridden.
 
 ### System Configuration Source Models
 
@@ -137,7 +138,7 @@ The purpose of Attribute Source Models is to supply the list of options and valu
 To get a list of all options for an attribute, perform the following:
 
 ```php
-<?php 
+<?php
 	$options = $attribute->getSource()->getAllOptions(false);
 
 	// or for admin
@@ -177,7 +178,7 @@ The default attribute backend model depends on the attribute code and is determi
 ```
 If the method falls through to the last line `Mage_Eav_Model_Entity_Attribute_Backend_Default` is used.  
 
-The default source model is set in `Mage_Eav_Model_Entity_Attribute_Source_Table`. This is set in the catalog modules attribute model. The default config source model specified in the eav module is never used. 
+The default source model is set in `Mage_Eav_Model_Entity_Attribute_Source_Table`. This is set in the catalog modules attribute model. The default config source model specified in the eav module is never used.
 
 
 
@@ -206,7 +207,7 @@ Product attributes get added to the flat table if they are (see `Mage_Catalog_Mo
 - Used in product listing
 - Used for promo rules
 - Used for sort by
-- System Attributes.
+- System Attributes
 
 There is a different flat table for each store, each one contains a different store-scoped entity attribute value. Multi-lingual values are managed by having different stores for each language.
 

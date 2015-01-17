@@ -13,13 +13,13 @@ Exam proportion: 13%.
 
 ### Basic Concepts
 
-A **Model** is used to store and manipulate data about a particular object. Typically contain the business logic of the application.
+A **Model** is used to store and manipulate data about a particular object. Models typically contain the business logic of the application.
 
 A **Resource Model** is used to interact with the database on behalf of the *Model*.  The Resource Model actually performs the CRUD operations.
 
 A **Collection Model** handles working with groups of models and performing (CRUD) operations on groups of models.  
 
-There are two types of Magento Model: simple and EAV.  Simple Models correspond to a single table, whereas EAV correspond to multiple tables using the EAV schema design pattern.
+There are two types of Magento Models: simple and EAV.  Simple Models correspond to a single table, whereas EAV correspond to multiple tables using the EAV schema design pattern.
 
 ### Database Connection
 
@@ -50,7 +50,7 @@ The core Magento connections (`default_setup`, `default_read`, `default_write`, 
 
 ### Working with Database Tables
 
-Magento used the *Resource Models* to interact with the database tables.  When a *Model* is loaded or saved, it calls its resource model to perform thee operation (executing the database queries).  Database table names are configured in `config.xml` and resource models retrieve them using look-up methods, which allows for the table names to be customised, e.g. adding a prefix to all table names.
+Magento used the *Resource Models* to interact with the database tables.  When a *Model* is loaded or saved, it calls its resource model to perform the operation (executing the database queries).  Database table names are configured in `config.xml` and resource models retrieve them using look-up methods, which allows for the table names to be customised, e.g. adding a prefix to all table names.
 
 Tables are called *entities* and are configured like so:
 
@@ -95,16 +95,16 @@ The following methods exist to create joins between tables on collections and on
 
 ### Table Name Lookups
 
-Use `Mage::getModel('core/resource')->getTableName($modelEntity)` to retrieve the defined table for any model.  Table names in Magento are configurable to allow customising and overriding the database schema e.g. using a custom table. 
+Use `Mage::getModel('core/resource')->getTableName($modelEntity)` to retrieve the defined table for any model.  Table names in Magento are configurable to allow customising and overriding the database schema e.g. using a custom table.
 
 Accessing resource models can be done using the class `Mage_Core_Model_Resource_Db_Abstract` and the methods `getMainTable()` and `getTable($entityName)`.
 
 
 ### Loading Data
 
-The loading of a model form the database is done using the `load($id, $field = null)` method.  The field argument allows the developer to load the records from a different key.  If no field is specified then the resource model identifies the primary key based on the parameters provided to the `_init($table, $key)` method call when the resource model was constructed.
+The loading of a model from the database is done using the `load($id, $field = null)` method.  The field argument allows the developer to load the records from a different key.  If no field is specified, then the resource model identifies the primary key based on the parameters provided to the `_init($table, $key)` method call when the resource model was constructed.
 
-Magento uses the Zend database abstraction classes like `Zend_Db_Select` to perform database operations.  These classes allow building and executing database queries without having to use the syntax of the specific database engine being used. 
+Magento uses the Zend database abstraction classes like `Zend_Db_Select` to perform database operations.  These classes allow building and executing database queries without having to use the syntax of the specific database engine being used.
 
 When a record is fetched with `Zend_Db_Select` it is added to the `Varien_Object` using `setData($data)`.  Some fields may be serialised in the database, so they are un-serialised before adding to the `Varien_Object`.
 
@@ -112,21 +112,21 @@ When a record is fetched with `Zend_Db_Select` it is added to the `Varien_Object
 
 Saving is not as trivial as loading.  The first step is to check to see if the model has any changes. Both `setData($data)` or `unsetData($key, $value)` set the `_hasDataChanges` flag on the model.  This flag can then be used to determine whether it needs to be written out to the database.
 
-A transaction is then begun so that any changes can be rolled back in the event that something goes wrong during the saving we process.
+A transaction is then begun so that any changes can be rolled back in the event that something goes wrong during the saving process.
 
 Firstly a check for uniqueness is performed.  This queries the database to check whether each of the fields marked as unique are actually unique.  If a duplicate key is found, then it is bubbled up using an exception.
 
 The data then needs to be prepared for insertion or update. This is performed in the `prepareDataForSave()` method.  This calls `DESCRIBE` on the table to identify the column types and sanitise the input accordingly.  This description is, of course, cached.  This is the reason that cache needs to be cleared if schema changes are made.
 
-The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is useful performed by checking for the existence of the primary key by called `$model->getId() == null`, and here is no exception.  If there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After performing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
+The next problem is identifying whether an `INSERT` or an `UPDATE` statement is required.  This is usually performed by checking for the existence of the primary key by calling `$model->getId() == null`, and here is no exception.  If there is no ID set, then it is auto-incremented in the database and needs to be fetched from there.  After performing the `INSERT`, `getLastInsertId()` is called on the write adapter to add it to the model.
 
-If there was an ID specified on the model when save was called, it's either because an update to a model is being saved or because the ID of the model is not controlled by the database with an auto-increment. If the flag `_isPkAutoIncrement` is set then an `UPDATE` can be used.  Otherwise the database needs to be checked for an existing record with this key.  An `UPDATE` occurs if there is, otherwise an `INSERT` is used.
+If there was an ID specified on the model when save was called, it's either because an update to a model is being saved or because the ID of the model is not controlled by the database with an auto-increment. If the flag `_isPkAutoIncrement` is set then an `UPDATE` can be used.  Otherwise the database needs to be checked for an existing record with this key.  An `UPDATE` occurs if there is a key, otherwise an `INSERT` is used.
 
 The `_isPkAutoIncrement` flag is set to `true` as a default and can be overwritten by a subclass.
 
 ### Collection Interface
 
-*Collection Models* provide a consistent interface for performing and filtering and sorting of models, e.g. `addFieldToFlter()`, `addOrder()` and `setOrder()`.
+*Collection Models* provide a consistent interface for performing filtering and sorting of models, e.g. `addFieldToFlter()`, `addOrder()` and `setOrder()`.
 
 ### Group Save Operations
 
@@ -163,7 +163,7 @@ The first method goes through the collection interface, which could perform addi
 
 ### Setup, Read and Write Database Resources
 
-Resource models request a specific type of database connection they require.  The different types are defined to allow for different permissions over the database. For example, read for read-only connection, write for changing data, and setup for resource intensive setup processes.  However, in practice, all of Magento's connection resources inherit from the `default_setup` resource, so they all use the same connection.
+Resource models request the specific types of database connections they require.  The different types are defined to allow for different permissions over the database. For example, read for read-only connection, write for changing data, and setup for resource intensive setup processes.  However, in practice, all of Magento's connection resources inherit from the `default_setup` resource, so they all use the same connection.
 
 ## Install and Upgrade Scripts
 
@@ -181,7 +181,7 @@ Setup resources are defined in `config.xml`:
                     <class>{setup_resource_class}</class>
                 </setup>
             </{resource_name}>
-        </resources>        
+        </resources>
     </global>
 </config>
 ```
@@ -206,12 +206,12 @@ If the module version in `config.xml` is higher than the version in the database
 
 Different Setup classes have additional methods to aid the install or upgrade procedures of their particular entities, e.g. the EAV setup resource has methods for creating entity attributes.
 
-The base setup classes for flat tables and EAV entities are `Mage_Core_Model_Resource_Setup` and `Mage_Eav_Model_Entity_Setup`, respectively.
+The base setup classes for flat tables and EAV entities are `Mage_Core_Model_Resource_Setup` and `Mage_Eav_Model_Entity_Setup` respectively.
 
 
 ### Available Setup Methods
 
-Methods that are generally available in setup scripts are
+Methods that are generally available in setup scripts are:
 
 - `startSetup()`
 - `endSetup()`
@@ -224,9 +224,9 @@ Methods that are generally available in setup scripts are
 ### EAV Attributes Setup Methods
 
 - `addAttribute()`
-	- Handles attribute creation, including creating attribute data, adding it to groups and sets and setting attribute options. 
+	- Handles attribute creation, including creating attribute data, adding it to groups and sets and setting attribute options.
 - `updateAttribute()`
-	- Simply updates the attribute data.  It is also called by `addAttribute()` if the attribute being added already exists
+	- Simply updates the attribute data.  It is also called by `addAttribute()` if the attribute being added already exists.
 
 ### Database Rollback
 

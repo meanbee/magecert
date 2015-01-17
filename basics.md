@@ -18,9 +18,9 @@ Magento makes use of an Event Driven Architecture (EDA).  This is where componen
 
 ### Design Patterns
 
-There are numerous development designs patterns used in Magento ([Source](http://stackoverflow.com/questions/5041473/magento-design-patterns)). 
+There are numerous development designs patterns used in Magento ([Source](http://stackoverflow.com/questions/5041473/magento-design-patterns)).
 
-- Factory 
+- Factory
 
 ```php
 <?php $product = Mage::getModel('catalog/product'); ?>
@@ -70,7 +70,7 @@ There are numerous development designs patterns used in Magento ([Source](http:/
 - Object Pool
 
 ```php
-<?php 
+<?php
 $id = Mage::objects()->save($object);
 $object = Mage::objects($id);
 ?>
@@ -78,7 +78,7 @@ $object = Mage::objects($id);
 
 - Iterator
 
-```php 
+```php
 <?php Mage::getModel('catalog/product')->getCollection(); ?>
 ```
 
@@ -90,7 +90,7 @@ $object = Mage::objects($id);
 
 ### Constructors
 
-Magento uses public `__construct` methods and, typically, protected `_construct` methods for class initialisation. More information on the difference between the two can be found on [stackoverflow](http://stackoverflow.com/questions/8706352/why-does-magento-have-construct-and-construct-methods). 
+Magento uses public `__construct` methods and, typically, protected `_construct` methods for class initialisation. More information on the difference between the two can be found on [stackoverflow](http://stackoverflow.com/questions/8706352/why-does-magento-have-construct-and-construct-methods).
 
 Arguments can be passed to models created through factories by using a second argument, e.g.
 
@@ -133,7 +133,7 @@ Defines the module, the code pool it is in, any dependencies and whether it is e
 
 Contains the module configuration and code.  This includes:
 
-- Blocks 
+- Blocks
 	- `Block/`
 - Controllers
 	- `controllers/`
@@ -147,7 +147,7 @@ Contains the module configuration and code.  This includes:
 	- `Helpers`
 - Database Installation and Upgrade Scripts
 	- `sql/`
-- Data scripts 
+- Data scripts
 	- `data/`
 
 
@@ -181,9 +181,9 @@ Magento's include path is set to look for files (`app/code`) and libraries (`lib
 
 ```php
 <?php
-public function autoload($class) 
+public function autoload($class)
 {
-    $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));       
+    $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
     $classFile.= '.php';
     @include $classFile;
 }
@@ -200,7 +200,7 @@ The class naming convention for most Magento classes is:
 Conflicts can arise in three ways:
 
 - Configuration conflicts
-	- Two modules could be extending the same class or making configuration changes in the same areas. You can specify precedence explicity with a `<depends>` dependency tag in the module declaration; forcing one module to always be loaded before the other.
+	- Two modules could be extending the same class or making configuration changes in the same areas. You can specify precedence explicitly with a `<depends>` dependency tag in the module declaration; forcing one module to always be loaded before the other.
 
 - Rewrite conflicts
 	- Magento models and blocks can only be rewritten once in `config.xml`. But we can sequence rewrites (ensuring that both changes are applied) by extending the first rewrite within the second.
@@ -306,7 +306,7 @@ The cron job `schedule` can either be a cron schedule expression (inside a `<cro
 
 ### Loading active modules
 
-Magento creates a central list of installed modules by loading all all `*.xml` files within `app/etc/modules`.  It records whether they are active and the location of their full configuration (`<codepool>`).
+Magento creates a central list of installed modules by loading all `*.xml` files within `app/etc/modules`.  It records whether they are active and the location of their full configuration (`<codepool>`).
 
 ```xml
 <?xml version="1.0" ?>
@@ -324,7 +324,7 @@ Magento creates a central list of installed modules by loading all all `*.xml` f
 </config>
 ```
 
-### Common config load methods 
+### Common config load methods
 
 - `Mage::app()->getConfig()->getNode();`
 - `Mage::getStoreConfig();`
@@ -342,7 +342,7 @@ Prefixes are used for blocks, models and helpers.  Using prefixes and not referr
 
 Store views are typically used for internationalisation in Magento, with each one being configured for a particular language.
 
-In template files `$this->__('Translate Me')` method is used to manage translatable text.  This is then handled by `Mage_Core_Helper_Data` and `Mage_Core_Model_Translate`. 
+In template files `$this->__('Translate Me')` method is used to manage translatable text.  This is then handled by `Mage_Core_Helper_Data` and `Mage_Core_Model_Translate`.
 
 Before outputting this string it is checked against a number of locations.  The priority for translations are in this order:
 
@@ -353,7 +353,7 @@ Before outputting this string it is checked against a number of locations.  The 
 3. Module
     - `app/locale/`
 
-If developer mode is enabled, Magento doesn't use translations unrelated to module. 
+If developer mode is enabled, Magento doesn't use translations unrelated to module.
 
 Module scope translation:
 
@@ -367,7 +367,7 @@ To make use of the internationalisation, a store view with appropriate configura
 
 There are advantages and disadvantages of each. But in general, sub-domains and sub-directories achieve the same effect.
 
-Sub-domains are slightly easier for linking content.Another advantage of sub-domains is that they can be hosted on separate servers. This can be ideal for geo-locating boxes by country or region according to the language served per store view.
+Sub-domains are slightly easier for linking content. Another advantage of sub-domains is that they can be hosted on separate servers. This can be ideal for geo-locating boxes by country or region according to the language served per store view.
 
 With sub-directories, we strengthen name-recognition for the primary domain. And enjoy the benefit that all store views are contributing to SEO efforts by raising total hits for the store brand. But we sacrifice the opportunity for cleaner URLs with localized domain branding. (e.g., http://amazon.com and http://amazon.de vs. http://amazon.com and http://amazon.com/germany)
 
