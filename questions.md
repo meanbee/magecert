@@ -106,7 +106,7 @@ noToc: true
 - Describe how Magento works with database tables 
 - Describe the load-and-save process for a regular entity
 - Describe the load-and-save process for a regular entity
-- Describe the role of Zend_Db_Select in Magento
+- Describe the role of `Zend_Db_Select` in Magento
 - Describe the collection interface (filtering/sorting/grouping) 
 - Describe the hierarchy of database-related classes in Magento 
 - Describe the role and hierarchy of setup objects in Magento 
