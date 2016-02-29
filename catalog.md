@@ -117,11 +117,11 @@ To read and manage a category tree from the database two different classes are u
 The advantage of flat categories is that it is quicker to query. However, it needs to be rebuilt from the EAV tables each time there is a change.
 
 - `getChildren()`
-	- return comma separated string of immediate children IDs
+	- returns a comma separated string of immediate children IDs
 - `getAllChildren()`
-	- return a string or array of all children IDs
+	- returns a string or array of all children IDs
 - `getChildrenCategories()`
-	- return a collection of immediate chidren categories
+	- returns a collection of immediate children categories
 
 N.B. If flat catalog is enabled, the only child categories returned will be ones with `include_in_menu = 1`.  In both cases, only active categories are returned.
 
@@ -130,17 +130,17 @@ N.B. If flat catalog is enabled, the only child categories returned will be ones
 
 Catalog price rules apply discounts to products based on the date, product, website and customer group. 
 
-When `getFinalPrice()` is called on a product an event is fired.  This event, `catalog_product_get_final_price` is observed the `Mage_CatalogRule_Model_Observer` which will then look for any catalog price rule that applies to the product.  If it needs, it then looks at the database price table and writes the price back to the product model as a Varien data field `final_price`.
+When `getFinalPrice()` is called on a product, the event `catalog_product_get_final_price` is fired. This is observed by `Mage_CatalogRule_Model_Observer` which will then look for any catalog price rule that applies to the product.  If applicable, it then looks at the database price table and writes the price back to the product model as a Varien data field `final_price`.
 
 Within the database, the `catalogrule` table describes rules, their conditions and their actions.  `catalogrule_product` contains the matched products and some rule information.  Meanwhile `catalogrule_product_price` contains the price after the rule has been applied.
 
 ## Indexing and Flat Tables
 
-Flat catalog tables are managed by catalog indexers. If automatic rebuilding of the indexes in enabled, the catalog indexers get rebuilt every time a product, category or any related entities are updated.  The `_afterSave()` method calls the indexer process.  Otherwise they have to be manually re-indexed through admin.
+Flat catalog tables are managed by catalog indexers. If automatic rebuilding of the indexes is enabled, the catalog indexers get rebuilt every time a product, category or any related entities are updated.  The `_afterSave()` method calls the indexer process.  Otherwise they have to be manually re-indexed through admin.
 
-Product type affects price index and stock index where products can defined their own custom indexers (in `config.xml`) to handle their data for these indexes.
+Product type affects price index and stock index where products can define their own custom indexers (in `config.xml`) to handle their data for these indexes.
 
-The `Mage_Index` module provides the framework with which custom indexes can be created to help optimise the performance of the site.  The `Mage_index_Model_Indexer_Abstract` class should be extended to create a new index, implementing the `_registerEvent()` and `_processEvent()` methods. Not forgetting to register it in `config.xml`:
+The `Mage_Index` module provides the framework in which custom indexes can be created to help optimise the performance of the site.  The `Mage_Index_Model_Indexer_Abstract` class should be extended to create a new index, implementing the `_registerEvent()` and `_processEvent()` methods. Not forgetting to register it in `config.xml`:
 
 ```xml
 <global>

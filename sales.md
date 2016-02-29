@@ -194,7 +194,7 @@ Invoices and credit memos cannot be cancelled from the interface, even though th
 
 ## Editing
 
-When editing a Magento order, a new order is created with the most of the values pre-populated from the original order, with the exception of the credit card information and shipping method.  After the new order is created, the original order is cancelled. The orer number will be the same on the order created from the edit, but with a hyphen (or dash) and a version number. For example, if the original order number was #1000000001, then the edited order will be #100000001-1.
+When editing a Magento order, a new order is created with the most of the values pre-populated from the original order, with the exception of the credit card information and shipping method.  After the new order is created, the original order is cancelled. The order number will be the same on the order created from the edit, but with a hyphen (or dash) and a version number. For example, if the original order number was #1000000001, then the edited order will be #100000001-1.
 
 ## Customers
 
