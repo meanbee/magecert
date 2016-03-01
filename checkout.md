@@ -47,7 +47,7 @@ Quotes are stored in the database.  The majority is stored in the `sales_flat_qu
 
 There are two checkouts by default, onepage and multi-shipping.  In multi-shipping checkout, the quote items are added on each shipping address (virtual items are added to the billing address instead) rather than the quote itself and at the end of the checkout and order is created for each address.  This is reflected in the database, where the multi-shipping quote items are stored in `sales_flat_quote_address_item` while the onepage quote items are in `sales_flat_quote_item`.
 
-Multi-shipping checkout uses a separate controller `Mage_Checkout_MultishippingController` and a custom checkout type `Mage_Checkout_Model_Type_Mulitishipping`.  Apart from that, it reuses many of the same models as the regular checkout.  To customise of extend the multi-shipping checkout those two classes should be extended and modified.
+Multi-shipping checkout uses a separate controller `Mage_Checkout_MultishippingController` and a custom checkout type `Mage_Checkout_Model_Type_Mulitishipping`.  Apart from that, it reuses many of the same models as the regular checkout.  To customise or extend the multi-shipping checkout, those two classes should be extended and modified.
 
 In a multi-shipping checkout, the virtual items are added to the billing address (instead of one of the shipping addresses), as a virtual quote would be one which has items on the billing address only.  Quotes with virtual items create an additional order from the billing address containing those items.
 
@@ -89,7 +89,7 @@ The priority of a total model execution can be customised using the `<before>` a
 4. Tax
 5. Grand Total
 
-This process is managed by the `Mage_Sales_Model_Quote_Address_Total_Collection` model which is called from the Address using the `collectTotals()` method.  This method is called whenever the quote is updated, e.g. at each stage of the checkout. 
+This process is managed by the `Mage_Sales_Model_Quote_Address_Total_Collector` model which is called from the Address using the `collectTotals()` method.  This method is called whenever the quote is updated, e.g. at each stage of the checkout. This method also dispatches the `_collect_totals_before` and `_collect_totals_after` events. 
 
 ### Payment Authorisation and Capturing
 
@@ -139,7 +139,7 @@ Existing shipping methods provided by Magento can be customised by rewriting the
 
 ### Shipping Rates Calculation
 
-The shipping rate calculate is invoked in the Quote Address (`requestShippingRates()`), which builds up a request containing all relevant data, such as destination address and package weight and calls the `Mage_Shipping_Model_Shipping::collectRates($request)` method.  It loops over all available carriers, validates the request and calls the `collectRates($request)` method for each one to get the rates offered.
+The shipping rate calculation is invoked in the Quote Address (`requestShippingRates()`), which builds up a request containing all relevant data, such as destination address and package weight and calls the `Mage_Shipping_Model_Shipping::collectRates($request)` method.  It loops over all available carriers, validates the request and calls the `collectRates($request)` method for each one to get the rates offered.
 
 #### TableRates
 
