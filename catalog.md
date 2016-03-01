@@ -140,7 +140,7 @@ Flat catalog tables are managed by catalog indexers. If automatic rebuilding of 
 
 Product type affects price index and stock index where products can define their own custom indexers (in `config.xml`) to handle their data for these indexes.
 
-The `Mage_Index` module provides the framework in which custom indexes can be created to help optimise the performance of the site.  The `Mage_Index_Model_Indexer_Abstract` class should be extended to create a new index, implementing the `_registerEvent()` and `_processEvent()` methods. Not forgetting to register it in `config.xml`:
+The `Mage_Index` module provides the framework with which custom indexes can be created to help optimise the performance of the site.  The `Mage_Index_Model_Indexer_Abstract` class should be extended to create a new index, implementing the `_registerEvent()` and `_processEvent()` methods. Not forgetting to register it in `config.xml`:
 
 ```xml
 <global>
