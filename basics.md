@@ -140,11 +140,11 @@ Contains the module configuration and code.  This includes:
 - Configuration files
 	- `etc/`
 - Models
-	- `Model`
+	- `Model/`
 - Resource Models
 	- `Model/Resource/`
 - Helpers
-	- `Helpers`
+	- `Helper/`
 - Database Installation and Upgrade Scripts
 	- `sql/`
 - Data scripts
