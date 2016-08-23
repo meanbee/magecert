@@ -200,7 +200,7 @@ Flat catalog attributes are managed by indexers:
 - `Mage_Catalog_Model_Resource_Product_Flat_Indexer::updateAttribute()`
 - `Mage_Catalog_Model_Resource_Category_Flat::synchronise()`
 
-Product attributes get added to the flat table if they are (see `Mage_Catalog_Model_Resource_Flat_Indexer::getAttributeCodes()`):
+Product attributes get added to the flat table if they are (see `Mage_Catalog_Model_Resource_Product_Flat_Indexer::getAttributeCodes()`):
 
 - Static (backend type)
 - Filterable
