@@ -237,6 +237,6 @@ Magento defines a module rollback procedure when the `config.xml` module version
 Magento abstracts database engine logic by using the `Varien_Db_Adapter_Interface`.  Database engine classes implement this interface, which makes it easy to replace one engine class with another without having to rewrite all models that use the database. The actual RDBMS used is defined in the connection configuration using the `<type>` field, e.g. `<type>pdo_mysql</type>`.
 
 <ul class="navigation">
-    <li class="prev"><a href="/rendering.html">&larr; Rendering</a>
+    <li class="prev"><a href="/rendering.html">&larr; Rendering</a></li>
     <li class="next"><a href="/eav.html">EAV &rarr;</a></li>
 </ul>

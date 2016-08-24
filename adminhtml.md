@@ -305,6 +305,6 @@ As covered in [the basics](/basics.html), there are three code pools
     - Local customisations.
 
 <ul class="navigation">
-    <li class="prev"><a href="/eav.html">&larr; EAV</a>
-    <li class="next"><a href="/catalog.html">Catalog &rarr;</a>
+    <li class="prev"><a href="/eav.html">&larr; EAV</a></li>
+    <li class="next"><a href="/catalog.html">Catalog &rarr;</a></li>
 </ul>

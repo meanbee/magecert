@@ -214,7 +214,6 @@ There is a different flat table for each store, each one contains a different st
 
 
 <ul class="navigation">
-    <li class="prev"><a href="/databases.html">&larr; Databases</a>
-    <li class="next"><a href="/adminhtml.html">Adminhtml &rarr;</a>
+    <li class="prev"><a href="/databases.html">&larr; Databases</a></li>
+    <li class="next"><a href="/adminhtml.html">Adminhtml &rarr;</a></li>
 </ul>
-

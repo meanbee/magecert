@@ -35,7 +35,7 @@ Downloadable and Bundle products have extra tables in the database, meanwhile th
 
 ### Custom Product Type
 
-To create a product type that extends one of the built-in product types, the corresponding product type model should be extended. Otherwise the new product type should extend the `Mage_Catalog_Model_Product_Type_Abstract` class. 
+To create a product type that extends one of the built-in product types, the corresponding product type model should be extended. Otherwise the new product type should extend the `Mage_Catalog_Model_Product_Type_Abstract` class.
 
 An entry in the module's `config.xml` is also required:
 
@@ -64,7 +64,7 @@ When dealing with a single product, the price is always calculated on the fly.  
 
 Some product types deal with it differently.  In which case they extend this class and implement their own logic.  For example, the configurable product overwrites `getFinalPrice()` and adds additional logic.  This custom model can then be specified in `config.xml` with a `<price_model>` tag.
 
-Product collections, however, use the price index to retrieve pre-calculated prices, eliminating the need to calculate it for each product. 
+Product collections, however, use the price index to retrieve pre-calculated prices, eliminating the need to calculate it for each product.
 
 Final price can be adjusted by the observers of the `catalog_product_get_final_price` event.  By default, only the `Mage_CatalogRule` module observes this event.
 
@@ -128,7 +128,7 @@ N.B. If flat catalog is enabled, the only child categories returned will be ones
 
 ### Catalog Price Rules
 
-Catalog price rules apply discounts to products based on the date, product, website and customer group. 
+Catalog price rules apply discounts to products based on the date, product, website and customer group.
 
 When `getFinalPrice()` is called on a product, the event `catalog_product_get_final_price` is fired. This is observed by `Mage_CatalogRule_Model_Observer` which will then look for any catalog price rule that applies to the product.  If applicable, it then looks at the database price table and writes the price back to the product model as a Varien data field `final_price`.
 
@@ -154,11 +154,6 @@ The `Mage_Index` module provides the framework with which custom indexes can be 
 
 
 <ul class="navigation">
-    <li class="prev"><a href="/eav.html">&larr; EAV</a>
-    <li class="next"><a href="/checkout.html">Checkout &rarr;</a>
+    <li class="prev"><a href="/eav.html">&larr; EAV</a></li>
+    <li class="next"><a href="/checkout.html">Checkout &rarr;</a></li>
 </ul>
-
-
-
-
-
