@@ -1,4 +1,5 @@
 name: MageCert
 url: http://magecert.com
-markdown: redcarpet
-pygments: true
+
+exclude:
+    - 'Gemfile*'
