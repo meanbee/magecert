@@ -206,7 +206,7 @@ Product attributes get added to the flat table if they are (see `Mage_Catalog_Mo
 - Used in product listing
 - Used for promo rules
 - Used for sort by
-- System Attributes
+- System Attributes (plus any attribute listed in config nodes defined under `global/catalog/product/flat/attribute_nodes`)
 
 There is a different flat table for each store, each one contains a different store-scoped entity attribute value (see `Mage_Catalog_Model_Resource_Product_Flat_Indexer::rebuild()`). Multi-lingual values are managed by having different stores for each language.
 
