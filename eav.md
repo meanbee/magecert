@@ -67,8 +67,7 @@ The reason that EAV is used is so that entities can have an undetermined number 
 
 ### Website and Store Scopes
 
-To handle website and store scope attribute values within EAV, a `store_id` value exists on the catalog entities attribute value tables to show scope which links back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store, the system will first check for an attribute value on the current store and then fall back to the global value. Mage_Customer EAV entities attribute value tables do not have a `store_id` scope column.
-
+To handle website and store scope attribute values within EAV, a `store_id` value exists on the catalog entities attribute value tables to show scope which links back to `core_store`. Along with the normal stores (store views) there is also a store '0' which is the global value.  When on a particular store, the system will first check for an attribute value on the current store and then fall back to the global value. `Mage_Customer` EAV entities attribute value tables do not have a `store_id` scope column (a `store_id` column only exists in the base `customer_entity` table to link every customer to a particular store)
 
 ### Insert, Update and Delete
 
