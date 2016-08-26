@@ -97,7 +97,7 @@ Card authorisation and capture occurs when an order is placed (`$order->place()`
 
 ### Inventory Decrements
 
-For onepage checkout, the inventory is decremented by a `Mage_CatalogInventory` observer on the `sales_model_server_quote_submit_before` event.  This event is dispatched just before the order is placed, and the `checkout_submit_all_after` event, which is fired at the end of the onepage checkout (the observer has checks to prevent decrementing the inventory twice) and after all of the orders have been created in multi-shipping checkout.
+For onepage checkout, the inventory is decremented by a `Mage_CatalogInventory` observer on the `sales_model_service_quote_submit_before` event.  This event is dispatched just before the order is placed, and the `checkout_submit_all_after` event, which is fired at the end of the onepage checkout (the observer has checks to prevent decrementing the inventory twice) and after all of the orders have been created in multi-shipping checkout.
 
 ## Shopping Cart Price Rules
 
