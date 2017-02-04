@@ -186,7 +186,7 @@ Each of the partial operations has its own models and tables to store the data, 
 
 ## Cancel
 
-Magento orders can be cancelled until all items have been invoice, e.g. during the pending or processing state.  This automatically cancels payment and order items (which just set cancelled tax amounts on the item).  Invoices can be cancelled, returning order totals to pre-invoice state.  Same goes for credit memos. Only shipments cannot be cancelled.
+Magento orders can be cancelled until all items have been invoiced, e.g. during the pending or processing state.  This automatically cancels payment and order items (which just set cancelled tax amounts on the item).  Invoices can be cancelled, returning order totals to pre-invoice state.  Same goes for credit memos. Only shipments cannot be cancelled.
 
 In most cases when operations are cancelled, tax amounts are returned to the way they were before the operation (just like other price data).  In case of an order, all the cancelled amounts are set to total invoices (whatever has not been invoiced yet is cancelled). 
 
