@@ -133,6 +133,6 @@ JavaScript and CSS assets are handled in the `Mage_Page_Block_Html_head` block. 
 When merging CSS, a callback function on `Mage_Core_Model_Design_Package` is called to update any `@import` or `url()` directives with the correct URLs.
 
 <ul class="navigation">
-    <li class="prev"><a href="/request-flow.html">&larr; Request Flow</a>
-    <li class="next"><a href="/databases.html">Databases &rarr;</a>
+    <li class="prev"><a href="/request-flow.html">&larr; Request Flow</a></li>
+    <li class="next"><a href="/databases.html">Databases &rarr;</a></li>
 </ul>

@@ -62,7 +62,7 @@ This is the place where the admin form will fire its request to.  Its job is to 
 
 This controller allows any items to be added to the order (not just saleable items).
 
-The main action within this controller is `loadBlockAction`.  It is hit via AJAX every time a field is blurred on the admin area. 
+The main action within this controller is `loadBlockAction`.  It is hit via AJAX every time a field is blurred on the admin area.
 
 ### `Mage_Adminhtml_Model_Sales_Order_Create`
 
@@ -132,11 +132,11 @@ This is the model which contains all of the order detail. It is the location whe
 Of interest here is:
 
 - **Item**
-	- Contains the logic for each individual item in the invoice. 
+	- Contains the logic for each individual item in the invoice.
 - **Comment**
 	- Can be applied to an invoice
 - **Totals/***
-	- A number of totals which are related to an invoice.  Things like subtotal, tax, grand total, etc. 
+	- A number of totals which are related to an invoice.  Things like subtotal, tax, grand total, etc.
 - **Api**
 	- Api Access to invoices, with the ability to create new invoices, capture invoices, cancel invoices etc.
 
@@ -188,7 +188,7 @@ Each of the partial operations has its own models and tables to store the data, 
 
 Magento orders can be cancelled until all items have been invoiced, e.g. during the pending or processing state.  This automatically cancels payment and order items (which just set cancelled tax amounts on the item).  Invoices can be cancelled, returning order totals to pre-invoice state.  Same goes for credit memos. Only shipments cannot be cancelled.
 
-In most cases when operations are cancelled, tax amounts are returned to the way they were before the operation (just like other price data).  In case of an order, all the cancelled amounts are set to total invoices (whatever has not been invoiced yet is cancelled). 
+In most cases when operations are cancelled, tax amounts are returned to the way they were before the operation (just like other price data).  In case of an order, all the cancelled amounts are set to total invoices (whatever has not been invoiced yet is cancelled).
 
 Invoices and credit memos cannot be cancelled from the interface, even though the functionality was implemented.
 
@@ -218,6 +218,6 @@ Customers can only be in a single group at a time.
 
 
 <ul class="navigation">
-    <li class="prev"><a href="/checkout.html">&larr; Checkout</a>
-    <li class="next"><a href="/advanced-features.html">Advanced Features &rarr;</a>
+    <li class="prev"><a href="/checkout.html">&larr; Checkout</a></li>
+    <li class="next"><a href="/advanced-features.html">Advanced Features &rarr;</a></li>
 </ul>

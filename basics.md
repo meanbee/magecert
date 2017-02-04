@@ -374,6 +374,6 @@ With sub-directories, we strengthen name-recognition for the primary domain. And
 See even more info in [Belvg's post](http://blog.belvg.com/magento-certified-developer-exam-internationalization.html) on the subject.
 
 <ul class="navigation">
-    <li class="prev"><a href="/">&larr; Home</a>
-    <li class="next"><a href="/request-flow.html">Request Flow &rarr;</a>
+    <li class="prev"><a href="/">&larr; Home</a></li>
+    <li class="next"><a href="/request-flow.html">Request Flow &rarr;</a></li>
 </ul>

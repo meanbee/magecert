@@ -89,7 +89,7 @@ The priority of a total model execution can be customised using the `<before>` a
 4. Tax
 5. Grand Total
 
-This process is managed by the `Mage_Sales_Model_Quote_Address_Total_Collector` model which is called from the Address using the `collectTotals()` method.  This method is called whenever the quote is updated, e.g. at each stage of the checkout. This method also dispatches the `_collect_totals_before` and `_collect_totals_after` events. 
+This process is managed by the `Mage_Sales_Model_Quote_Address_Total_Collector` model which is called from the Address using the `collectTotals()` method.  This method is called whenever the quote is updated, e.g. at each stage of the checkout. This method also dispatches the `_collect_totals_before` and `_collect_totals_after` events.
 
 ### Payment Authorisation and Capturing
 
@@ -184,23 +184,12 @@ Payment methods modules typically include a few blocks to display payment forms 
 Billing agreements are built in to Magento.  Payment methods set the billing agreement ID on the payment object with:
 
 ```php
-<?php 
-    $order->getPayment()->setBillingAgreementData($data); 
+<?php
+    $order->getPayment()->setBillingAgreementData($data);
 ?>
 ```
 
 <ul class="navigation">
-    <li class="prev"><a href="/catalog.html">&larr; Catalog</a>
-    <li class="next"><a href="/sales.html">Sales &rarr;</a>
+    <li class="prev"><a href="/catalog.html">&larr; Catalog</a></li>
+    <li class="next"><a href="/sales.html">Sales &rarr;</a></li>
 </ul>
-
-
-
-
-
-
-
-
-
-
-

@@ -229,8 +229,6 @@ There are two types of redirects that can be used in a controller action.
 	- This redirects internally within the application to another controller and/or action.
 
 <ul class="navigation">
-    <li class="prev"><a href="/basics.html">&larr; Basics</a>
-    <li class="next"><a href="/rendering.html">Rendering &rarr;</a>
+    <li class="prev"><a href="/basics.html">&larr; Basics</a></li>
+    <li class="next"><a href="/rendering.html">Rendering &rarr;</a></li>
 </ul>
-
-
