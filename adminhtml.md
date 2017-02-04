@@ -139,7 +139,7 @@ When a column is added to a grid, a filter can be added.  For example, for numbe
 
 To then perform operations such as filtering, sorting and paging, a collection exists on the grid via `setCollection`.  For example, when filtering, it uses the `addFieldToFilter()` method to define parameters with which to filter the collection.
 
-Grid columns usually extend `Mage_Adminhtml_Block_widget_Grid_Column`, which contains data about the source of the column's data and its presentation (data type, rendering, styling).
+Grid columns usually extend `Mage_Adminhtml_Block_Widget_Grid_Column`, which contains data about the source of the column's data and its presentation (data type, rendering, styling).
 
 Column renderers control the logic for drawing the column on the page.  For instance, the `select` column renderer has logic for drawing the heading of the column in a select box.
 
