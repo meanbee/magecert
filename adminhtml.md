@@ -117,7 +117,7 @@ The second argument of `addField` maps to an element type, e.g. select and `Vari
 <?php $className = 'Varien_Data_Form_Element_' . ucfirst(strtolower($type)); ?>
 ```
 
-### Custom Elements
+### Custom Elements
 
 To customise the way an element is rendered you could call `$element->setRenderer()` on it and specify a custom class to render it.
 
